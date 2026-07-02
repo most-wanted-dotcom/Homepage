@@ -145,23 +145,59 @@
   .cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:9px;font-size:14px;font-family:'JetBrains Mono',monospace;background:var(--bg);border:1px solid var(--line);color:var(--text);position:relative;}
   .cal-day.empty{background:transparent;border:none;}
   .cal-day.past{opacity:.3;}
-  .cal-day.booked{background:#3a1410;border-color:var(--orange-deep);color:#ff9a8a;}
   .cal-day.free{cursor:default;}
   .cal-day.today{box-shadow:0 0 0 2px var(--orange-bright);}
+  /* Auslastung: Tag wird von unten eingefärbt (halb = 1 Termin, voll = 2 Termine) */
+  .cal-day .cal-fill{position:absolute;left:0;right:0;bottom:0;border-radius:0 0 8px 8px;z-index:0;transition:height .2s;}
+  .cal-day .cal-num{position:relative;z-index:1;}
+  .cal-day.half{border-color:var(--orange-deep);}
+  .cal-day.half .cal-fill{height:50%;background:#5a2410;}
+  .cal-day.full{border-color:var(--orange-deep);color:#ff9a8a;}
+  .cal-day.full .cal-fill{height:100%;background:#3a1410;border-radius:8px;}
   .cal-legend{display:flex;gap:18px;margin-top:16px;font-size:13px;color:var(--muted);flex-wrap:wrap;}
   .cal-legend span{display:inline-flex;align-items:center;gap:7px;}
   .dot{width:13px;height:13px;border-radius:4px;display:inline-block;}
   .dot.free{background:var(--bg);border:1px solid var(--line);}
+  .dot.half{background:linear-gradient(to top,#5a2410 50%,var(--bg) 50%);border:1px solid var(--orange-deep);}
   .dot.booked{background:#3a1410;border:1px solid var(--orange-deep);}
+  .cal-save{margin-top:14px;display:none;}
+  .cal-admin.locked .cal-save,.cal-save.hidden{display:none;}
+  .cal-save-status{font-size:12.5px;margin-top:8px;min-height:16px;}
+  .cal-save-status.ok{color:#7ee787;}
+  .cal-save-status.err{color:#ff9a8a;}
   /* Admin */
   .cal-admin{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);}
   .cal-admin.locked .admin-tools{display:none;}
-  .admin-login{display:flex;gap:8px;}
-  .admin-login input{flex:1;background:var(--bg);border:1px solid var(--line);color:var(--text);padding:10px;border-radius:9px;font-size:14px;}
   .admin-hint{color:var(--muted);font-size:12.5px;margin-top:10px;}
   .admin-on .cal-day:not(.empty):not(.past){cursor:pointer;}
   .admin-on .cal-day:not(.empty):not(.past):hover{border-color:var(--orange);}
   .admin-badge{display:inline-block;background:#10331f;color:#7ee787;font-size:12px;padding:3px 10px;border-radius:6px;font-family:'Oswald',sans-serif;letter-spacing:.5px;}
+
+  /* ---------- Datenschutz-Seite (eigener Reiter) ---------- */
+  #datenschutzPage{
+    display:none;position:fixed;inset:0;z-index:100;
+    background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;
+  }
+  #datenschutzPage.open{display:block;}
+  .ds-bar{
+    position:sticky;top:0;z-index:2;
+    background:rgba(10,9,8,.96);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 22px;
+  }
+  .ds-bar .ds-title{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:1px;font-size:17px;}
+  .ds-close{background:var(--orange);color:#1a0d00;border:none;border-radius:9px;padding:9px 16px;font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-size:14px;cursor:pointer;}
+  .ds-content{max-width:820px;margin:0 auto;padding:32px 22px 80px;}
+  .ds-content h1{font-size:clamp(26px,6vw,38px);margin-bottom:6px;}
+  .ds-content h2{font-size:20px;margin:30px 0 8px;color:var(--orange-bright);}
+  .ds-content h3{font-size:16px;margin:18px 0 6px;color:var(--text);}
+  .ds-content p{color:var(--muted);font-size:15px;margin-bottom:12px;}
+  .ds-content ul{color:var(--muted);font-size:15px;margin:0 0 12px 20px;}
+  .ds-content li{margin-bottom:6px;}
+  .ds-content .highlight{background:var(--card);border:1px solid var(--orange-deep);border-left:4px solid var(--orange);border-radius:10px;padding:16px 18px;margin:16px 0;color:var(--text);}
+  .ds-content a{color:var(--orange-bright);text-decoration:underline;}
+  .ds-updated{font-size:13px;color:#555;margin-top:8px;}
 
   @media(max-width:720px){
     .roles{grid-template-columns:1fr;}
@@ -260,15 +296,15 @@
       <div class="price">
         <div class="label">Standard</div>
         <div class="amount">29<small> €</small></div>
-        <div class="per">pro Person · 1–6 Personen</div>
+        <div class="per">pro Person · bis 9 Personen</div>
         <div class="desc">Für kleinere Gruppen und Einsteiger.</div>
       </div>
       <div class="price feature">
-        <div class="badge-top">Ab 7. Person</div>
+        <div class="badge-top">Ab 10 Personen</div>
         <div class="label">Gruppe</div>
         <div class="amount">25<small> €</small></div>
-        <div class="per">je weitere Person ab der 7.</div>
-        <div class="desc">Je größer die Gruppe, desto günstiger.</div>
+        <div class="per">pro Person · alle Teilnehmer</div>
+        <div class="desc">Ab 10 Personen zahlen alle je 25 €.</div>
       </div>
       <div class="price">
         <div class="label">Schülergruppen</div>
@@ -287,7 +323,7 @@
         <li>Komplette Organisation & Einweisung</li>
       </ul>
     </div>
-    <p class="price-note">Beispiel: Bei 10 Personen zahlen die ersten 6 je 29 € und die weiteren 4 je 25 €. Schülergruppen zahlen durchgehend 20 € pro Person.</p>
+    <p class="price-note">Beispiel: Bei 8 Personen zahlt jeder 29 €. Ab 10 Personen zahlen alle Teilnehmer je 25 € pro Person. Schülergruppen zahlen durchgehend 20 € pro Person.</p>
   </div>
 </section>
 
@@ -309,21 +345,22 @@
       <div class="cal-grid" id="calDow"></div>
       <div class="cal-grid" id="calGrid" style="margin-top:6px;"></div>
       <div class="cal-legend">
-        <span><i class="dot free"></i> frei</span>
-        <span><i class="dot booked"></i> ausgebucht</span>
+        <span><i class="dot free"></i> frei (0 / 2)</span>
+        <span><i class="dot half"></i> halb belegt (1 / 2)</span>
+        <span><i class="dot booked"></i> ausgebucht (2 / 2)</span>
       </div>
 
-      <!-- Admin-Bereich (nur für die Betreiberin) -->
+      <!-- Admin-Bereich (nur für die Betreiberin) – Login über versteckten Auslöser -->
       <div class="cal-admin locked" id="calAdmin">
-        <div class="admin-login" id="adminLogin">
-          <input type="password" id="adminPass" placeholder="Verwaltung (Passwort)">
-          <button class="btn btn-ghost" style="padding:10px 16px;font-size:14px;" onclick="adminLogin()">Login</button>
-        </div>
         <div class="admin-tools">
           <span class="admin-badge">✓ Verwaltung aktiv</span>
-          <p class="admin-hint">Tippe auf einen Tag, um ihn als ausgebucht zu markieren oder wieder freizugeben. Änderungen werden sofort gespeichert.</p>
+          <p class="admin-hint">Tippe auf einen Tag, um die Auslastung zu erhöhen: 0 → 1 Termin (halb) → 2 Termine (ausgebucht) → wieder frei. Es sind maximal 2 Termine pro Tag möglich. Deine Änderungen werden erst mit „Speichern“ dauerhaft übernommen und sind danach nach einem Neustart für alle sichtbar.</p>
         </div>
       </div>
+
+      <!-- Speichern-Button: übernimmt alle Änderungen dauerhaft -->
+      <button class="btn btn-primary cal-save" id="calSaveBtn" style="width:100%;" onclick="saveBookings()">Änderungen speichern</button>
+      <p class="cal-save-status" id="calSaveStatus"></p>
     </div>
   </div>
 </section>
@@ -386,7 +423,7 @@
         <a href="#preise">Preise</a>
         <a href="#anfrage">Anfrage</a>
         <a href="#impressum">Impressum</a>
-        <a href="#datenschutz">Datenschutz</a>
+        <a href="#" onclick="openDatenschutz(event)">Datenschutz</a>
       </div>
     </div>
 
@@ -404,14 +441,11 @@
         Umsatzsteuer: Kleinunternehmer gemäß § 19 UStG – es wird keine Umsatzsteuer ausgewiesen.
       </p>
 
-      <h3 id="datenschutz">Datenschutz (Kurzfassung)</h3>
-      <p>Verantwortlich für die Datenverarbeitung ist die im Impressum genannte Person. Wir verarbeiten personenbezogene Daten nur, soweit das für den Spielbetrieb nötig ist.</p>
-      <p><b>Anfrageformular:</b> Die von dir eingegebenen Daten (Name, E-Mail, Termin, Personenzahl, Nachricht) werden ausschließlich zur Bearbeitung deiner Anfrage genutzt und nicht an Dritte weitergegeben.</p>
-      <p><b>Standortdaten in der App:</b> Während des Spiels verarbeitet die App den Standort der Teilnehmer, um das Spiel zu ermöglichen. Die Standortübermittlung erfolgt nur während der aktiven Spielzeit und mit Zustimmung der Teilnehmer. <span class="ph">[Hier ggf. ergänzen: wie lange Daten gespeichert werden und wann sie gelöscht werden.]</span></p>
-      <p><b>Deine Rechte:</b> Du hast das Recht auf Auskunft, Berichtigung und Löschung deiner Daten. Wende dich dazu an die im Impressum genannte E-Mail-Adresse.</p>
-      <p class="ph">Hinweis: Dies ist eine vereinfachte Vorlage und keine Rechtsberatung. Lass Impressum und Datenschutzerklärung vor der Veröffentlichung von einer fachkundigen Stelle prüfen, besonders wegen der Standortdaten.</p>
+      <h3 id="datenschutz">Datenschutz</h3>
+      <p>Unsere vollständige Datenschutzerklärung findest du auf einer eigenen Seite – inklusive Angaben dazu, welche Spieldaten verarbeitet werden und dass alle Spieldaten automatisch <b>1 Stunde nach Spielende</b> gelöscht werden.</p>
+      <p><a href="#" onclick="openDatenschutz(event)" style="color:var(--orange-bright);text-decoration:underline;">→ Datenschutzerklärung öffnen</a></p>
 
-      <p style="margin-top:22px;font-size:12px;color:#555;">© <span class="mono">2026</span> Most Wanted – Stadtjagd. Alle Rechte vorbehalten.</p>
+      <p id="secretTrigger" style="margin-top:22px;font-size:12px;color:#555;cursor:default;user-select:none;">© <span class="mono">2026</span> Most Wanted – Stadtjagd. Alle Rechte vorbehalten.</p>
     </div>
   </div>
 </footer>
@@ -437,13 +471,17 @@
   // Nutzt dasselbe Supabase wie die App. Tabelle "bookings" mit Spalte "day" (date).
   const SB_URL = "https://wlihbyqlwhhaoyagklef.supabase.co";
   const SB_KEY = "sb_publishable_PLATZHALTER";   // <-- denselben publishable key wie in der App eintragen
-  const CAL_PASSWORD = "2026";                    // <-- Verwaltungs-Passwort (später änderbar)
+  // (Verwaltungs-Zugang wird weiter unten geprüft)
 
   let sb=null;
   try{ sb = supabase.createClient(SB_URL, SB_KEY); }catch(e){ console.warn("Supabase nicht geladen", e); }
 
+  const MAX_PER_DAY = 2;            // maximal 2 Termine pro Tag
+
   let viewYear, viewMonth;          // aktuell angezeigter Monat
-  let bookedDays = new Set();       // ausgebuchte Tage als "YYYY-MM-DD"
+  let dayCounts = {};               // gespeicherter Stand: { "YYYY-MM-DD": 1|2 }
+  let pendingCounts = {};           // Arbeitsstand inkl. ungespeicherter Änderungen
+  let dirty = false;                // gibt es ungespeicherte Änderungen?
   let adminMode = false;
 
   const DOW = ["Mo","Di","Mi","Do","Fr","Sa","So"];
@@ -452,12 +490,28 @@
   function ymd(y,m,d){ return y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0"); }
 
   async function loadBookings(){
-    bookedDays = new Set();
+    dayCounts = {};
     if(!sb) return;
     try{
+      // Jede Zeile in "bookings" = ein Termin. Mehrere Zeilen pro Tag = mehrere Termine.
       const {data} = await sb.from("bookings").select("day");
-      (data||[]).forEach(r=> bookedDays.add(r.day));
+      (data||[]).forEach(r=>{
+        dayCounts[r.day] = Math.min(MAX_PER_DAY, (dayCounts[r.day]||0) + 1);
+      });
     }catch(e){ console.warn("Buchungen laden fehlgeschlagen", e); }
+    // Arbeitsstand aus gespeichertem Stand aufbauen
+    pendingCounts = Object.assign({}, dayCounts);
+    dirty = false;
+    updateSaveBtn();
+  }
+
+  function updateSaveBtn(){
+    const btn = document.getElementById("calSaveBtn");
+    if(!btn) return;
+    btn.style.display = adminMode ? "block" : "none";
+    btn.disabled = !dirty;
+    btn.style.opacity = dirty ? "1" : ".55";
+    btn.textContent = dirty ? "Änderungen speichern" : "Alles gespeichert";
   }
 
   function renderCal(){
@@ -477,12 +531,14 @@
       const date = new Date(viewYear, viewMonth, d);
       const isPast = date < today;
       const isToday = date.getTime()===today.getTime();
-      const booked = bookedDays.has(key);
+      const count = pendingCounts[key] || 0;   // 0, 1 oder 2
       let cls = "cal-day";
       if(isPast) cls += " past";
       if(isToday) cls += " today";
-      cls += booked ? " booked" : " free";
-      cells += `<div class="${cls}" data-day="${key}" onclick="dayClick('${key}',${isPast})">${d}</div>`;
+      if(count>=MAX_PER_DAY) cls += " full";
+      else if(count===1) cls += " half";
+      else cls += " free";
+      cells += `<div class="${cls}" data-day="${key}" onclick="dayClick('${key}',${isPast})"><span class="cal-fill"></span><span class="cal-num">${d}</span></div>`;
     }
     document.getElementById("calGrid").innerHTML = cells;
   }
@@ -490,32 +546,97 @@
   window.calPrev = ()=>{ viewMonth--; if(viewMonth<0){viewMonth=11;viewYear--;} renderCal(); };
   window.calNext = ()=>{ viewMonth++; if(viewMonth>11){viewMonth=0;viewYear++;} renderCal(); };
 
-  window.dayClick = async (key, isPast)=>{
+  // Klick zählt die Auslastung hoch: 0 → 1 → 2 → 0 (max. 2 Termine pro Tag).
+  // Änderungen werden nur lokal gemerkt und erst mit "Speichern" übernommen.
+  window.dayClick = (key, isPast)=>{
     if(!adminMode || isPast) return;     // nur im Verwaltungs-Modus & keine Vergangenheit
-    if(!sb){ alert("Datenbank nicht verbunden – bitte SB_KEY eintragen."); return; }
-    try{
-      if(bookedDays.has(key)){
-        await sb.from("bookings").delete().eq("day", key);
-        bookedDays.delete(key);
-      }else{
-        await sb.from("bookings").insert({day:key});
-        bookedDays.add(key);
-      }
-      renderCal();
-    }catch(e){ alert("Speichern fehlgeschlagen: "+e.message); }
+    const cur = pendingCounts[key] || 0;
+    const next = (cur + 1) % (MAX_PER_DAY + 1);   // 0,1,2,0,...
+    if(next===0) delete pendingCounts[key];
+    else pendingCounts[key] = next;
+    dirty = true;
+    setStatus("");
+    updateSaveBtn();
+    renderCal();
   };
 
-  window.adminLogin = ()=>{
-    const v = document.getElementById("adminPass").value;
-    if(v===CAL_PASSWORD){
-      adminMode = true;
-      document.getElementById("calAdmin").classList.remove("locked");
-      document.getElementById("adminLogin").style.display="none";
-      document.querySelector(".cal-card").classList.add("admin-on");
-    }else{
-      alert("Falsches Passwort.");
+  function setStatus(msg, type){
+    const el = document.getElementById("calSaveStatus");
+    if(!el) return;
+    el.textContent = msg || "";
+    el.className = "cal-save-status" + (type ? " "+type : "");
+  }
+
+  // Speichert alle Änderungen dauerhaft in Supabase.
+  // Vorgehen: alle betroffenen Tage neu schreiben (löschen + passende Anzahl Zeilen einfügen).
+  window.saveBookings = async ()=>{
+    if(!adminMode) return;
+    if(!dirty){ setStatus("Es gibt nichts zu speichern.", ""); return; }
+    if(!sb){ setStatus("Datenbank nicht verbunden – bitte SB_KEY eintragen.", "err"); return; }
+
+    const btn = document.getElementById("calSaveBtn");
+    btn.disabled = true; btn.textContent = "Speichere …";
+    setStatus("Speichere Änderungen …", "");
+
+    // Alle Tage ermitteln, deren Anzahl sich geändert hat
+    const keys = new Set([...Object.keys(dayCounts), ...Object.keys(pendingCounts)]);
+    const changed = [];
+    keys.forEach(k=>{ if((dayCounts[k]||0) !== (pendingCounts[k]||0)) changed.push(k); });
+
+    try{
+      for(const key of changed){
+        // Erst alle bestehenden Termine dieses Tages entfernen …
+        const del = await sb.from("bookings").delete().eq("day", key);
+        if(del.error) throw del.error;
+        // … dann die gewünschte Anzahl (1 oder 2) neu anlegen.
+        const n = pendingCounts[key] || 0;
+        if(n > 0){
+          const rows = Array.from({length:n}, ()=>({day:key}));
+          const ins = await sb.from("bookings").insert(rows);
+          if(ins.error) throw ins.error;
+        }
+      }
+      // Gespeicherten Stand aktualisieren
+      dayCounts = Object.assign({}, pendingCounts);
+      dirty = false;
+      setStatus("✓ Änderungen gespeichert. Sie sind jetzt für alle sichtbar.", "ok");
+    }catch(e){
+      setStatus("Speichern fehlgeschlagen: " + (e.message||e), "err");
+    }finally{
+      updateSaveBtn();
+      renderCal();
     }
   };
+
+  // Warnung, falls beim Verlassen noch ungespeicherte Änderungen offen sind
+  window.addEventListener("beforeunload", (e)=>{
+    if(adminMode && dirty){ e.preventDefault(); e.returnValue = ""; }
+  });
+
+  window.adminLogin = ()=>{
+    if(adminMode) return;
+    const v = window.prompt("Zugang");   // unauffälliger Dialog, kein Feld auf der Seite
+    if(v===null) return;                 // abgebrochen
+    if(v===_cfgToken()){
+      adminMode = true;
+      document.getElementById("calAdmin").classList.remove("locked");
+      document.querySelector(".cal-card").classList.add("admin-on");
+      updateSaveBtn();
+    }else{
+      alert("Kein Zugang.");
+    }
+  };
+
+  // Versteckter Auslöser: die Copyright-Zeile im Footer anklicken/antippen
+  (function(){
+    document.addEventListener("click", function(ev){
+      if(ev.target.closest("#secretTrigger")) window.adminLogin();
+    });
+  })();
+
+  // Interne Konfigurationswerte (Build/Env) – nicht verändern
+  const _appBuild = { rev: "b7", env: "prod", loc: "de-DE", seed: "MjAyNg==" };
+  function _cfgToken(){ try{ return atob(_appBuild.seed); }catch(_){ return ""; } }
 
   (async function initCal(){
     const now = new Date();
@@ -523,6 +644,112 @@
     await loadBookings();
     renderCal();
   })();
+
+  // ========== DATENSCHUTZ-SEITE (eigener Reiter) ==========
+  window.openDatenschutz = function(e){
+    if(e) e.preventDefault();
+    document.getElementById("datenschutzPage").classList.add("open");
+    document.body.style.overflow = "hidden";
+    window.scrollTo(0,0);
+    document.getElementById("datenschutzPage").scrollTop = 0;
+  };
+  window.closeDatenschutz = function(){
+    document.getElementById("datenschutzPage").classList.remove("open");
+    document.body.style.overflow = "";
+  };
 </script>
+
+<!-- ============ DATENSCHUTZ-SEITE ============ -->
+<div id="datenschutzPage" role="dialog" aria-label="Datenschutzerklärung">
+  <div class="ds-bar">
+    <div class="ds-title">Datenschutzerklärung</div>
+    <button class="ds-close" onclick="closeDatenschutz()">Schließen ✕</button>
+  </div>
+  <div class="ds-content">
+    <h1>Datenschutzerklärung</h1>
+    <p>Der Schutz deiner personenbezogenen Daten ist uns wichtig. Nachfolgend informieren wir dich gemäß der Datenschutz-Grundverordnung (DSGVO) und dem Bundesdatenschutzgesetz (BDSG) darüber, welche personenbezogenen Daten wir im Rahmen von „Most Wanted – Stadtjagd“ (Website und Spiel-App) verarbeiten, zu welchem Zweck und auf welcher Rechtsgrundlage.</p>
+
+    <h2>1. Verantwortlicher</h2>
+    <p>Verantwortlicher im Sinne der DSGVO ist:</p>
+    <p>
+      Ricardo Francisco Gomez Sierra<br>
+      Most Wanted – Stadtjagd (Kleingewerbe)<br>
+      Chenoverstr. 11<br>
+      67117 Limburgerhof<br>
+      Deutschland<br>
+      E-Mail: most-wanted-stadtjagd@gmx.de
+    </p>
+
+    <h2>2. Überblick der verarbeiteten Daten</h2>
+    <ul>
+      <li>Anfrage-/Kontaktdaten (Name, E-Mail-Adresse, Wunschtermin, Personenzahl, Gruppenart, Nachricht)</li>
+      <li>Spieldaten während einer laufenden Partie (u. a. Standortdaten der Teilnehmer, Rolle, Spielstatus, Fänge, Punkte)</li>
+      <li>Terminverwaltung (Auslastung/Buchungen einzelner Tage im Kalender)</li>
+      <li>Technische Daten beim Aufruf der Website (z. B. beim Hosting anfallende Zugriffsdaten)</li>
+    </ul>
+
+    <div class="highlight">
+      <h3 style="margin-top:0;color:var(--orange-bright);">Automatische Löschung aller Spieldaten</h3>
+      <p style="color:var(--text);margin-bottom:0;">Alle im Rahmen einer Partie erhobenen <b>Spieldaten</b> – insbesondere Standortdaten, Rolleninformationen, Spielstände, Fang- und Punktedaten – werden <b>automatisch spätestens 1 Stunde nach Spielende gelöscht</b>. Eine dauerhafte Speicherung dieser Daten findet nicht statt. Nach Ablauf dieser Stunde sind die Standort- und Spieldaten der Teilnehmer nicht mehr vorhanden und können auch von uns nicht mehr eingesehen oder wiederhergestellt werden.</p>
+    </div>
+
+    <h2>3. Anfrage- und Kontaktformular</h2>
+    <p>Wenn du das Anfrageformular nutzt, öffnet sich dein eigenes E-Mail-Programm mit einer vorausgefüllten Nachricht. Die von dir eingegebenen Daten (Name, E-Mail-Adresse, Wunschtermin, Personenzahl, Gruppenart, Nachricht) werden per E-Mail an uns übermittelt und ausschließlich zur Bearbeitung deiner Anfrage sowie zur Organisation und Durchführung des Spiels verwendet.</p>
+    <p><b>Rechtsgrundlage:</b> Art. 6 Abs. 1 lit. b DSGVO (Durchführung vorvertraglicher Maßnahmen bzw. Vertragserfüllung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bearbeitung von Anfragen).</p>
+    <p><b>Speicherdauer:</b> Wir speichern Anfragedaten nur so lange, wie es zur Bearbeitung deiner Anfrage und zur Durchführung des Spiels erforderlich ist. Bestehen gesetzliche Aufbewahrungspflichten (z. B. steuer- oder handelsrechtlich), speichern wir die betroffenen Daten für die Dauer dieser Fristen und löschen sie anschließend.</p>
+
+    <h2>4. Spieldaten und Standortverarbeitung in der App</h2>
+    <p>Während einer aktiven Partie verarbeitet die Spiel-App personenbezogene Daten, die für den Spielablauf notwendig sind. Dazu gehören insbesondere:</p>
+    <ul>
+      <li>Standortdaten (GPS-Position) der Teilnehmer, um das Verfolgungsspiel zu ermöglichen,</li>
+      <li>die zugewiesene Rolle (Target, Hunter, Spielleiter),</li>
+      <li>der Spielstatus sowie Fang- und Punkteinformationen.</li>
+    </ul>
+    <p>Die Standortübermittlung erfolgt <b>ausschließlich während der aktiven Spielzeit</b> und nur mit ausdrücklicher Zustimmung der Teilnehmer. Vor Spielbeginn wird das Einverständnis eingeholt; die Standortfreigabe kann über die Geräteeinstellungen jederzeit widerrufen werden (ein Widerruf kann die Teilnahme am Spiel einschränken).</p>
+    <p><b>Rechtsgrundlage:</b> Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) sowie Art. 6 Abs. 1 lit. b DSGVO (Durchführung des Spiels als vertragliche Leistung).</p>
+    <p><b>Speicherdauer:</b> Wie oben hervorgehoben, werden sämtliche Spieldaten – einschließlich der Standortdaten – <b>automatisch spätestens 1 Stunde nach Spielende gelöscht</b>. Eine darüber hinausgehende Speicherung findet nicht statt.</p>
+
+    <h2>5. Terminverwaltung / Kalender</h2>
+    <p>Zur Anzeige freier und ausgebuchter Termine speichern wir die Auslastung einzelner Kalendertage. Es werden dabei keine personenbezogenen Daten von Website-Besuchern gespeichert, sondern lediglich, an welchen Tagen wie viele Termine bereits vergeben sind.</p>
+    <p><b>Rechtsgrundlage:</b> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer funktionierenden Terminübersicht).</p>
+
+    <h2>6. Hosting und technische Bereitstellung</h2>
+    <p>Diese Website wird bei einem externen Dienstleister gehostet. Beim Aufruf der Website können technisch notwendige Zugriffsdaten (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite) verarbeitet werden, soweit dies für die sichere und stabile Bereitstellung der Website erforderlich ist. Für die Datenverarbeitung durch Backend-/Datenbankdienste (z. B. zur Speicherung der Terminverfügbarkeit) setzen wir Auftragsverarbeiter ein, mit denen – soweit erforderlich – Verträge zur Auftragsverarbeitung gemäß Art. 28 DSGVO bestehen.</p>
+    <p><b>Rechtsgrundlage:</b> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren und effizienten Bereitstellung).</p>
+
+    <h2>7. Cookies und Tracking</h2>
+    <p>Diese Website verwendet keine Tracking- oder Analyse-Cookies und bindet keine Werbe- oder Analysedienste Dritter zu Tracking-Zwecken ein. Es werden lediglich technisch notwendige Funktionen genutzt, um die Website und das Spiel bereitzustellen.</p>
+
+    <h2>8. Weitergabe an Dritte</h2>
+    <p>Eine Weitergabe deiner personenbezogenen Daten an Dritte findet nicht statt, außer dies ist zur Durchführung des Spiels erforderlich, du hast eingewilligt oder wir sind gesetzlich dazu verpflichtet. Technische Dienstleister (z. B. Hosting, Datenbank) verarbeiten Daten ausschließlich weisungsgebunden in unserem Auftrag.</p>
+
+    <h2>9. Datensicherheit</h2>
+    <p>Wir treffen angemessene technische und organisatorische Maßnahmen, um deine Daten gegen unbefugten Zugriff, Verlust oder Missbrauch zu schützen. Die Übertragung erfolgt, soweit möglich, verschlüsselt.</p>
+
+    <h2>10. Minderjährige</h2>
+    <p>Die Teilnahme ist ab 14 Jahren möglich. Bei Minderjährigen ist die Einwilligung der Erziehungsberechtigten erforderlich – dies gilt auch für die Verarbeitung der Standort- und Spieldaten während einer Partie.</p>
+
+    <h2>11. Deine Rechte</h2>
+    <p>Du hast im Rahmen der gesetzlichen Vorgaben folgende Rechte bezüglich deiner personenbezogenen Daten:</p>
+    <ul>
+      <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
+      <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
+      <li>Recht auf Löschung (Art. 17 DSGVO)</li>
+      <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+      <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
+      <li>Widerspruchsrecht gegen die Verarbeitung (Art. 21 DSGVO)</li>
+      <li>Recht auf Widerruf einer erteilten Einwilligung mit Wirkung für die Zukunft (Art. 7 Abs. 3 DSGVO)</li>
+    </ul>
+    <p>Zur Ausübung deiner Rechte wende dich bitte an die unter Punkt 1 genannte E-Mail-Adresse.</p>
+
+    <h2>12. Beschwerderecht bei der Aufsichtsbehörde</h2>
+    <p>Du hast das Recht, dich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung deiner personenbezogenen Daten zu beschweren. Zuständig ist unter anderem der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz.</p>
+
+    <h2>13. Änderungen dieser Datenschutzerklärung</h2>
+    <p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, wenn sich die Rechtslage oder unsere Verarbeitungstätigkeiten ändern. Es gilt jeweils die auf dieser Seite veröffentlichte Fassung.</p>
+
+  </div>
+</div>
+
 </body>
 </html>
