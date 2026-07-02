@@ -468,9 +468,9 @@
   });
 
   // ========== BUCHUNGS-KALENDER ==========
-  // Nutzt dasselbe Supabase wie die App. Tabelle "bookings" mit Spalte "day" (date).
-  const SB_URL = "https://wlihbyqlwhhaoyagklef.supabase.co";
-  const SB_KEY = "sb_publishable_PLATZHALTER";   // <-- denselben publishable key wie in der App eintragen
+  // Eigenes Supabase-Projekt nur für die Homepage. Tabelle "hp_bookings" mit Spalte "day" (date).
+  const SB_URL = "https://vsccsneigbzuhijfhbxk.supabase.co";
+  const SB_KEY = "sb_publishable_wDHVOR1HXwiNMeDcLmeacg_adwdN-SA";   // Publishable key des eigenen Homepage-Projekts
   // (Verwaltungs-Zugang wird weiter unten geprüft)
 
   let sb=null;
@@ -493,8 +493,8 @@
     dayCounts = {};
     if(!sb) return;
     try{
-      // Jede Zeile in "bookings" = ein Termin. Mehrere Zeilen pro Tag = mehrere Termine.
-      const {data} = await sb.from("bookings").select("day");
+      // Jede Zeile in "hp_bookings" = ein Termin. Mehrere Zeilen pro Tag = mehrere Termine.
+      const {data} = await sb.from("hp_bookings").select("day");
       (data||[]).forEach(r=>{
         dayCounts[r.day] = Math.min(MAX_PER_DAY, (dayCounts[r.day]||0) + 1);
       });
@@ -586,13 +586,13 @@
     try{
       for(const key of changed){
         // Erst alle bestehenden Termine dieses Tages entfernen …
-        const del = await sb.from("bookings").delete().eq("day", key);
+        const del = await sb.from("hp_bookings").delete().eq("day", key);
         if(del.error) throw del.error;
         // … dann die gewünschte Anzahl (1 oder 2) neu anlegen.
         const n = pendingCounts[key] || 0;
         if(n > 0){
           const rows = Array.from({length:n}, ()=>({day:key}));
-          const ins = await sb.from("bookings").insert(rows);
+          const ins = await sb.from("hp_bookings").insert(rows);
           if(ins.error) throw ins.error;
         }
       }
