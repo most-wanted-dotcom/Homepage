@@ -391,8 +391,12 @@
           </select>
         </div>
         <div class="field"><label>Nachricht</label><textarea name="nachricht" rows="4" placeholder="Wo soll's stattfinden? Besondere Wünsche?"></textarea></div>
+        <div class="field" style="flex-direction:row;align-items:flex-start;gap:10px;">
+          <input type="checkbox" name="dsagree" id="dsagree" style="width:20px;height:20px;margin-top:2px;flex:none;">
+          <label for="dsagree" style="font-size:13px;line-height:1.5;cursor:pointer;">Ich habe die <a href="#" onclick="openDatenschutz(event)" style="color:var(--orange-bright);text-decoration:underline;">Datenschutzerklärung</a> zur Kenntnis genommen.</label>
+        </div>
         <button type="submit" class="btn btn-primary" style="width:100%;">Anfrage absenden</button>
-        <p class="form-note">Mit dem Absenden öffnet sich dein E-Mail-Programm mit der fertigen Anfrage an uns. Wir behandeln deine Daten vertraulich (siehe Datenschutz).</p>
+        <p class="form-note">Mit dem Absenden öffnet sich dein E-Mail-Programm mit der fertigen Anfrage an uns. Wir behandeln deine Daten vertraulich (siehe Datenschutz). Hinweis: Die Standort-Einwilligung für das Spiel gibt jede teilnehmende Person separat in der App vor Spielbeginn – sie kann nicht durch die buchende Person für andere erteilt werden.</p>
       </form>
     </div>
   </div>
@@ -455,6 +459,7 @@
   document.getElementById('anfrageForm').addEventListener('submit', function(e){
     e.preventDefault();
     var f=e.target;
+    if(!f.dsagree.checked){ alert("Bitte bestätige, dass du die Datenschutzerklärung zur Kenntnis genommen hast."); return; }
     var ziel="most-wanted-stadtjagd@gmx.de"; // <-- hier deine E-Mail eintragen
     var betreff="Anfrage Most Wanted Stadtjagd";
     var text=
@@ -667,7 +672,7 @@
   </div>
   <div class="ds-content">
     <h1>Datenschutzerklärung</h1>
-    <p>Der Schutz deiner personenbezogenen Daten ist uns wichtig. Nachfolgend informieren wir dich gemäß der Datenschutz-Grundverordnung (DSGVO) und dem Bundesdatenschutzgesetz (BDSG) darüber, welche personenbezogenen Daten wir im Rahmen von „Most Wanted – Stadtjagd“ (Website und Spiel-App) verarbeiten, zu welchem Zweck und auf welcher Rechtsgrundlage.</p>
+    <p>Der Schutz deiner personenbezogenen Daten ist uns wichtig. Nachfolgend informieren wir dich gemäß der Datenschutz-Grundverordnung (DSGVO) sowie dem Bundesdatenschutzgesetz (BDSG) darüber, welche personenbezogenen Daten wir im Rahmen von „Most Wanted – Stadtjagd“ (Website und Browser-Web-App) verarbeiten, zu welchen Zwecken dies erfolgt und auf welcher Rechtsgrundlage die Verarbeitung beruht.</p>
 
     <h2>1. Verantwortlicher</h2>
     <p>Verantwortlicher im Sinne der DSGVO ist:</p>
@@ -680,85 +685,71 @@
       E-Mail: most-wanted-stadtjagd@gmx.de
     </p>
 
-    <h2>2. Überblick der verarbeiteten Daten</h2>
+    <h2>2. Überblick über die verarbeiteten Daten</h2>
     <ul>
-      <li>Anfrage-/Kontaktdaten (Name, E-Mail-Adresse, Wunschtermin, Personenzahl, Gruppenart, Nachricht)</li>
-      <li>Spieldaten während einer laufenden Partie (u. a. Standortdaten der Teilnehmer, Rolle, Spielstatus, Fänge, Punkte)</li>
-      <li>Terminverwaltung (Auslastung/Buchungen einzelner Tage im Kalender)</li>
-      <li>Technische Daten beim Aufruf der Website (Server-Logfiles, z. B. IP-Adresse)</li>
+      <li>Kontaktdaten (Name, E-Mail-Adresse, Wunschtermin, Personenzahl, Gruppenart und Nachricht)</li>
+      <li>Spieldaten (Standortdaten, Spielrolle, Spielstatus, Fänge und Punkte)</li>
+      <li>Terminverwaltung (Auslastung einzelner Kalendertage)</li>
+      <li>Technische Zugriffsdaten (z. B. IP-Adresse und Server-Logdaten)</li>
     </ul>
 
     <div class="highlight">
       <h3 style="margin-top:0;color:var(--orange-bright);">Automatische Löschung aller Spieldaten</h3>
-      <p style="color:var(--text);margin-bottom:0;">Alle im Rahmen einer Partie erhobenen <b>Spieldaten</b> – insbesondere Standortdaten, Rolleninformationen, Spielstände, Fang- und Punktedaten – werden <b>automatisch spätestens 1 Stunde nach Spielende gelöscht</b>. Eine dauerhafte Speicherung dieser Daten findet nicht statt. Nach Ablauf dieser Stunde sind die Standort- und Spieldaten der Teilnehmer nicht mehr vorhanden und können auch von uns nicht mehr eingesehen oder wiederhergestellt werden.</p>
+      <p style="color:var(--text);margin-bottom:0;">Alle Spieldaten werden <b>spätestens eine Stunde nach Beendigung der Partie automatisch gelöscht</b> und können anschließend weder eingesehen noch wiederhergestellt werden. Eine dauerhafte Speicherung dieser Daten findet nicht statt.</p>
     </div>
 
     <h2>3. Anfrage- und Kontaktformular</h2>
-    <p>Wenn du das Anfrageformular nutzt, öffnet sich dein eigenes E-Mail-Programm mit einer vorausgefüllten Nachricht. Die von dir eingegebenen Daten (Name, E-Mail-Adresse, Wunschtermin, Personenzahl, Gruppenart, Nachricht) werden per E-Mail an uns übermittelt und ausschließlich zur Bearbeitung deiner Anfrage sowie zur Organisation und Durchführung des Spiels verwendet.</p>
-    <p><b>Rechtsgrundlage:</b> Art. 6 Abs. 1 lit. b DSGVO (Durchführung vorvertraglicher Maßnahmen bzw. Vertragserfüllung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bearbeitung von Anfragen).</p>
-    <p><b>Speicherdauer:</b> Wir speichern Anfragedaten nur so lange, wie es zur Bearbeitung deiner Anfrage und zur Durchführung des Spiels erforderlich ist. Bestehen gesetzliche Aufbewahrungspflichten (z. B. steuer- oder handelsrechtlich), speichern wir die betroffenen Daten für die Dauer dieser Fristen und löschen sie anschließend.</p>
-    <p><b>Hinweis zur E-Mail-Übertragung:</b> Bitte beachte, dass die Datenübertragung per E-Mail Sicherheitslücken aufweisen kann. Eine lückenlose Sicherheit der Daten bei der Übertragung per E-Mail kann nicht gewährleistet werden.</p>
+    <p>Bei Nutzung des Anfrageformulars öffnet sich dein E-Mail-Programm mit einer vorausgefüllten Nachricht. Die übermittelten Daten werden ausschließlich zur Bearbeitung deiner Anfrage sowie zur Planung und Durchführung des Spiels verwendet.</p>
+    <p><b>Rechtsgrundlagen:</b> Art. 6 Abs. 1 lit. b DSGVO (Durchführung vorvertraglicher Maßnahmen bzw. Vertragserfüllung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bearbeitung von Anfragen).</p>
+    <p><b>Speicherdauer:</b> Nur solange erforderlich bzw. aufgrund gesetzlicher Aufbewahrungspflichten.</p>
+    <p><b>Hinweis:</b> Die Kommunikation per E-Mail kann Sicherheitslücken aufweisen. Eine lückenlose Sicherheit der Daten bei der Übertragung per E-Mail kann nicht gewährleistet werden.</p>
 
-    <h2>4. Spieldaten und Standortverarbeitung in der App</h2>
-    <p>Während einer aktiven Partie verarbeitet die Spiel-App personenbezogene Daten, die für den Spielablauf notwendig sind. Dazu gehören insbesondere:</p>
-    <ul>
-      <li>Standortdaten (GPS-Position) der Teilnehmer, um das Verfolgungsspiel zu ermöglichen,</li>
-      <li>die zugewiesene Rolle (Target, Hunter, Spielleiter),</li>
-      <li>der Spielstatus sowie Fang- und Punkteinformationen.</li>
-    </ul>
-    <p>Die Standortübermittlung erfolgt <b>ausschließlich während der aktiven Spielzeit</b> und nur mit ausdrücklicher Zustimmung der Teilnehmer. Vor Spielbeginn wird das Einverständnis eingeholt; die Standortfreigabe kann über die Geräteeinstellungen jederzeit widerrufen werden.</p>
-    <p><b>Rechtsgrundlage:</b> Die Verarbeitung der Standortdaten erfolgt ausschließlich auf Grundlage deiner Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. Die übrigen Spieldaten (Rolle, Spielstatus, Fänge, Punkte) werden auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Durchführung des Spiels als vertragliche Leistung) verarbeitet.</p>
-    <p><b>Widerruf:</b> Du kannst deine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen (z. B. durch Deaktivieren der Standortfreigabe). Der Widerruf berührt die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung nicht.</p>
-    <p><b>Erforderlichkeit:</b> Die Bereitstellung der Standortdaten ist für die Teilnahme am Spiel technisch erforderlich. Ohne diese Daten kann das Verfolgungsspiel nicht durchgeführt werden; ein Widerruf während des Spiels kann die Teilnahme daher einschränken oder beenden.</p>
-    <p><b>Speicherdauer:</b> Wie oben hervorgehoben, werden sämtliche Spieldaten – einschließlich der Standortdaten – automatisch spätestens 1 Stunde nach Spielende gelöscht. Eine darüber hinausgehende Speicherung findet nicht statt.</p>
+    <h2>4. Spieldaten und Standortverarbeitung</h2>
+    <p>Während einer aktiven Spielpartie verarbeitet die Browser-Web-App GPS-Standortdaten, Spielrollen, Spielstatus, Fangereignisse und Punktestände. Standortdaten werden ausschließlich während einer aktiven Partie und nur nach vorheriger Einwilligung verarbeitet. Eine dauerhafte Hintergrundüberwachung findet nicht statt.</p>
+    <p><b>Rechtsgrundlagen:</b> Standortdaten: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Übrige Spieldaten: Art. 6 Abs. 1 lit. b DSGVO (Durchführung des Spiels).</p>
+    <p>Die Einwilligung kann jederzeit mit Wirkung für die Zukunft widerrufen werden. Der Widerruf berührt die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung nicht. Ohne Standortdaten ist eine Teilnahme am Spiel technisch nicht möglich.</p>
 
-    <h2>5. Terminverwaltung / Kalender</h2>
-    <p>Zur Anzeige freier und ausgebuchter Termine speichern wir die Auslastung einzelner Kalendertage. Es werden dabei keine personenbezogenen Daten von Website-Besuchern gespeichert, sondern lediglich, an welchen Tagen wie viele Termine bereits vergeben sind.</p>
+    <h2>5. Terminverwaltung</h2>
+    <p>Zur Anzeige freier und belegter Termine wird ausschließlich die Auslastung einzelner Kalendertage gespeichert. Personenbezogene Daten von Besuchern werden hierbei nicht verarbeitet.</p>
     <p><b>Rechtsgrundlage:</b> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer funktionierenden Terminübersicht).</p>
 
     <h2>6. Hosting, Datenbank und eingesetzte Dienste</h2>
-    <p>Wir setzen für den Betrieb der Website und der Spiel-App folgende Dienste ein, die in unserem Auftrag personenbezogene Daten verarbeiten können:</p>
-    <p><b>Hosting der Website (GitHub Pages):</b> Diese Website wird über GitHub Pages gehostet, einen Dienst der GitHub, Inc. (88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA). Beim Aufruf der Website werden durch den Hosting-Anbieter automatisch technische Zugriffsdaten in Server-Logfiles verarbeitet (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite, übertragene Datenmenge, Browsertyp). Dies ist technisch erforderlich, um die Website sicher und stabil bereitzustellen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren Bereitstellung).</p>
-    <p><b>Datenbank/Backend (Supabase):</b> Für die Speicherung der Terminverfügbarkeit sowie für den Betrieb der Spiel-App nutzen wir Supabase (Supabase, Inc.). Die von uns genutzten Projekte werden in einem Rechenzentrum innerhalb der Europäischen Union (Region Frankfurt, Deutschland) betrieben. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b und lit. f DSGVO.</p>
-    <p><b>Kartendarstellung (OpenStreetMap &amp; Leaflet):</b> Zur Darstellung der Karten verwenden wir die quelloffene Bibliothek Leaflet in Verbindung mit Kartenmaterial von OpenStreetMap (OpenStreetMap Foundation, Vereinigtes Königreich). Beim Laden der Kartenkacheln wird deine IP-Adresse an die Server von OpenStreetMap übermittelt, da dies technisch notwendig ist, um die Karten an deinen Browser auszuliefern. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO bzw. – im Rahmen des Spiels – Art. 6 Abs. 1 lit. a und lit. b DSGVO.</p>
-    <p><b>Domain (INWX):</b> Die Domain wird über die InterNetX GmbH (INWX) verwaltet.</p>
+    <h3>GitHub Pages</h3>
+    <p>Unsere Website wird über GitHub Pages betrieben, einen Dienst der GitHub, Inc. (San Francisco, USA). Dabei können technisch notwendige Zugriffsdaten in Server-Logfiles verarbeitet werden (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite). Die Speicherdauer dieser Logdaten richtet sich nach den Vorgaben des Hosting-Anbieters. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren und stabilen Bereitstellung).</p>
+    <h3>Supabase</h3>
+    <p>Für den Betrieb der Browser-Web-App und die Speicherung der Terminverfügbarkeit nutzen wir Supabase (Supabase, Inc.). Die von uns genutzten Projekte werden in Rechenzentren innerhalb der EU (Region Frankfurt, Deutschland) sowie in der Schweiz (Region Zürich) betrieben. Für die Schweiz besteht ein Angemessenheitsbeschluss der Europäischen Kommission, sodass dort ein mit der EU vergleichbares Datenschutzniveau gewährleistet ist. Rechtsgrundlage: Art. 6 Abs. 1 lit. b und lit. f DSGVO.</p>
     <p>Mit Dienstleistern, die in unserem Auftrag personenbezogene Daten verarbeiten, bestehen – soweit erforderlich – Verträge zur Auftragsverarbeitung gemäß Art. 28 DSGVO.</p>
+    <h3>OpenStreetMap und Leaflet</h3>
+    <p>Zur Darstellung der Karten verwenden wir die quelloffene Bibliothek Leaflet und Kartenmaterial von OpenStreetMap. Beim Abruf der Kartenkacheln wird aus technischen Gründen deine IP-Adresse an Server der OpenStreetMap Foundation übermittelt. Weitere Informationen: <a href="https://osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">osmfoundation.org/wiki/Privacy_Policy</a></p>
+    <h3>Domainverwaltung</h3>
+    <p>Unsere Domain wird über die InterNetX GmbH (INWX) verwaltet.</p>
 
     <h2>7. Übermittlung in Drittländer</h2>
-    <p>Bei der Nutzung von GitHub Pages (GitHub, Inc.) können personenbezogene Daten (insbesondere die IP-Adresse in Server-Logfiles) in die USA übermittelt werden. Die Übermittlung erfolgt auf Grundlage geeigneter Garantien im Sinne der Art. 44 ff. DSGVO, insbesondere der EU-Standardvertragsklauseln bzw. – soweit anwendbar – einer Zertifizierung des Anbieters nach dem EU-US Data Privacy Framework. Unsere Datenbank (Supabase) wird in der EU-Region (Frankfurt) betrieben, sodass die Spieldaten innerhalb der EU verarbeitet werden.</p>
+    <p>Bei der Nutzung von GitHub Pages (GitHub, Inc.) können personenbezogene Daten technisch bedingt in die USA übermittelt werden. Soweit erforderlich erfolgt dies auf Grundlage geeigneter Garantien im Sinne der Art. 44 ff. DSGVO, insbesondere der EU-Standardvertragsklauseln bzw. – soweit anwendbar – einer Zertifizierung nach dem EU-US Data Privacy Framework.</p>
+    <p>Ein Teil der über Supabase verarbeiteten Daten wird in der Schweiz (Region Zürich) verarbeitet. Die Schweiz gilt aufgrund eines Angemessenheitsbeschlusses der Europäischen Kommission als Drittland mit angemessenem Datenschutzniveau. Beim Abruf der Kartenkacheln von OpenStreetMap kann deine IP-Adresse an die OpenStreetMap Foundation im Vereinigten Königreich übermittelt werden; auch für das Vereinigte Königreich besteht ein Angemessenheitsbeschluss der Europäischen Kommission.</p>
 
-    <h2>8. Cookies und Tracking</h2>
-    <p>Diese Website verwendet keine Tracking- oder Analyse-Cookies und bindet keine Werbe- oder Analysedienste Dritter zu Tracking-Zwecken ein. Es werden auch keine externen Push-Benachrichtigungsdienste (z. B. Firebase, OneSignal) eingesetzt. Es werden lediglich technisch notwendige Funktionen genutzt, um die Website und das Spiel bereitzustellen.</p>
+    <h2>8. Cookies und ähnliche Technologien</h2>
+    <p>Es werden keine Tracking- oder Analyse-Cookies sowie keine Werbe- oder Marketingdienste eingesetzt. Es werden auch keine externen Push-Benachrichtigungsdienste eingesetzt. Es kommen ausschließlich technisch notwendige Funktionen zum Einsatz.</p>
 
-    <h2>9. Empfänger der Daten</h2>
-    <p>Eine Weitergabe deiner personenbezogenen Daten an Dritte zu deren eigenen Zwecken findet nicht statt. Empfänger der Daten können jedoch die unter Punkt 6 genannten technischen Dienstleister sein (Hosting, Datenbankbetrieb, Domainverwaltung, Kartendarstellung), die personenbezogene Daten ausschließlich weisungsgebunden im Rahmen einer Auftragsverarbeitung nach Art. 28 DSGVO bzw. zur technischen Auslieferung verarbeiten. Darüber hinaus geben wir Daten nur weiter, wenn du eingewilligt hast oder wir gesetzlich dazu verpflichtet sind.</p>
+    <h2>9. Empfänger personenbezogener Daten</h2>
+    <p>Eine Weitergabe deiner personenbezogenen Daten an Dritte zu deren eigenen Zwecken findet nicht statt. Empfänger können ausschließlich die genannten technischen Dienstleister (Hosting, Datenbank, Domainverwaltung und Kartendarstellung) sein, die personenbezogene Daten weisungsgebunden im Rahmen einer Auftragsverarbeitung nach Art. 28 DSGVO bzw. zur technischen Auslieferung verarbeiten. Darüber hinaus geben wir Daten nur weiter, wenn du eingewilligt hast oder wir gesetzlich dazu verpflichtet sind.</p>
 
     <h2>10. Datensicherheit</h2>
-    <p>Wir treffen angemessene technische und organisatorische Maßnahmen, um deine Daten gegen unbefugten Zugriff, Verlust oder Missbrauch zu schützen. Die Kommunikation zwischen deinem Browser und den Servern erfolgt mittels TLS-Verschlüsselung (erkennbar am „https“ in der Adresszeile).</p>
+    <p>Wir treffen angemessene technische und organisatorische Maßnahmen zum Schutz deiner Daten. Die Kommunikation erfolgt verschlüsselt mittels TLS (erkennbar am „https“ in der Adresszeile).</p>
 
     <h2>11. Minderjährige</h2>
-    <p>Die Teilnahme ist ab 14 Jahren möglich. Bei Minderjährigen ist die Einwilligung der Erziehungsberechtigten erforderlich – dies gilt auch für die Verarbeitung der Standort- und Spieldaten während einer Partie.</p>
+    <p>Die Teilnahme ist ab 14 Jahren vorgesehen. Teilnehmer unter 18 Jahren dürfen nur mit Zustimmung ihrer Erziehungsberechtigten teilnehmen. Soweit für die Verarbeitung – insbesondere der Standortdaten – eine Einwilligung erforderlich ist, muss diese bei Minderjährigen gemäß Art. 8 DSGVO durch die Erziehungsberechtigten erteilt bzw. bestätigt werden.</p>
 
     <h2>12. Deine Rechte</h2>
-    <p>Du hast im Rahmen der gesetzlichen Vorgaben folgende Rechte bezüglich deiner personenbezogenen Daten:</p>
-    <ul>
-      <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
-      <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
-      <li>Recht auf Löschung (Art. 17 DSGVO)</li>
-      <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
-      <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
-      <li>Widerspruchsrecht gegen die Verarbeitung (Art. 21 DSGVO)</li>
-      <li>Recht auf Widerruf einer erteilten Einwilligung mit Wirkung für die Zukunft (Art. 7 Abs. 3 DSGVO)</li>
-    </ul>
-    <p>Zur Ausübung deiner Rechte wende dich bitte an die unter Punkt 1 genannte E-Mail-Adresse.</p>
+    <p>Dir stehen die Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit, Widerspruch sowie Widerruf einer Einwilligung nach den Art. 15–21 und Art. 7 Abs. 3 DSGVO zu. Zur Ausübung deiner Rechte wende dich bitte an die unter Punkt 1 genannte E-Mail-Adresse.</p>
 
-    <h2>13. Beschwerderecht bei der Aufsichtsbehörde</h2>
-    <p>Du hast das Recht, dich gemäß Art. 77 DSGVO bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung deiner personenbezogenen Daten zu beschweren. Zuständig ist unter anderem der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz.</p>
+    <h2>13. Beschwerderecht</h2>
+    <p>Du hast gemäß Art. 77 DSGVO das Recht, dich bei einer Datenschutzaufsichtsbehörde zu beschweren. Zuständig ist unter anderem der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz.</p>
 
     <h2>14. Änderungen dieser Datenschutzerklärung</h2>
-    <p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, wenn sich die Rechtslage oder unsere Verarbeitungstätigkeiten ändern. Es gilt jeweils die auf dieser Seite veröffentlichte Fassung.</p>
+    <p>Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen. Es gilt jeweils die auf unserer Website veröffentlichte Fassung.</p>
 
-    <p class="ds-updated">Stand: Juli 2026</p>
+    <p class="ds-updated">Stand: Juli 2026 · Version 1.1</p>
   </div>
 </div>
 
