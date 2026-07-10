@@ -79,6 +79,32 @@
   .role.l h3{color:#a98bff;}
   .role p{color:var(--muted);font-size:14px;}
 
+  /* Zwei Modi */
+  .modi-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .modi-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 22px;display:flex;flex-direction:column;}
+  .modi-card.feature{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange),0 10px 36px rgba(255,106,0,.14);}
+  .modi-tag{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:1px;font-size:11px;color:var(--orange);margin-bottom:8px;}
+  .modi-card h3{font-size:24px;margin-bottom:10px;}
+  .modi-card>p{color:var(--muted);font-size:14.5px;margin-bottom:16px;}
+  .modi-list{list-style:none;margin-bottom:20px;display:flex;flex-direction:column;gap:9px;}
+  .modi-list li{padding-left:26px;position:relative;font-size:14.5px;}
+  .modi-list li::before{content:"✓";position:absolute;left:0;color:var(--orange);font-weight:700;}
+  .modi-card .btn{margin-top:auto;}
+
+  /* Live-Preisanzeige im Formular */
+  .preisbox{background:var(--bg2);border:1px solid var(--orange-deep);border-radius:12px;padding:16px 18px;margin-bottom:14px;}
+  .preisbox-row{display:flex;justify-content:space-between;align-items:baseline;}
+  .preisbox-label{color:var(--muted);font-size:14px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.5px;}
+  .preisbox-pp{font-family:'Oswald',sans-serif;font-size:22px;color:var(--orange);}
+  .preisbox-gesamt{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);}
+  .preisbox-sum{font-family:'Oswald',sans-serif;font-size:26px;color:var(--text);}
+  .preisbox-hint{color:var(--muted);font-size:12.5px;margin-top:10px;margin-bottom:0;}
+
+  /* PayPal-Button */
+  .paypal-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#0070ba;color:#fff;padding:13px 22px;border-radius:11px;font-family:'Oswald',sans-serif;font-weight:700;font-size:16px;letter-spacing:.4px;text-transform:uppercase;width:100%;text-align:center;}
+  .paypal-btn:hover{background:#005ea6;}
+  .paypal-note{color:var(--muted);font-size:12.5px;margin-top:8px;text-align:center;}
+
   /* Ablauf */
   .steps{display:flex;flex-direction:column;gap:2px;margin-top:6px;}
   .step{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);}
@@ -271,6 +297,41 @@
   </div>
 </section>
 
+<!-- ZWEI MODI -->
+<section id="modi">
+  <div class="wrap">
+    <div class="eyebrow">Zwei Möglichkeiten</div>
+    <h2 class="sec">Mit oder ohne Spielleiter</h2>
+    <p class="sec-intro">Du hast die Wahl: Wir kommen zu euch und leiten das Spiel persönlich – oder ihr führt es überall in Deutschland selbst durch. In beiden Fällen bekommt ihr die orangen T-Shirts und den vollen Zugang zur App.</p>
+    <div class="modi-grid">
+      <div class="modi-card">
+        <div class="modi-tag">Region Mannheim / Ludwigshafen</div>
+        <h3>Mit Spielleiter</h3>
+        <p>Wir stellen einen Spielleiter, der vor Ort das Spiel steuert, Durchsagen macht und für Spannung sorgt. Verfügbar im Umkreis von <b>50 km um Mannheim und Ludwigshafen</b>.</p>
+        <ul class="modi-list">
+          <li>Persönliche Betreuung vor Ort</li>
+          <li>Komplette Organisation & Einweisung</li>
+          <li>Orange T-Shirts mit Most-Wanted-Logo</li>
+          <li>Zugang zur App für die Spielzeit</li>
+        </ul>
+        <a href="#anfrage" class="btn btn-primary" style="width:100%;text-align:center;">Mit Spielleiter anfragen</a>
+      </div>
+      <div class="modi-card feature">
+        <div class="modi-tag">Deutschlandweit</div>
+        <h3>Selbst durchführen</h3>
+        <p>Ihr wollt woanders spielen? Kein Problem. Ihr bekommt einen <b>persönlichen Zugangscode</b> zugeschickt und werdet selbst zum Spielleiter – überall in Deutschland, wann ihr wollt.</p>
+        <ul class="modi-list">
+          <li>Zugangscode + Anleitung per Post/Mail</li>
+          <li>Material für die Minispiele wird mitgeliefert</li>
+          <li>Orange T-Shirts mit Most-Wanted-Logo</li>
+          <li>Ihr bestimmt Ort und Zeit selbst</li>
+        </ul>
+        <a href="#anfrage" class="btn btn-primary" style="width:100%;text-align:center;">Selbst-Paket anfragen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ABLAUF -->
 <section id="ablauf" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
   <div class="wrap">
@@ -319,9 +380,10 @@
       <ul>
         <li>Persönliches T-Shirt in Orange, speziell bedruckt mit dem Most-Wanted-Logo</li>
         <li>Zugang zur App für die Spielzeit</li>
-        <li>Betreuung durch einen Spielleiter</li>
-        <li>Komplette Organisation & Einweisung</li>
+        <li>Material für die Minispiele</li>
+        <li>Komplette Anleitung & Einweisung</li>
       </ul>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:14px;">Bei Buchung <b>mit Spielleiter</b> (Region MA/LU) kommt die persönliche Betreuung vor Ort dazu. Bei der <b>Selbst-Durchführung</b> erhaltet ihr euren Zugangscode und das Minispiel-Material per Post/Mail und leitet das Spiel selbst.</p>
     </div>
     <p class="price-note">Beispiel: Bei 8 Personen zahlt jeder 29 €. Ab 10 Personen zahlen alle Teilnehmer je 25 € pro Person. Schülergruppen zahlen durchgehend 20 € pro Person.</p>
   </div>
@@ -373,30 +435,76 @@
     <p class="sec-intro">Schick uns deine Anfrage – wir melden uns mit allen Details und einem Terminvorschlag. Die Zahlung erfolgt nach Bestätigung bequem per Überweisung.</p>
     <div class="form-card">
       <form id="anfrageForm">
+        <div class="field">
+          <label>Art der Durchführung</label>
+          <select name="modus" id="modusSelect">
+            <option value="mit">Mit Spielleiter (Region Mannheim / Ludwigshafen)</option>
+            <option value="ohne">Selbst durchführen (deutschlandweit)</option>
+          </select>
+        </div>
         <div class="form-row">
           <div class="field"><label>Name</label><input type="text" name="name" required placeholder="Dein Name"></div>
           <div class="field"><label>E-Mail</label><input type="email" name="email" required placeholder="deine@email.de"></div>
         </div>
+        <div class="field" id="plzField">
+          <label>PLZ des Spielorts</label>
+          <input type="text" name="plz" id="plzInput" inputmode="numeric" maxlength="5" placeholder="z. B. 67059">
+          <p class="form-note" id="plzHinweis"></p>
+        </div>
         <div class="form-row">
           <div class="field"><label>Wunschtermin</label><input type="date" name="datum"></div>
-          <div class="field"><label>Anzahl Personen</label><input type="number" name="personen" min="6" placeholder="ab 6"></div>
+          <div class="field"><label>Anzahl Personen</label><input type="number" name="personen" id="personenInput" min="6" placeholder="ab 6"></div>
         </div>
         <div class="field">
           <label>Gruppenart</label>
-          <select name="art">
+          <select name="art" id="artSelect">
             <option>Private Gruppe / Freunde</option>
             <option>Schülergruppe / Schulklasse</option>
             <option>Firmen- / Teamevent</option>
             <option>Sonstiges</option>
           </select>
         </div>
-        <div class="field"><label>Nachricht</label><textarea name="nachricht" rows="4" placeholder="Wo soll's stattfinden? Besondere Wünsche?"></textarea></div>
+
+        <!-- Live-Preisanzeige -->
+        <div class="preisbox" id="preisBox" style="display:none;">
+          <div class="preisbox-row">
+            <span class="preisbox-label">Preis pro Person</span>
+            <span class="preisbox-pp" id="preisProPerson">–</span>
+          </div>
+          <div class="preisbox-row preisbox-gesamt">
+            <span class="preisbox-label">Gesamt (<span id="preisAnzahl">0</span> Pers.)</span>
+            <span class="preisbox-sum" id="preisGesamt">–</span>
+          </div>
+          <p class="preisbox-hint" id="preisHinweis"></p>
+        </div>
+
+        <div class="field">
+          <label>T-Shirt-Größen (Anzahl je Größe)</label>
+          <div class="form-row" style="grid-template-columns:repeat(3,1fr);gap:10px;">
+            <div><label style="font-size:11px;">XS</label><input type="number" name="ts_xs" min="0" placeholder="0"></div>
+            <div><label style="font-size:11px;">S</label><input type="number" name="ts_s" min="0" placeholder="0"></div>
+            <div><label style="font-size:11px;">M</label><input type="number" name="ts_m" min="0" placeholder="0"></div>
+          </div>
+          <div class="form-row" style="grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;">
+            <div><label style="font-size:11px;">L</label><input type="number" name="ts_l" min="0" placeholder="0"></div>
+            <div><label style="font-size:11px;">XL</label><input type="number" name="ts_xl" min="0" placeholder="0"></div>
+            <div><label style="font-size:11px;">XXL</label><input type="number" name="ts_xxl" min="0" placeholder="0"></div>
+          </div>
+        </div>
+        <div class="field"><label>Nachricht</label><textarea name="nachricht" rows="4" placeholder="Besondere Wünsche?"></textarea></div>
         <div class="field" style="flex-direction:row;align-items:flex-start;gap:10px;">
           <input type="checkbox" name="dsagree" id="dsagree" style="width:20px;height:20px;margin-top:2px;flex:none;">
           <label for="dsagree" style="font-size:13px;line-height:1.5;cursor:pointer;">Ich habe die <a href="#" onclick="openDatenschutz(event)" style="color:var(--orange-bright);text-decoration:underline;">Datenschutzerklärung</a> zur Kenntnis genommen.</label>
         </div>
         <button type="submit" class="btn btn-primary" style="width:100%;">Anfrage absenden</button>
         <p class="form-note">Mit dem Absenden öffnet sich dein E-Mail-Programm mit der fertigen Anfrage an uns. Wir behandeln deine Daten vertraulich (siehe Datenschutz). Hinweis: Die Standort-Einwilligung für das Spiel gibt jede teilnehmende Person separat in der App vor Spielbeginn – sie kann nicht durch die buchende Person für andere erteilt werden.</p>
+
+        <div style="margin-top:22px;padding-top:20px;border-top:1px solid var(--line);">
+          <a href="https://www.paypal.me/DEINPAYPALNAME" target="_blank" rel="noopener" class="paypal-btn">
+            💳 Mit PayPal bezahlen
+          </a>
+          <p class="paypal-note">Nach Absprache des Termins kannst du hier bequem per PayPal bezahlen. Bitte gib im PayPal-Verwendungszweck deinen Namen und den Termin an.</p>
+        </div>
       </form>
     </div>
   </div>
@@ -455,19 +563,140 @@
 </footer>
 
 <script>
+  // ===== PLZ-Näherung: erste 2 Ziffern (PLZ-Leitregion) als grobe Entfernungsprüfung =====
+  // Mannheim/Ludwigshafen liegen in den Leitregionen 67xxx, 68xxx, 69xxx.
+  // Als "innerhalb ~50 km" gelten grob die umliegenden Leitregionen.
+  var PLZ_NAH = ["67","68","69","64","76","74","55","66"]; // MA/LU + Umkreis (Näherung)
+
+  var modusSel = document.getElementById("modusSelect");
+  var plzField = document.getElementById("plzField");
+  var plzInput = document.getElementById("plzInput");
+  var plzHinweis = document.getElementById("plzHinweis");
+
+  function istNah(plz){
+    if(!plz || plz.length < 2) return null; // unbekannt
+    return PLZ_NAH.indexOf(plz.substring(0,2)) !== -1;
+  }
+
+  // Wird ein Modus/PLZ geändert → Hinweis aktualisieren
+  function pruefePlz(){
+    var modus = modusSel.value;
+    var plz = (plzInput.value||"").trim();
+    plzHinweis.style.color = "";
+    // PLZ-Feld nur bei "mit Spielleiter" relevant für die Entfernungsprüfung
+    if(modus === "ohne"){
+      plzHinweis.textContent = "Selbst-Durchführung ist deutschlandweit möglich – die PLZ hilft uns nur beim Versand.";
+      return true;
+    }
+    var nah = istNah(plz);
+    if(nah === null){
+      plzHinweis.textContent = "Bitte gib die PLZ des geplanten Spielorts an.";
+      return null;
+    }
+    if(nah){
+      plzHinweis.style.color = "#7ee787";
+      plzHinweis.textContent = "✓ Liegt im Einsatzgebiet – wir können einen Spielleiter stellen.";
+      return true;
+    } else {
+      plzHinweis.style.color = "#ff9a8a";
+      plzHinweis.textContent = "Dieser Ort liegt außerhalb unseres 50-km-Radius. Für einen Spielleiter dort sende uns bitte eine Anfrage über das Kontaktformular – oder wähle „Selbst durchführen“ (deutschlandweit).";
+      return false;
+    }
+  }
+
+  modusSel.addEventListener("change", pruefePlz);
+  plzInput.addEventListener("input", pruefePlz);
+
+  // ===== Live-Preisberechnung =====
+  // Regel: Schülergruppe = immer 20 €. Sonst: bis 9 Pers. = 29 €, 10–19 = 25 €, ab 20 = 20 €.
+  var personenInput = document.getElementById("personenInput");
+  var artSelect = document.getElementById("artSelect");
+  var preisBox = document.getElementById("preisBox");
+  var preisProPerson = document.getElementById("preisProPerson");
+  var preisAnzahl = document.getElementById("preisAnzahl");
+  var preisGesamt = document.getElementById("preisGesamt");
+  var preisHinweis = document.getElementById("preisHinweis");
+
+  function berechnePreis(){
+    var n = parseInt(personenInput.value, 10);
+    var art = artSelect.value;
+    if(!n || n < 1){ preisBox.style.display = "none"; return; }
+
+    var pp, hinweis;
+    var istSchueler = art.indexOf("Schülergruppe") !== -1;
+
+    if(istSchueler){
+      pp = 20; hinweis = "Schülergruppen-Preis: 20 € pro Person.";
+    } else if(n >= 20){
+      pp = 20; hinweis = "Ab 20 Personen gilt automatisch der günstigste Preis von 20 € pro Person.";
+    } else if(n >= 10){
+      pp = 25; hinweis = "Gruppenpreis ab 10 Personen: 25 € pro Person.";
+    } else {
+      pp = 29; hinweis = "Standardpreis bis 9 Personen: 29 € pro Person.";
+    }
+
+    preisProPerson.textContent = pp + " €";
+    preisAnzahl.textContent = n;
+    preisGesamt.textContent = (pp * n) + " €";
+    preisHinweis.textContent = hinweis;
+    preisBox.style.display = "block";
+  }
+
+  personenInput.addEventListener("input", berechnePreis);
+  artSelect.addEventListener("change", berechnePreis);
+
   // Anfrage-Formular → öffnet das E-Mail-Programm mit vorausgefüllter Mail
   document.getElementById('anfrageForm').addEventListener('submit', function(e){
     e.preventDefault();
     var f=e.target;
     if(!f.dsagree.checked){ alert("Bitte bestätige, dass du die Datenschutzerklärung zur Kenntnis genommen hast."); return; }
-    var ziel="most-wanted-stadtjagd@gmx.de"; // <-- hier deine E-Mail eintragen
-    var betreff="Anfrage Most Wanted Stadtjagd";
+
+    var modus = f.modus.value;
+    // Bei "mit Spielleiter" die Entfernung prüfen und ggf. blockieren
+    if(modus === "mit"){
+      var ok = pruefePlz();
+      if(ok === false){
+        alert("Der gewählte Spielort liegt außerhalb unseres 50-km-Radius um Mannheim/Ludwigshafen.\n\nBitte stelle für einen Spielleiter dort eine Anfrage über das Kontaktformular – oder wähle „Selbst durchführen“ (deutschlandweit).");
+        return;
+      }
+      if(ok === null){
+        alert("Bitte gib die PLZ des geplanten Spielorts an.");
+        plzInput.focus();
+        return;
+      }
+    }
+
+    var modusText = (modus === "mit") ? "Mit Spielleiter (Region MA/LU)" : "Selbst durchführen (deutschlandweit)";
+    var ziel="most-wanted-stadtjagd@gmx.de";
+    var betreff="Anfrage Most Wanted Stadtjagd – "+modusText;
+
+    // T-Shirt-Größen zusammenfassen
+    function gr(name){ var v=f[name].value; return (v&&+v>0)?v:"0"; }
+    var shirts = "XS: "+gr("ts_xs")+" | S: "+gr("ts_s")+" | M: "+gr("ts_m")+
+                 " | L: "+gr("ts_l")+" | XL: "+gr("ts_xl")+" | XXL: "+gr("ts_xxl");
+
+    // Preis für die E-Mail berechnen (gleiche Regel wie Anzeige)
+    var pers = parseInt(f.personen.value, 10);
+    var preisText = "-";
+    if(pers && pers > 0){
+      var ppMail;
+      if(f.art.value.indexOf("Schülergruppe") !== -1){ ppMail = 20; }
+      else if(pers >= 20){ ppMail = 20; }
+      else if(pers >= 10){ ppMail = 25; }
+      else { ppMail = 29; }
+      preisText = ppMail + " € pro Person → Gesamt: " + (ppMail * pers) + " €";
+    }
+
     var text=
+      "Art der Durchführung: "+modusText+"\n"+
       "Name: "+f.name.value+"\n"+
       "E-Mail: "+f.email.value+"\n"+
+      "PLZ Spielort: "+(f.plz.value||"-")+"\n"+
       "Wunschtermin: "+(f.datum.value||"-")+"\n"+
       "Personen: "+(f.personen.value||"-")+"\n"+
-      "Gruppenart: "+f.art.value+"\n\n"+
+      "Gruppenart: "+f.art.value+"\n"+
+      "Berechneter Preis: "+preisText+"\n"+
+      "T-Shirt-Größen: "+shirts+"\n\n"+
       "Nachricht:\n"+(f.nachricht.value||"-");
     window.location.href="mailto:"+ziel+"?subject="+encodeURIComponent(betreff)+"&body="+encodeURIComponent(text);
   });
@@ -687,7 +916,8 @@
 
     <h2>2. Überblick über die verarbeiteten Daten</h2>
     <ul>
-      <li>Kontaktdaten (Name, E-Mail-Adresse, Wunschtermin, Personenzahl, Gruppenart und Nachricht)</li>
+      <li>Kontaktdaten (Name, E-Mail-Adresse, PLZ des Spielorts, Wunschtermin, Personenzahl, Gruppenart, T-Shirt-Größen und Nachricht)</li>
+      <li>Zahlungsdaten bei Nutzung von PayPal (z. B. Name, Verwendungszweck)</li>
       <li>Spieldaten (Standortdaten, Spielrolle, Spielstatus, Fänge und Punkte)</li>
       <li>Terminverwaltung (Auslastung einzelner Kalendertage)</li>
       <li>Technische Zugriffsdaten (z. B. IP-Adresse und Server-Logdaten)</li>
@@ -704,16 +934,21 @@
     <p><b>Speicherdauer:</b> Nur solange erforderlich bzw. aufgrund gesetzlicher Aufbewahrungspflichten.</p>
     <p><b>Hinweis:</b> Die Kommunikation per E-Mail kann Sicherheitslücken aufweisen. Eine lückenlose Sicherheit der Daten bei der Übertragung per E-Mail kann nicht gewährleistet werden.</p>
 
-    <h2>4. Spieldaten und Standortverarbeitung</h2>
+    <h2>4. Zahlungsabwicklung (PayPal)</h2>
+    <p>Für die Bezahlung bieten wir PayPal an. Wenn du die Zahlung über PayPal auslöst, wirst du auf die Seiten des Zahlungsdienstleisters PayPal (Europe) S.à r.l. et Cie, S.C.A., 22-24 Boulevard Royal, L-2449 Luxemburg, weitergeleitet. Die Verarbeitung deiner Zahlungsdaten (z. B. Name, E-Mail-Adresse, Zahlungsbetrag) erfolgt dort in eigener Verantwortung von PayPal nach deren Datenschutzbestimmungen. Wir selbst erhalten von PayPal lediglich die zur Zuordnung der Zahlung erforderlichen Informationen (z. B. deinen Namen und den Verwendungszweck).</p>
+    <p><b>Rechtsgrundlage:</b> Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung / Zahlungsabwicklung).</p>
+    <p>PayPal kann Daten auch in Drittländer außerhalb der EU übermitteln. Die datenschutzrechtlichen Informationen von PayPal findest du unter <a href="https://www.paypal.com/de/webapps/mpp/ua/privacy-full" target="_blank" rel="noopener">paypal.com/de/webapps/mpp/ua/privacy-full</a>.</p>
+
+    <h2>5. Spieldaten und Standortverarbeitung</h2>
     <p>Während einer aktiven Spielpartie verarbeitet die Browser-Web-App GPS-Standortdaten, Spielrollen, Spielstatus, Fangereignisse und Punktestände. Standortdaten werden ausschließlich während einer aktiven Partie und nur nach vorheriger Einwilligung verarbeitet. Eine dauerhafte Hintergrundüberwachung findet nicht statt.</p>
     <p><b>Rechtsgrundlagen:</b> Standortdaten: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Übrige Spieldaten: Art. 6 Abs. 1 lit. b DSGVO (Durchführung des Spiels).</p>
     <p>Die Einwilligung kann jederzeit mit Wirkung für die Zukunft widerrufen werden. Der Widerruf berührt die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung nicht. Ohne Standortdaten ist eine Teilnahme am Spiel technisch nicht möglich.</p>
 
-    <h2>5. Terminverwaltung</h2>
+    <h2>6. Terminverwaltung</h2>
     <p>Zur Anzeige freier und belegter Termine wird ausschließlich die Auslastung einzelner Kalendertage gespeichert. Personenbezogene Daten von Besuchern werden hierbei nicht verarbeitet.</p>
     <p><b>Rechtsgrundlage:</b> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer funktionierenden Terminübersicht).</p>
 
-    <h2>6. Hosting, Datenbank und eingesetzte Dienste</h2>
+    <h2>7. Hosting, Datenbank und eingesetzte Dienste</h2>
     <h3>GitHub Pages</h3>
     <p>Unsere Website wird über GitHub Pages betrieben, einen Dienst der GitHub, Inc. (San Francisco, USA). Dabei können technisch notwendige Zugriffsdaten in Server-Logfiles verarbeitet werden (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite). Die Speicherdauer dieser Logdaten richtet sich nach den Vorgaben des Hosting-Anbieters. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren und stabilen Bereitstellung).</p>
     <h3>Supabase</h3>
@@ -724,32 +959,32 @@
     <h3>Domainverwaltung</h3>
     <p>Unsere Domain wird über die InterNetX GmbH (INWX) verwaltet.</p>
 
-    <h2>7. Übermittlung in Drittländer</h2>
+    <h2>8. Übermittlung in Drittländer</h2>
     <p>Bei der Nutzung von GitHub Pages (GitHub, Inc.) können personenbezogene Daten technisch bedingt in die USA übermittelt werden. Soweit erforderlich erfolgt dies auf Grundlage geeigneter Garantien im Sinne der Art. 44 ff. DSGVO, insbesondere der EU-Standardvertragsklauseln bzw. – soweit anwendbar – einer Zertifizierung nach dem EU-US Data Privacy Framework.</p>
     <p>Ein Teil der über Supabase verarbeiteten Daten wird in der Schweiz (Region Zürich) verarbeitet. Die Schweiz gilt aufgrund eines Angemessenheitsbeschlusses der Europäischen Kommission als Drittland mit angemessenem Datenschutzniveau. Beim Abruf der Kartenkacheln von OpenStreetMap kann deine IP-Adresse an die OpenStreetMap Foundation im Vereinigten Königreich übermittelt werden; auch für das Vereinigte Königreich besteht ein Angemessenheitsbeschluss der Europäischen Kommission.</p>
 
-    <h2>8. Cookies und ähnliche Technologien</h2>
+    <h2>9. Cookies und ähnliche Technologien</h2>
     <p>Es werden keine Tracking- oder Analyse-Cookies sowie keine Werbe- oder Marketingdienste eingesetzt. Es werden auch keine externen Push-Benachrichtigungsdienste eingesetzt. Es kommen ausschließlich technisch notwendige Funktionen zum Einsatz.</p>
 
-    <h2>9. Empfänger personenbezogener Daten</h2>
+    <h2>10. Empfänger personenbezogener Daten</h2>
     <p>Eine Weitergabe deiner personenbezogenen Daten an Dritte zu deren eigenen Zwecken findet nicht statt. Empfänger können ausschließlich die genannten technischen Dienstleister (Hosting, Datenbank, Domainverwaltung und Kartendarstellung) sein, die personenbezogene Daten weisungsgebunden im Rahmen einer Auftragsverarbeitung nach Art. 28 DSGVO bzw. zur technischen Auslieferung verarbeiten. Darüber hinaus geben wir Daten nur weiter, wenn du eingewilligt hast oder wir gesetzlich dazu verpflichtet sind.</p>
 
-    <h2>10. Datensicherheit</h2>
+    <h2>11. Datensicherheit</h2>
     <p>Wir treffen angemessene technische und organisatorische Maßnahmen zum Schutz deiner Daten. Die Kommunikation erfolgt verschlüsselt mittels TLS (erkennbar am „https“ in der Adresszeile).</p>
 
-    <h2>11. Minderjährige</h2>
+    <h2>12. Minderjährige</h2>
     <p>Die Teilnahme ist ab 14 Jahren vorgesehen. Teilnehmer unter 18 Jahren dürfen nur mit Zustimmung ihrer Erziehungsberechtigten teilnehmen. Soweit für die Verarbeitung – insbesondere der Standortdaten – eine Einwilligung erforderlich ist, muss diese bei Minderjährigen gemäß Art. 8 DSGVO durch die Erziehungsberechtigten erteilt bzw. bestätigt werden.</p>
 
-    <h2>12. Deine Rechte</h2>
+    <h2>13. Deine Rechte</h2>
     <p>Dir stehen die Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit, Widerspruch sowie Widerruf einer Einwilligung nach den Art. 15–21 und Art. 7 Abs. 3 DSGVO zu. Zur Ausübung deiner Rechte wende dich bitte an die unter Punkt 1 genannte E-Mail-Adresse.</p>
 
-    <h2>13. Beschwerderecht</h2>
+    <h2>14. Beschwerderecht</h2>
     <p>Du hast gemäß Art. 77 DSGVO das Recht, dich bei einer Datenschutzaufsichtsbehörde zu beschweren. Zuständig ist unter anderem der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz.</p>
 
-    <h2>14. Änderungen dieser Datenschutzerklärung</h2>
+    <h2>15. Änderungen dieser Datenschutzerklärung</h2>
     <p>Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen. Es gilt jeweils die auf unserer Website veröffentlichte Fassung.</p>
 
-    <p class="ds-updated">Stand: Juli 2026 · Version 1.1</p>
+    <p class="ds-updated">Stand: Juli 2026 · Version 1.2</p>
   </div>
 </div>
 
