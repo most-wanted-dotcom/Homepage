@@ -26,6 +26,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 /* ==========================================================
@@ -384,12 +386,31 @@ nav{
   overflow:hidden;background:var(--asphalt);aspect-ratio:16/9;
 }
 @media(max-width:640px){.buehne{aspect-ratio:1/1}}
-#radar{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
-.hud{position:absolute;inset:0;pointer-events:none;z-index:2}
+#demoMap{position:absolute;inset:0;width:100%;height:100%;z-index:1;cursor:crosshair}
+.leaflet-container{background:var(--asphalt);font-family:'Barlow',sans-serif}
+.leaflet-control-attribution{
+  background:rgba(11,14,17,.82)!important;color:var(--nebel)!important;
+  font-size:.58rem!important;
+}
+.leaflet-control-attribution a{color:var(--nebel)!important}
+/* Marker exakt wie in der App */
+.mw-pin{
+  display:flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;font-size:14px;
+  box-shadow:0 2px 8px #0008;border:2px solid #0a0a0b;
+}
+.mw-label{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  font-size:10px;font-weight:700;color:#fff;white-space:nowrap;
+  text-shadow:0 1px 3px #000;
+}
+.hud{position:absolute;inset:0;pointer-events:none;z-index:500}
 .hud-ecke{
   position:absolute;font-family:'JetBrains Mono',monospace;
   font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--nebel);line-height:1.5;
+  background:rgba(11,14,17,.86);padding:6px 9px;border-radius:var(--r);
+  border:1px solid var(--linie);
 }
 .hud-lo{top:11px;left:13px}
 .hud-ro{top:11px;right:13px;text-align:right}
@@ -397,7 +418,7 @@ nav{
 .hud-ru{bottom:14px;right:13px;text-align:right}
 .hud-wert{color:var(--papier);font-weight:700}
 .hud-signal{color:var(--signal);font-weight:700}
-.takt{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,90,31,.16);z-index:3}
+.takt{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,90,31,.16);z-index:501}
 .takt i{display:block;height:100%;width:0;background:var(--signal)}
 .demo-steuerung{
   display:flex;align-items:center;gap:20px;flex-wrap:wrap;
@@ -517,6 +538,56 @@ nav{
   .schritt{grid-template-columns:1fr;gap:8px}
   .schritt-zeit{padding-top:0}
 }
+
+/* ==========================================================
+   APP-GALERIE (Screenshots im Handy-Rahmen)
+   ========================================================== */
+.galerie{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(18px,3vw,34px);align-items:start;
+}
+@media(max-width:820px){.galerie{grid-template-columns:1fr;max-width:340px;margin:0 auto}}
+.schuss{text-align:center}
+/* Handy-Rahmen */
+.handy{
+  position:relative;margin:0 auto 16px;width:100%;max-width:250px;
+  border:8px solid #1c232a;border-radius:26px;
+  background:#0c0a09;overflow:hidden;
+  box-shadow:0 18px 44px rgba(0,0,0,.65), 0 0 0 1px var(--linie);
+  aspect-ratio:390/760;
+}
+/* Kerbe oben */
+.handy::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:92px;height:16px;background:#1c232a;
+  border-radius:0 0 11px 11px;z-index:3;
+}
+.handy img{
+  width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
+}
+/* Platzhalter, solange kein Bild hinterlegt ist */
+.handy .platzhalter{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;padding:22px;
+  background:
+    repeating-linear-gradient(90deg,transparent 0 30px,rgba(70,84,97,.22) 30px 30.7px),
+    repeating-linear-gradient(0deg,transparent 0 30px,rgba(70,84,97,.22) 30px 30.7px),
+    var(--asphalt);
+  text-align:center;
+}
+.platzhalter b{
+  font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;
+  font-size:.95rem;letter-spacing:.03em;color:var(--papier);
+}
+.platzhalter span{
+  font-family:'JetBrains Mono',monospace;font-size:.56rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--nebel);line-height:1.7;
+}
+.schuss h3{
+  font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;
+  font-size:1.08rem;letter-spacing:.02em;margin-bottom:7px;
+}
+.schuss p{font-size:.88rem;color:var(--nebel-2);max-width:34ch;margin:0 auto}
 
 /* ==========================================================
    MODI
@@ -921,6 +992,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
       <a href="#spiel" onclick="mwMenuZu()">Das Spiel</a>
       <a href="#anlaesse" onclick="mwMenuZu()">Anlässe</a>
       <a href="#ablauf" onclick="mwMenuZu()">Ablauf</a>
+      <a href="#app" onclick="mwMenuZu()">Die App</a>
       <a href="#preise" onclick="mwMenuZu()">Preise</a>
       <a href="#kalender" onclick="mwMenuZu()">Termine</a>
       <a href="#faq" onclick="mwMenuZu()">Fragen</a>
@@ -993,14 +1065,14 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 
     <div class="demo-block reveal">
       <div class="demo-kopf">
-        <div class="demo-titel">Probier es aus &ndash; du bist das Target</div>
+        <div class="demo-titel">Probier es aus &ndash; bewege dich auf der Karte</div>
         <div class="rolle-schalter" role="group" aria-label="Ansicht wechseln">
           <button type="button" id="btnHunter" aria-pressed="true">Hunter-Sicht</button>
           <button type="button" id="btnTarget" aria-pressed="false">Target-Sicht</button>
         </div>
       </div>
       <div class="buehne">
-        <canvas id="radar" tabindex="0" aria-label="Interaktive Demo: Bewege den Zeiger oder benutze die Pfeiltasten, um als Target zu laufen. Die Hunter sehen nur die zuletzt gesendete Position."></canvas>
+        <div id="demoMap" tabindex="0" role="application" aria-label="Interaktive Demo auf echter Stadtkarte: Bewege den Zeiger oder benutze die Pfeiltasten, um als Target zu laufen. Die Hunter sehen nur die zuletzt gesendete Position."></div>
         <div class="hud">
           <div class="hud-ecke hud-lo">Ansicht: <span class="hud-wert" id="hudRolle">Hunter</span></div>
           <div class="hud-ecke hud-ro">Letzter Ping<br><span class="hud-signal" id="hudAlter">gerade eben</span></div>
@@ -1016,7 +1088,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
         </label>
         <label>im Spiel <span class="hud-wert" id="spielTakt">10 Min.</span></label>
       </div>
-      <p class="demo-hinweis">Der orange Punkt ist die <b>zuletzt gesendete Position</b> &ndash; mehr sehen die Hunter nicht. Der gestrichelte Kreis zeigt, wie weit du seitdem gekommen sein k&ouml;nntest. Genau dieser Vorsprung entscheidet das Spiel.</p>
+      <p class="demo-hinweis">Echte Stadtkarte, echte Spielmechanik: Der gelbe Marker ist die <b>zuletzt gesendete Position</b> &ndash; mehr sehen die Hunter nicht. Der gestrichelte Kreis zeigt, wie weit du seitdem gekommen sein k&ouml;nntest. Genau dieser Vorsprung entscheidet das Spiel.</p>
     </div>
 
     <div class="rollen">
@@ -1125,8 +1197,58 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   </div>
 </section>
 
+<!-- APP-GALERIE -->
+<section class="sek sek-linie sek-tief" id="app">
+  <div class="wrap">
+    <div class="funk reveal">Die App</div>
+    <h2 class="titel reveal">So sieht es <span>im Spiel aus</span></h2>
+    <p class="vorspann reveal">Kein Download, keine Installation: Die App l&auml;uft direkt im Browser. Ihr bekommt einen Spielcode, gebt euren Namen ein &ndash; fertig.</p>
+
+    <div class="galerie">
+      <div class="schuss reveal">
+        <!-- ==========================================================
+             SCREENSHOT EINSETZEN
+             Ersetze den kompletten <div class="platzhalter">...</div>
+             durch:  <img src="app-1.jpg" alt="Beitreten">
+             Lege das Bild neben diese index.html.
+             ========================================================== -->
+        <div class="handy">
+          <div class="platzhalter">
+            <b>Beitreten</b>
+            <span>Screenshot<br>app-1.jpg</span>
+          </div>
+        </div>
+        <h3>Beitreten</h3>
+        <p>Spielcode und Name eingeben, Teilnahmebedingungen best&auml;tigen &ndash; und ihr seid dabei.</p>
+      </div>
+
+      <div class="schuss reveal">
+        <div class="handy">
+          <div class="platzhalter">
+            <b>Die Jagd</b>
+            <span>Screenshot<br>app-2.jpg</span>
+          </div>
+        </div>
+        <h3>Die Jagd</h3>
+        <p>Countdown bis zum n&auml;chsten Standort, Live-Karte und der Stand: wer flieht noch, wer ist geschnappt.</p>
+      </div>
+
+      <div class="schuss reveal">
+        <div class="handy">
+          <div class="platzhalter">
+            <b>Joker</b>
+            <span>Screenshot<br>app-3.jpg</span>
+          </div>
+        </div>
+        <h3>Joker &amp; Karte</h3>
+        <p>Funkstille, Einfrieren, Live-Standort: Ein Tipp auf den Joker &ndash; und das Spiel dreht sich.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- MODI -->
-<section class="sek sek-linie sek-tief" id="modi">
+<section class="sek sek-linie" id="modi">
   <div class="wrap">
     <div class="funk reveal">Zwei Möglichkeiten</div>
     <h2 class="titel reveal">Mit oder ohne <span>Spielleiter</span></h2>
@@ -1163,7 +1285,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 </section>
 
 <!-- PREISE -->
-<section class="sek sek-linie" id="preise">
+<section class="sek sek-linie sek-tief" id="preise">
   <div class="wrap">
     <div class="funk reveal">Preise</div>
     <h2 class="titel reveal">Was kostet <span>die Jagd?</span></h2>
@@ -1215,7 +1337,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 </section>
 
 <!-- KALENDER -->
-<section class="sek sek-linie sek-tief" id="kalender">
+<section class="sek sek-linie" id="kalender">
   <div class="wrap">
     <div class="funk reveal">Verfügbarkeit</div>
     <h2 class="titel reveal">Freie <span>Termine</span></h2>
@@ -1246,7 +1368,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 </section>
 
 <!-- ANFRAGE -->
-<section class="sek sek-linie" id="anfrage">
+<section class="sek sek-linie sek-tief" id="anfrage">
   <div class="wrap">
     <div class="funk reveal">Buchung</div>
     <h2 class="titel reveal">Spiel <span>anfragen</span></h2>
@@ -1354,7 +1476,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 </section>
 
 <!-- FAQ -->
-<section class="sek sek-linie sek-tief" id="faq">
+<section class="sek sek-linie" id="faq">
   <div class="wrap">
     <div class="funk reveal">Häufige Fragen</div>
     <h2 class="titel reveal">Gut zu <span>wissen</span></h2>
@@ -1392,6 +1514,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
           <li><a href="#spiel">Das Spiel</a></li>
           <li><a href="#anlaesse">Anlässe</a></li>
           <li><a href="#ablauf">Ablauf</a></li>
+          <li><a href="#app">Die App</a></li>
           <li><a href="#modi">Mit oder ohne Spielleiter</a></li>
         </ul>
       </div>
@@ -2170,89 +2293,56 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 
 <script>
 /* ===================================================================
-   PING-DEMO — zeigt die Verzoegerung zwischen echter Position
-   und dem, was die Hunter sehen.
+   PING-DEMO auf echter Stadtkarte (Leaflet + OpenStreetMap)
+   Marker und Farben wie in der Most-Wanted-App.
+   Es werden KEINE echten Spielerdaten geladen - reine Demo.
    =================================================================== */
 (function(){
-  var cv = document.getElementById('radar');
-  if(!cv) return;
-  var ctx = cv.getContext('2d');
+  var el = document.getElementById('demoMap');
+  if(!el || typeof L === 'undefined') return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var rolle = 'hunter', taktSek = 6, W=0, H=0, dpr=1;
-  var target = {x:.5,y:.5};
-  var ping = {x:.5,y:.5,t:0};
-  var spur = [], letzterPing = performance.now(), bewegt = false, laeuft = false;
+  // Rollenfarben exakt wie in der App
+  var ROLLEN = {
+    target:{label:'Target', color:'#f4c430', icon:'\ud83d\udc5f'},
+    hunter:{label:'Hunter', color:'#ef4444', icon:'\ud83c\udfaf'}
+  };
 
-  var strassenH=[.22,.47,.68,.86], strassenV=[.14,.33,.58,.79];
+  // Startausschnitt: Mannheim, wie im Konfigurationsschritt der App
+  var MITTE = [49.4875, 8.466];
+  var karte = L.map(el,{
+    zoomControl:false, attributionControl:true,
+    scrollWheelZoom:false, doubleClickZoom:false, keyboard:false
+  }).setView(MITTE, 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    maxZoom:19, attribution:'\u00a9 OpenStreetMap'
+  }).addTo(karte);
+  L.control.zoom({position:'topright'}).addTo(karte);
 
-  function resize(){
-    dpr = Math.min(window.devicePixelRatio||1, 2);
-    var r = cv.getBoundingClientRect();
-    W=r.width; H=r.height;
-    cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-  window.addEventListener('resize', resize);
-
-  function karte(){
-    ctx.fillStyle='#14191e'; ctx.fillRect(0,0,W,H);
-    ctx.strokeStyle='rgba(70,84,97,.30)'; ctx.lineWidth=1;
-    var st=46; ctx.beginPath();
-    for(var x=st;x<W;x+=st){ctx.moveTo(x+.5,0);ctx.lineTo(x+.5,H);}
-    for(var y=st;y<H;y+=st){ctx.moveTo(0,y+.5);ctx.lineTo(W,y+.5);}
-    ctx.stroke();
-    ctx.strokeStyle='rgba(90,105,120,.55)'; ctx.lineWidth=2; ctx.beginPath();
-    strassenH.forEach(function(p){ctx.moveTo(0,H*p);ctx.lineTo(W,H*p);});
-    strassenV.forEach(function(p){ctx.moveTo(W*p,0);ctx.lineTo(W*p,H);});
-    ctx.stroke();
-    ctx.strokeStyle='rgba(200,160,74,.42)'; ctx.lineWidth=2; ctx.beginPath();
-    ctx.moveTo(-20,H*.94); ctx.lineTo(W*1.05,H*.08); ctx.stroke();
+  function pin(rolle, name){
+    var r = ROLLEN[rolle];
+    return L.divIcon({
+      html:'<div class="mw-pin" style="background:'+r.color+'">'+
+           '<span class="mw-label">'+name+'</span>'+r.icon+'</div>',
+      className:'', iconSize:[28,28], iconAnchor:[14,14]
+    });
   }
 
-  function zeichneSpur(){
-    for(var i=0;i<spur.length;i++){
-      var a=(i+1)/spur.length*.5, p=spur[i];
-      ctx.fillStyle='rgba(255,90,31,'+(a*.5)+')';
-      ctx.beginPath(); ctx.arc(p.x*W,p.y*H,3,0,Math.PI*2); ctx.fill();
-      if(i>0){ var q=spur[i-1];
-        ctx.strokeStyle='rgba(255,90,31,'+(a*.28)+')'; ctx.lineWidth=1;
-        ctx.beginPath(); ctx.moveTo(q.x*W,q.y*H); ctx.lineTo(p.x*W,p.y*H); ctx.stroke(); }
-    }
-  }
+  // Zustand
+  var taktSek = 6;
+  var ziel = L.latLng(MITTE[0], MITTE[1]);       // echte Position des Targets
+  var ping = {pos: L.latLng(MITTE[0], MITTE[1]), t: performance.now()};
+  var rolle = 'hunter', bewegt = false, laeuft = false;
 
-  function zeichnePing(jetzt){
-    var alter=(jetzt-ping.t)/1000, px=ping.x*W, py=ping.y*H;
-    var rad=Math.min(alter/taktSek,1)*Math.min(W,H)*.30;
-    if(rad>2){
-      ctx.strokeStyle='rgba(255,90,31,.22)'; ctx.setLineDash([4,5]); ctx.lineWidth=1;
-      ctx.beginPath(); ctx.arc(px,py,rad,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle='rgba(255,90,31,.05)';
-      ctx.beginPath(); ctx.arc(px,py,rad,0,Math.PI*2); ctx.fill();
-    }
-    if(!reduce && alter<1.1){
-      var w=alter/1.1;
-      ctx.strokeStyle='rgba(255,90,31,'+(.85*(1-w))+')'; ctx.lineWidth=2;
-      ctx.beginPath(); ctx.arc(px,py,6+w*54,0,Math.PI*2); ctx.stroke();
-    }
-    ctx.fillStyle='#ff5a1f';
-    ctx.beginPath(); ctx.arc(px,py,5.5,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle='rgba(255,90,31,.5)'; ctx.lineWidth=1;
-    ctx.beginPath(); ctx.arc(px,py,10,0,Math.PI*2); ctx.stroke();
-  }
-
-  function zeichneTarget(){
-    var tx=target.x*W, ty=target.y*H;
-    ctx.strokeStyle='rgba(242,240,236,.85)'; ctx.lineWidth=1.5;
-    ctx.beginPath(); ctx.arc(tx,ty,7,0,Math.PI*2); ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(tx-12,ty);ctx.lineTo(tx-3,ty); ctx.moveTo(tx+3,ty);ctx.lineTo(tx+12,ty);
-    ctx.moveTo(tx,ty-12);ctx.lineTo(tx,ty-3); ctx.moveTo(tx,ty+3);ctx.lineTo(tx,ty+12);
-    ctx.stroke();
-    ctx.strokeStyle='rgba(242,240,236,.22)'; ctx.setLineDash([3,4]); ctx.lineWidth=1;
-    ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(ping.x*W,ping.y*H); ctx.stroke();
-    ctx.setLineDash([]);
-  }
+  // Ebenen
+  var mPing   = L.marker(ping.pos, {icon: pin('target','Letzter Ping'), interactive:false}).addTo(karte);
+  var kUnsicher = L.circle(ping.pos, {radius:0, color:'#ff5a1f', weight:1, dashArray:'4 5',
+                    fillColor:'#ff5a1f', fillOpacity:.05, interactive:false}).addTo(karte);
+  var kWelle  = L.circle(ping.pos, {radius:0, color:'#ff5a1f', weight:2, fill:false, interactive:false}).addTo(karte);
+  var mZiel   = L.marker(ziel, {icon: pin('hunter','Du (echte Position)'), interactive:false});
+  var linie   = L.polyline([ping.pos, ziel], {color:'#f2f0ec', weight:1, opacity:.35, dashArray:'3 4', interactive:false});
+  var spurLinie = L.polyline([], {color:'#ff5a1f', weight:1.5, opacity:.35, interactive:false}).addTo(karte);
+  var spur = [];
 
   var elAlter=document.getElementById('hudAlter'), elDist=document.getElementById('hudDist'),
       elBalken=document.getElementById('taktBalken'), elRolle=document.getElementById('hudRolle'),
@@ -2260,67 +2350,94 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 
   function schleife(jetzt){
     if(!laeuft) return;
-    if(jetzt-letzterPing >= taktSek*1000){
-      ping={x:target.x,y:target.y,t:jetzt};
-      spur.push({x:ping.x,y:ping.y}); if(spur.length>6) spur.shift();
-      letzterPing=jetzt;
+    if(jetzt - ping.t >= taktSek*1000){
+      ping = {pos: ziel, t: jetzt};
+      mPing.setLatLng(ping.pos);
+      kUnsicher.setLatLng(ping.pos);
+      kWelle.setLatLng(ping.pos);
+      spur.push(ping.pos);
+      if(spur.length > 6) spur.shift();
+      spurLinie.setLatLngs(spur);
     }
-    karte(); zeichneSpur(); zeichnePing(jetzt);
-    if(rolle==='target') zeichneTarget();
-    var alter=(jetzt-ping.t)/1000;
-    elAlter.textContent = alter<1 ? 'gerade eben' : Math.round(alter)+' s her';
-    var dx=(target.x-ping.x)*W, dy=(target.y-ping.y)*H;
-    elDist.textContent = Math.round(Math.sqrt(dx*dx+dy*dy)/W*1200)+' m';
-    elBalken.style.width = Math.min(1,(jetzt-letzterPing)/(taktSek*1000))*100+'%';
+    var alter = (jetzt - ping.t)/1000;
+
+    // Unschaerfe: wie weit koennte das Target seit dem Ping gekommen sein
+    // (zu Fuss grob 2 m/s, auf die Demo-Sekunden uebertragen)
+    var maxM = Math.min(alter/taktSek, 1) * 260;
+    kUnsicher.setRadius(maxM);
+
+    if(!reduce && alter < 1.1){
+      var w = alter/1.1;
+      kWelle.setRadius(10 + w*180);
+      kWelle.setStyle({opacity: .85*(1-w)});
+    } else {
+      kWelle.setStyle({opacity:0});
+    }
+
+    elAlter.textContent = alter < 1 ? 'gerade eben' : Math.round(alter)+' s her';
+    var d = Math.round(ping.pos.distanceTo(ziel));
+    elDist.textContent = d + ' m';
+    elBalken.style.width = Math.min(1,(jetzt-ping.t)/(taktSek*1000))*100 + '%';
+
+    if(rolle === 'target') linie.setLatLngs([ping.pos, ziel]);
     requestAnimationFrame(schleife);
   }
 
-  function setzePos(cx,cy){
-    var r=cv.getBoundingClientRect();
-    target.x=Math.max(0,Math.min(1,(cx-r.left)/r.width));
-    target.y=Math.max(0,Math.min(1,(cy-r.top)/r.height));
-    if(!bewegt){bewegt=true; elTipp.textContent='Du bist das Target';}
+  function setzeZiel(latlng){
+    ziel = latlng;
+    mZiel.setLatLng(ziel);
+    if(!bewegt){ bewegt = true; elTipp.textContent = 'Du bist das Target'; }
   }
-  cv.addEventListener('pointermove',function(e){setzePos(e.clientX,e.clientY);});
-  cv.addEventListener('pointerdown',function(e){setzePos(e.clientX,e.clientY);});
-  cv.addEventListener('keydown',function(e){
-    var s=.04,k=e.key;
-    if(k==='ArrowLeft')target.x=Math.max(0,target.x-s);
-    else if(k==='ArrowRight')target.x=Math.min(1,target.x+s);
-    else if(k==='ArrowUp')target.y=Math.max(0,target.y-s);
-    else if(k==='ArrowDown')target.y=Math.min(1,target.y+s);
+  karte.on('mousemove', function(e){ setzeZiel(e.latlng); });
+  karte.on('click',     function(e){ setzeZiel(e.latlng); });
+
+  // Tastatur: Pfeiltasten bewegen das Target
+  el.addEventListener('keydown', function(e){
+    var m = 22, k = e.key, p = ziel;   // ca. 22 m pro Tastendruck
+    var dLat = m/111320, dLng = m/(111320*Math.cos(p.lat*Math.PI/180));
+    if(k==='ArrowUp')         setzeZiel(L.latLng(p.lat+dLat, p.lng));
+    else if(k==='ArrowDown')  setzeZiel(L.latLng(p.lat-dLat, p.lng));
+    else if(k==='ArrowLeft')  setzeZiel(L.latLng(p.lat, p.lng-dLng));
+    else if(k==='ArrowRight') setzeZiel(L.latLng(p.lat, p.lng+dLng));
     else return;
     e.preventDefault();
-    if(!bewegt){bewegt=true; elTipp.textContent='Du bist das Target';}
   });
 
   var bH=document.getElementById('btnHunter'), bT=document.getElementById('btnTarget');
   function setRolle(r){
-    rolle=r;
+    rolle = r;
     bH.setAttribute('aria-pressed', r==='hunter');
     bT.setAttribute('aria-pressed', r==='target');
     elRolle.textContent = r==='hunter' ? 'Hunter' : 'Target';
+    if(r==='target'){ mZiel.addTo(karte); linie.addTo(karte); }
+    else { karte.removeLayer(mZiel); karte.removeLayer(linie); }
   }
-  bH.addEventListener('click',function(){setRolle('hunter');});
-  bT.addEventListener('click',function(){setRolle('target');});
+  bH.addEventListener('click', function(){ setRolle('hunter'); });
+  bT.addEventListener('click', function(){ setRolle('target'); });
 
   var reg=document.getElementById('taktRegler'), out=document.getElementById('taktWert'),
       sp=document.getElementById('spielTakt');
-  reg.addEventListener('input',function(){
-    taktSek=+reg.value; out.textContent=taktSek+' s';
-    sp.textContent=Math.round(taktSek/6*10)+' Min.';
+  reg.addEventListener('input', function(){
+    taktSek = +reg.value;
+    out.textContent = taktSek + ' s';
+    sp.textContent = Math.round(taktSek/6*10) + ' Min.';
   });
 
-  resize();
-  // Nur rechnen, solange die Demo sichtbar ist — spart Akku auf dem Handy
+  // Nur rechnen, solange die Demo sichtbar ist
   if('IntersectionObserver' in window){
     new IntersectionObserver(function(es){
       es.forEach(function(e){
-        if(e.isIntersecting && !laeuft){ laeuft=true; letzterPing=performance.now(); requestAnimationFrame(schleife); }
-        else if(!e.isIntersecting){ laeuft=false; }
+        if(e.isIntersecting && !laeuft){
+          laeuft = true; ping.t = performance.now();
+          karte.invalidateSize();
+          requestAnimationFrame(schleife);
+        } else if(!e.isIntersecting){ laeuft = false; }
       });
-    },{threshold:.12}).observe(cv);
-  } else { laeuft=true; requestAnimationFrame(schleife); }
+    },{threshold:.12}).observe(el);
+  } else {
+    laeuft = true; requestAnimationFrame(schleife);
+  }
+  setTimeout(function(){ karte.invalidateSize(); }, 400);
 })();
 
 /* ===================================================================
