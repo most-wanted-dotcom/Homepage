@@ -373,14 +373,34 @@ nav{
   font-family:'JetBrains Mono',monospace;font-size:.66rem;
   letter-spacing:.2em;text-transform:uppercase;color:var(--nebel);
 }
-.rolle-schalter{display:flex;border:1px solid var(--linie);border-radius:var(--r);overflow:hidden}
-.rolle-schalter button{
-  background:transparent;border:0;cursor:pointer;color:var(--nebel);
+/* Rollen-Anzeige: wechselt automatisch mit der Animation */
+.rolle-anzeige{
+  display:inline-flex;align-items:center;gap:9px;
+  border:1px solid var(--linie);border-radius:100px;
+  padding:8px 16px 8px 12px;background:rgba(20,25,30,.8);
   font-family:'JetBrains Mono',monospace;font-size:.64rem;
-  letter-spacing:.16em;text-transform:uppercase;padding:9px 15px;
-  transition:background .2s,color .2s;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--papier);
+  transition:border-color .5s,color .5s;
 }
-.rolle-schalter button[aria-pressed="true"]{background:var(--signal);color:#fff;font-weight:700}
+.ra-punkt{
+  width:8px;height:8px;border-radius:50%;flex-shrink:0;
+  background:var(--nebel);transition:background .5s,box-shadow .5s;
+}
+.rolle-anzeige.ist-hunter{border-color:rgba(239,68,68,.5)}
+.rolle-anzeige.ist-hunter .ra-punkt{background:#ef4444;box-shadow:0 0 0 4px rgba(239,68,68,.16)}
+.rolle-anzeige.ist-target{border-color:rgba(244,196,48,.5)}
+.rolle-anzeige.ist-target .ra-punkt{background:#f4c430;box-shadow:0 0 0 4px rgba(244,196,48,.16)}
+
+.demo-schritt{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--signal);
+}
+.demo-takt{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--nebel);
+  margin-left:auto;
+}
+@media(max-width:560px){.demo-takt{margin-left:0}}
 .buehne{
   position:relative;border:1px solid var(--linie);border-radius:var(--r);
   overflow:hidden;background:var(--asphalt);aspect-ratio:16/9;
@@ -1066,9 +1086,9 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     <div class="demo-block reveal">
       <div class="demo-kopf">
         <div class="demo-titel">Probier es aus &ndash; bewege dich auf der Karte</div>
-        <div class="rolle-schalter" role="group" aria-label="Ansicht wechseln">
-          <button type="button" id="btnHunter" aria-pressed="true">Hunter-Sicht</button>
-          <button type="button" id="btnTarget" aria-pressed="false">Target-Sicht</button>
+        <div class="rolle-anzeige" id="rollenAnzeige">
+          <span class="ra-punkt" id="raPunkt"></span>
+          <span id="raText">Hunter-Sicht</span>
         </div>
       </div>
       <div class="buehne">
@@ -1082,13 +1102,10 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
         <div class="takt"><i id="taktBalken"></i></div>
       </div>
       <div class="demo-steuerung">
-        <label>Ping-Takt
-          <input type="range" id="taktRegler" min="2" max="12" step="1" value="6">
-          <output id="taktWert">6 s</output>
-        </label>
-        <label>im Spiel <span class="hud-wert" id="spielTakt">10 Min.</span></label>
+        <span class="demo-schritt" id="demoSchritt">Die Jagd l&auml;uft</span>
+        <span class="demo-takt">1 Sek. hier = 1 Min. im Spiel</span>
       </div>
-      <p class="demo-hinweis">Echte Stadtkarte, echte Spielmechanik: Der gelbe Marker ist die <b>zuletzt gesendete Position</b> &ndash; mehr sehen die Hunter nicht. Der gestrichelte Kreis zeigt, wie weit du seitdem gekommen sein k&ouml;nntest. Genau dieser Vorsprung entscheidet das Spiel.</p>
+      <p class="demo-hinweis">Die Animation wechselt zwischen beiden Rollen. <b>Als Target</b> siehst du nur dich selbst &ndash; die Hunter bleiben unsichtbar. <b>Als Hunter</b> siehst du die Targets, aber nur dort, wo sie beim letzten Ping waren. Alles dazwischen bleibt im Dunkeln.</p>
     </div>
 
     <div class="rollen">
@@ -2293,142 +2310,177 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 
 <script>
 /* ===================================================================
-   PING-DEMO auf echter Stadtkarte (Leaflet + OpenStreetMap)
-   Marker und Farben wie in der Most-Wanted-App.
-   Es werden KEINE echten Spielerdaten geladen - reine Demo.
+   PING-DEMO - automatisch ablaufende Animation
+   Zeigt abwechselnd Hunter- und Target-Sicht.
+   Sichtbarkeitsregeln wie in der App:
+     Target : sieht NUR sich selbst
+     Hunter : sieht sich selbst + alle Targets, aber nur an der
+              zuletzt freigegebenen Ping-Position (nicht live)
+   Es werden KEINE echten Spielerdaten geladen.
    =================================================================== */
 (function(){
   var el = document.getElementById('demoMap');
   if(!el || typeof L === 'undefined') return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Rollenfarben exakt wie in der App
-  var ROLLEN = {
-    target:{label:'Target', color:'#f4c430', icon:'\ud83d\udc5f'},
-    hunter:{label:'Hunter', color:'#ef4444', icon:'\ud83c\udfaf'}
-  };
+  var FARBE = { target:'#f4c430', hunter:'#ef4444' };
+  var ICON  = { target:'\ud83d\udc5f', hunter:'\ud83c\udfaf' };
 
-  // Startausschnitt: Mannheim, wie im Konfigurationsschritt der App
   var MITTE = [49.4875, 8.466];
   var karte = L.map(el,{
-    zoomControl:false, attributionControl:true,
-    scrollWheelZoom:false, doubleClickZoom:false, keyboard:false
+    zoomControl:false, attributionControl:true, dragging:false,
+    scrollWheelZoom:false, doubleClickZoom:false, keyboard:false,
+    touchZoom:false, boxZoom:false, tap:false
   }).setView(MITTE, 15);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
     maxZoom:19, attribution:'\u00a9 OpenStreetMap'
   }).addTo(karte);
-  L.control.zoom({position:'topright'}).addTo(karte);
 
-  function pin(rolle, name){
-    var r = ROLLEN[rolle];
+  function pin(rolle, name, blass){
     return L.divIcon({
-      html:'<div class="mw-pin" style="background:'+r.color+'">'+
-           '<span class="mw-label">'+name+'</span>'+r.icon+'</div>',
+      html:'<div class="mw-pin" style="background:'+FARBE[rolle]+
+           (blass?';opacity:.55':'')+'">'+
+           '<span class="mw-label">'+name+'</span>'+ICON[rolle]+'</div>',
       className:'', iconSize:[28,28], iconAnchor:[14,14]
     });
   }
 
-  // Zustand
-  var taktSek = 6;
-  var ziel = L.latLng(MITTE[0], MITTE[1]);       // echte Position des Targets
-  var ping = {pos: L.latLng(MITTE[0], MITTE[1]), t: performance.now()};
-  var rolle = 'hunter', bewegt = false, laeuft = false;
+  // --- Routen: feste Wegpunkte, damit der Ablauf immer gleich aussieht ---
+  function route(pkte){
+    return { pkte: pkte, laenge: pkte.length };
+  }
+  function aufRoute(r, t){                 // t = 0..1 entlang der Route
+    var n = r.laenge - 1;
+    var x = Math.max(0, Math.min(0.9999, t)) * n;
+    var i = Math.floor(x), f = x - i;
+    var a = r.pkte[i], b = r.pkte[i+1] || r.pkte[i];
+    return L.latLng(a[0] + (b[0]-a[0])*f, a[1] + (b[1]-a[1])*f);
+  }
 
-  // Ebenen
-  var mPing   = L.marker(ping.pos, {icon: pin('target','Letzter Ping'), interactive:false}).addTo(karte);
-  var kUnsicher = L.circle(ping.pos, {radius:0, color:'#ff5a1f', weight:1, dashArray:'4 5',
-                    fillColor:'#ff5a1f', fillOpacity:.05, interactive:false}).addTo(karte);
-  var kWelle  = L.circle(ping.pos, {radius:0, color:'#ff5a1f', weight:2, fill:false, interactive:false}).addTo(karte);
-  var mZiel   = L.marker(ziel, {icon: pin('hunter','Du (echte Position)'), interactive:false});
-  var linie   = L.polyline([ping.pos, ziel], {color:'#f2f0ec', weight:1, opacity:.35, dashArray:'3 4', interactive:false});
-  var spurLinie = L.polyline([], {color:'#ff5a1f', weight:1.5, opacity:.35, interactive:false}).addTo(karte);
-  var spur = [];
+  var ICH = route([                    // das Target, dessen Sicht wir zeigen
+    [49.4858, 8.4628],[49.4869, 8.4646],[49.4881, 8.4655],
+    [49.4890, 8.4674],[49.4884, 8.4695],[49.4871, 8.4702]
+  ]);
+  var TARGET2 = route([
+    [49.4901, 8.4620],[49.4896, 8.4645],[49.4888, 8.4662],
+    [49.4879, 8.4681],[49.4866, 8.4688],[49.4857, 8.4676]
+  ]);
+  var HUNTER = route([                 // der Hunter, dessen Sicht wir zeigen
+    [49.4846, 8.4700],[49.4855, 8.4688],[49.4864, 8.4671],
+    [49.4873, 8.4659],[49.4879, 8.4644],[49.4874, 8.4629]
+  ]);
+
+  // --- Ebenen ---
+  var mIch    = L.marker(aufRoute(ICH,0),     {icon:pin('target','Du'),      interactive:false});
+  var mHunter = L.marker(aufRoute(HUNTER,0),  {icon:pin('hunter','Du'),      interactive:false});
+  var mPing1  = L.marker(aufRoute(ICH,0),     {icon:pin('target','Ben',true),interactive:false});
+  var mPing2  = L.marker(aufRoute(TARGET2,0), {icon:pin('target','Mia',true),interactive:false});
+  var kUnsich1 = L.circle(aufRoute(ICH,0),    {radius:0,color:'#ff5a1f',weight:1,dashArray:'4 5',
+                   fillColor:'#ff5a1f',fillOpacity:.05,interactive:false});
+  var kUnsich2 = L.circle(aufRoute(TARGET2,0),{radius:0,color:'#ff5a1f',weight:1,dashArray:'4 5',
+                   fillColor:'#ff5a1f',fillOpacity:.05,interactive:false});
+  var kWelle  = L.circle(aufRoute(ICH,0),     {radius:0,color:'#ff5a1f',weight:2,fill:false,interactive:false});
+  var spurIch = L.polyline([], {color:'#f4c430',weight:2,opacity:.5,interactive:false});
 
   var elAlter=document.getElementById('hudAlter'), elDist=document.getElementById('hudDist'),
       elBalken=document.getElementById('taktBalken'), elRolle=document.getElementById('hudRolle'),
-      elTipp=document.getElementById('hudTipp');
+      elTipp=document.getElementById('hudTipp'), elSchritt=document.getElementById('demoSchritt'),
+      elAnzeige=document.getElementById('rollenAnzeige'), elRaText=document.getElementById('raText');
+
+  // --- Drehbuch: Sekunden seit Start des Durchlaufs ---
+  var TAKT = 10;              // 10 s Animation = 10 Min Spiel
+  var HUNTER_AB = 22;         // ab hier Hunter-Sicht
+  var ENDE = 44;             // danach beginnt der Durchlauf neu
+
+  var t0 = null, laeuft = false, rolleJetzt = null;
+  var pingIch = {pos:aufRoute(ICH,0), t:0};
+  var ping2   = {pos:aufRoute(TARGET2,0), t:0};
+  var spur = [];
+
+  function zeigeRolle(r){
+    if(r === rolleJetzt) return;
+    rolleJetzt = r;
+    elAnzeige.className = 'rolle-anzeige ist-'+r;
+    elRaText.textContent = r==='hunter' ? 'Hunter-Sicht' : 'Target-Sicht';
+    elRolle.textContent  = r==='hunter' ? 'Hunter' : 'Target';
+
+    // Ebenen nach den Regeln der App umschalten
+    [mIch,mHunter,mPing1,mPing2,kUnsich1,kUnsich2,kWelle,spurIch].forEach(function(l){
+      if(karte.hasLayer(l)) karte.removeLayer(l);
+    });
+    if(r === 'target'){
+      // Target sieht NUR sich selbst
+      mIch.addTo(karte); spurIch.addTo(karte);
+      elTipp.textContent = 'Du siehst nur dich selbst';
+      elDist.textContent = '\u2013';
+    } else {
+      // Hunter sieht sich + Targets an der letzten Ping-Position
+      mHunter.addTo(karte);
+      mPing1.addTo(karte); mPing2.addTo(karte);
+      kUnsich1.addTo(karte); kUnsich2.addTo(karte); kWelle.addTo(karte);
+      elTipp.textContent = 'Targets nur als letzter Ping';
+    }
+  }
 
   function schleife(jetzt){
     if(!laeuft) return;
-    if(jetzt - ping.t >= taktSek*1000){
-      ping = {pos: ziel, t: jetzt};
-      mPing.setLatLng(ping.pos);
-      kUnsicher.setLatLng(ping.pos);
-      kWelle.setLatLng(ping.pos);
-      spur.push(ping.pos);
-      if(spur.length > 6) spur.shift();
-      spurLinie.setLatLngs(spur);
+    if(t0 === null) t0 = jetzt;
+    var s = (jetzt - t0)/1000;
+    if(s >= ENDE){ t0 = jetzt; s = 0; spur = []; }
+
+    // Positionen entlang der Routen
+    var fort = Math.min(s/ENDE, 1);
+    var pIch    = aufRoute(ICH, fort);
+    var pTarget2= aufRoute(TARGET2, fort);
+    var pHunter = aufRoute(HUNTER, fort);
+    mIch.setLatLng(pIch);
+    mHunter.setLatLng(pHunter);
+
+    // Ping-Takt: alle TAKT Sekunden wird die Position freigegeben
+    var fenster = Math.floor(s/TAKT);
+    if(fenster !== pingIch.t){
+      pingIch = {pos:pIch, t:fenster};
+      ping2   = {pos:pTarget2, t:fenster};
+      mPing1.setLatLng(pingIch.pos);
+      mPing2.setLatLng(ping2.pos);
+      kUnsich1.setLatLng(pingIch.pos);
+      kUnsich2.setLatLng(ping2.pos);
+      kWelle.setLatLng(pingIch.pos);
+      spur.push(pingIch.pos);
+      if(spur.length > 5) spur.shift();
     }
-    var alter = (jetzt - ping.t)/1000;
+    var alter = s - fenster*TAKT;
 
-    // Unschaerfe: wie weit koennte das Target seit dem Ping gekommen sein
-    // (zu Fuss grob 2 m/s, auf die Demo-Sekunden uebertragen)
-    var maxM = Math.min(alter/taktSek, 1) * 260;
-    kUnsicher.setRadius(maxM);
+    // Unschaerfe waechst mit dem Alter des Pings
+    var rad = Math.min(alter/TAKT, 1) * 250;
+    kUnsich1.setRadius(rad); kUnsich2.setRadius(rad);
+    if(!reduce && alter < 1.2){
+      var w = alter/1.2;
+      kWelle.setRadius(10 + w*170).setStyle({opacity:.8*(1-w)});
+    } else { kWelle.setStyle({opacity:0}); }
 
-    if(!reduce && alter < 1.1){
-      var w = alter/1.1;
-      kWelle.setRadius(10 + w*180);
-      kWelle.setStyle({opacity: .85*(1-w)});
+    // Rolle nach Drehbuch wechseln
+    zeigeRolle(s < HUNTER_AB ? 'target' : 'hunter');
+    if(rolleJetzt === 'target'){
+      spurIch.setLatLngs([aufRoute(ICH,0), pIch]);
+      elSchritt.textContent = 'Du fliehst \u2013 niemand sieht dich';
     } else {
-      kWelle.setStyle({opacity:0});
+      elDist.textContent = Math.round(pingIch.pos.distanceTo(pIch)) + ' m';
+      elSchritt.textContent = 'Du jagst \u2013 der Ping ist \u00e4lter als die Spur';
     }
 
     elAlter.textContent = alter < 1 ? 'gerade eben' : Math.round(alter)+' s her';
-    var d = Math.round(ping.pos.distanceTo(ziel));
-    elDist.textContent = d + ' m';
-    elBalken.style.width = Math.min(1,(jetzt-ping.t)/(taktSek*1000))*100 + '%';
-
-    if(rolle === 'target') linie.setLatLngs([ping.pos, ziel]);
+    elBalken.style.width = (alter/TAKT)*100 + '%';
     requestAnimationFrame(schleife);
   }
 
-  function setzeZiel(latlng){
-    ziel = latlng;
-    mZiel.setLatLng(ziel);
-    if(!bewegt){ bewegt = true; elTipp.textContent = 'Du bist das Target'; }
-  }
-  karte.on('mousemove', function(e){ setzeZiel(e.latlng); });
-  karte.on('click',     function(e){ setzeZiel(e.latlng); });
+  zeigeRolle('target');
 
-  // Tastatur: Pfeiltasten bewegen das Target
-  el.addEventListener('keydown', function(e){
-    var m = 22, k = e.key, p = ziel;   // ca. 22 m pro Tastendruck
-    var dLat = m/111320, dLng = m/(111320*Math.cos(p.lat*Math.PI/180));
-    if(k==='ArrowUp')         setzeZiel(L.latLng(p.lat+dLat, p.lng));
-    else if(k==='ArrowDown')  setzeZiel(L.latLng(p.lat-dLat, p.lng));
-    else if(k==='ArrowLeft')  setzeZiel(L.latLng(p.lat, p.lng-dLng));
-    else if(k==='ArrowRight') setzeZiel(L.latLng(p.lat, p.lng+dLng));
-    else return;
-    e.preventDefault();
-  });
-
-  var bH=document.getElementById('btnHunter'), bT=document.getElementById('btnTarget');
-  function setRolle(r){
-    rolle = r;
-    bH.setAttribute('aria-pressed', r==='hunter');
-    bT.setAttribute('aria-pressed', r==='target');
-    elRolle.textContent = r==='hunter' ? 'Hunter' : 'Target';
-    if(r==='target'){ mZiel.addTo(karte); linie.addTo(karte); }
-    else { karte.removeLayer(mZiel); karte.removeLayer(linie); }
-  }
-  bH.addEventListener('click', function(){ setRolle('hunter'); });
-  bT.addEventListener('click', function(){ setRolle('target'); });
-
-  var reg=document.getElementById('taktRegler'), out=document.getElementById('taktWert'),
-      sp=document.getElementById('spielTakt');
-  reg.addEventListener('input', function(){
-    taktSek = +reg.value;
-    out.textContent = taktSek + ' s';
-    sp.textContent = Math.round(taktSek/6*10) + ' Min.';
-  });
-
-  // Nur rechnen, solange die Demo sichtbar ist
   if('IntersectionObserver' in window){
     new IntersectionObserver(function(es){
       es.forEach(function(e){
         if(e.isIntersecting && !laeuft){
-          laeuft = true; ping.t = performance.now();
+          laeuft = true; t0 = null;
           karte.invalidateSize();
           requestAnimationFrame(schleife);
         } else if(!e.isIntersecting){ laeuft = false; }
