@@ -107,6 +107,11 @@ a{color:inherit}
 .btn-geist{background:transparent;color:var(--papier);border:1px solid var(--linie);font-weight:500}
 .btn-geist:hover{border-color:var(--nebel);transform:translateY(-2px)}
 .btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2}
+.btn-paypal{
+  background:#0070ba;color:#fff;font-weight:700;width:100%;margin-top:14px;
+}
+.btn-paypal:hover{background:#005ea6;transform:translateY(-2px)}
+.btn-paypal svg{width:16px;height:16px;stroke-width:1.6}
 
 /* ---------- Angebots-Banner ---------- */
 #angebotBanner{
@@ -137,11 +142,22 @@ nav{
 }
 .nav-marke{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0}
 .nav-marke img{width:34px;height:34px;object-fit:contain}
-.nav-marke span{
-  font-family:'Oswald',sans-serif;font-weight:700;font-size:.95rem;
-  letter-spacing:.05em;text-transform:uppercase;line-height:1;
+.nav-name{display:block;line-height:1}
+.nav-mw{
+  display:block;font-family:'Oswald',sans-serif;font-weight:700;
+  font-size:.95rem;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--papier);line-height:1;
 }
-.nav-marke b{color:var(--signal);font-weight:700}
+.nav-mw i{color:var(--signal);font-style:normal}
+.nav-sj{
+  display:block;font-family:'JetBrains Mono',monospace;font-weight:400;
+  font-size:.53rem;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--nebel);margin-top:4px;
+}
+@media(max-width:400px){
+  .nav-mw{font-size:.86rem}
+  .nav-sj{font-size:.48rem;letter-spacing:.26em}
+}
 .nav-menu{display:flex;gap:24px;margin-left:auto;align-items:center}
 .nav-menu a{
   font-family:'JetBrains Mono',monospace;font-size:.7rem;
@@ -244,7 +260,7 @@ nav{
   padding-bottom:clamp(40px,9vh,90px);
 }
 .status{
-  display:inline-flex;align-items:center;gap:10px;
+  display:inline-flex;align-items:center;gap:10px;white-space:nowrap;
   font-family:'JetBrains Mono',monospace;font-size:var(--t-kick);
   letter-spacing:.2em;text-transform:uppercase;color:var(--nebel);
   border:1px solid var(--linie);border-radius:100px;
@@ -344,6 +360,60 @@ nav{
 .reveal.sichtbar{opacity:1;transform:none}
 
 /* ==========================================================
+   PING-DEMO (Signature-Element)
+   ========================================================== */
+.demo-block{margin:0 0 clamp(44px,7vh,72px)}
+.demo-kopf{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;margin-bottom:14px;
+}
+.demo-titel{
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--nebel);
+}
+.rolle-schalter{display:flex;border:1px solid var(--linie);border-radius:var(--r);overflow:hidden}
+.rolle-schalter button{
+  background:transparent;border:0;cursor:pointer;color:var(--nebel);
+  font-family:'JetBrains Mono',monospace;font-size:.64rem;
+  letter-spacing:.16em;text-transform:uppercase;padding:9px 15px;
+  transition:background .2s,color .2s;
+}
+.rolle-schalter button[aria-pressed="true"]{background:var(--signal);color:#fff;font-weight:700}
+.buehne{
+  position:relative;border:1px solid var(--linie);border-radius:var(--r);
+  overflow:hidden;background:var(--asphalt);aspect-ratio:16/9;
+}
+@media(max-width:640px){.buehne{aspect-ratio:1/1}}
+#radar{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.hud{position:absolute;inset:0;pointer-events:none;z-index:2}
+.hud-ecke{
+  position:absolute;font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--nebel);line-height:1.5;
+}
+.hud-lo{top:11px;left:13px}
+.hud-ro{top:11px;right:13px;text-align:right}
+.hud-lu{bottom:14px;left:13px}
+.hud-ru{bottom:14px;right:13px;text-align:right}
+.hud-wert{color:var(--papier);font-weight:700}
+.hud-signal{color:var(--signal);font-weight:700}
+.takt{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,90,31,.16);z-index:3}
+.takt i{display:block;height:100%;width:0;background:var(--signal)}
+.demo-steuerung{
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  margin-top:13px;padding-top:13px;border-top:1px solid var(--linie);
+}
+.demo-steuerung label{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--nebel);
+  display:flex;align-items:center;gap:10px;
+}
+.demo-steuerung input[type=range]{width:120px;accent-color:var(--signal)}
+.demo-steuerung output{color:var(--papier);font-weight:700;min-width:38px}
+.demo-hinweis{margin-top:11px;font-size:.88rem;color:var(--nebel-2);max-width:64ch}
+.demo-hinweis b{color:var(--papier)}
+
+/* ==========================================================
    ROLLEN
    ========================================================== */
 .rollen{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -353,6 +423,21 @@ nav{
   padding:30px 26px;position:relative;overflow:hidden;
   transition:border-color .25s,transform .25s;
 }
+/* Target: die Karte "entkommt" leicht nach oben und verliert Kontur */
+.rolle-t:hover{border-color:var(--messing);transform:translateY(-6px)}
+.rolle-t:hover .rolle-echo{opacity:1;transform:translate(-50%,-50%) scale(1.35)}
+/* Hunter: ein Suchkreis zieht sich auf die Karte zusammen */
+.rolle-h:hover{border-color:var(--signal)}
+.rolle-h:hover .rolle-echo{opacity:1;transform:translate(-50%,-50%) scale(.55)}
+.rolle-echo{
+  position:absolute;left:78%;top:22%;width:190px;height:190px;
+  margin:0;border-radius:50%;pointer-events:none;
+  border:1px solid currentColor;color:var(--signal);
+  opacity:0;transform:translate(-50%,-50%) scale(1);
+  transition:opacity .35s ease,transform .55s cubic-bezier(.16,.84,.44,1);
+}
+.rolle-t .rolle-echo{color:var(--messing)}
+.rolle-l .rolle-echo{display:none}
 .rolle::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--linie-hell);transition:background .25s}
 .rolle:hover{border-color:var(--linie-hell);transform:translateY(-3px)}
 .rolle-t::before{background:var(--messing)}
@@ -392,14 +477,36 @@ nav{
    ABLAUF — Zeitstrahl
    ========================================================== */
 .ablauf{position:relative;padding-left:0}
+/* Fortschrittsbahn: waechst mit dem Scrollen mit */
+.ablauf::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:1px;
+  background:var(--linie);
+}
+.ablauf::after{
+  content:'';position:absolute;left:0;top:0;width:1px;
+  height:var(--fortschritt,0%);
+  background:linear-gradient(var(--signal),var(--messing));
+  transition:height .3s linear;
+}
+.schritt-marke{
+  position:absolute;left:-3px;width:7px;height:7px;border-radius:50%;
+  background:var(--linie);margin-top:9px;transition:background .3s,box-shadow .3s;
+}
+.schritt.aktiv .schritt-marke{
+  background:var(--signal);box-shadow:0 0 0 4px rgba(255,90,31,.16);
+}
+.schritt.aktiv .schritt-zeit{color:var(--signal)}
+.schritt:not(.aktiv) .schritt-zeit{color:var(--nebel)}
 .schritt{
-  display:grid;grid-template-columns:76px 1fr;gap:22px;
-  padding:26px 0;border-top:1px solid var(--linie);align-items:start;
+  display:grid;grid-template-columns:92px 1fr;gap:22px;
+  padding:26px 0 26px 26px;border-top:1px solid var(--linie);align-items:start;
+  position:relative;
 }
 .schritt:last-child{border-bottom:1px solid var(--linie)}
 .schritt-zeit{
-  font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;
-  color:var(--signal);padding-top:4px;
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;white-space:nowrap;
+  color:var(--signal);padding-top:5px;
 }
 .schritt h3{
   font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;
@@ -804,7 +911,10 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   <div class="nav-in">
     <a href="#top" class="nav-marke" onclick="mwMenuZu()">
       <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="mw-logo" alt="Most Wanted Stadtjagd">
-      <span>Most <b>Wanted</b></span>
+      <span class="nav-name">
+        <b class="nav-mw">Most <i>Wanted</i></b>
+        <b class="nav-sj">Stadtjagd</b>
+      </span>
     </a>
     <button class="nav-burger" aria-label="Menü" aria-expanded="false" onclick="mwMenu(this)"><span></span></button>
     <div class="nav-menu" id="navMenu">
@@ -839,7 +949,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   <div class="hero-in">
     <div class="status" data-an="1">
       <span class="punkt"></span>
-      Nächster Ping in <b>60&nbsp;Sekunden</b>
+      Standort-Ping alle <b>10&nbsp;Min.</b>
     </div>
 
     <h1>
@@ -850,8 +960,9 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 
     <p class="hero-lead" data-an="5">
       Eine Gruppe flieht, die andere jagt &mdash; quer durch Mannheim, Ludwigshafen
-      oder eure eigene Stadt. Alle 60 Sekunden verrät die App, wo ihr <b>gerade wart</b>.
-      Nicht, wo ihr jetzt seid. Der Rest ist Kopf, Tempo und die richtige Abkürzung.
+      oder eure eigene Stadt. In der Regel alle 10 Minuten verrät die App, wo ihr
+      <b>gerade wart</b>. Nicht, wo ihr jetzt seid. Der Rest ist Kopf, Tempo und die
+      richtige Abkürzung.
     </p>
 
     <div class="hero-btns" data-an="6">
@@ -880,16 +991,46 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     <h2 class="titel reveal">Eine Gruppe flieht.<br><span>Die andere jagt.</span></h2>
     <p class="vorspann reveal">Die Targets bekommen einen Vorsprung und verschwinden in der Stadt. Danach sendet die App ihren Standort in festen Abständen an die Hunter. Ein Punkt auf der Karte ist noch kein Fang: Wer Menschenmassen, Parks, Hinterhöfe und die richtige Abkürzung kennt, hält lange durch. Gespielt wird ausschließlich draußen &ndash; Gebäude sind tabu, Autos und Bahn ebenso.</p>
 
+    <div class="demo-block reveal">
+      <div class="demo-kopf">
+        <div class="demo-titel">Probier es aus &ndash; du bist das Target</div>
+        <div class="rolle-schalter" role="group" aria-label="Ansicht wechseln">
+          <button type="button" id="btnHunter" aria-pressed="true">Hunter-Sicht</button>
+          <button type="button" id="btnTarget" aria-pressed="false">Target-Sicht</button>
+        </div>
+      </div>
+      <div class="buehne">
+        <canvas id="radar" tabindex="0" aria-label="Interaktive Demo: Bewege den Zeiger oder benutze die Pfeiltasten, um als Target zu laufen. Die Hunter sehen nur die zuletzt gesendete Position."></canvas>
+        <div class="hud">
+          <div class="hud-ecke hud-lo">Ansicht: <span class="hud-wert" id="hudRolle">Hunter</span></div>
+          <div class="hud-ecke hud-ro">Letzter Ping<br><span class="hud-signal" id="hudAlter">gerade eben</span></div>
+          <div class="hud-ecke hud-lu">Vorsprung<br><span class="hud-wert" id="hudDist">0 m</span></div>
+          <div class="hud-ecke hud-ru" id="hudTipp">Zeiger bewegen</div>
+        </div>
+        <div class="takt"><i id="taktBalken"></i></div>
+      </div>
+      <div class="demo-steuerung">
+        <label>Ping-Takt
+          <input type="range" id="taktRegler" min="2" max="12" step="1" value="6">
+          <output id="taktWert">6 s</output>
+        </label>
+        <label>im Spiel <span class="hud-wert" id="spielTakt">10 Min.</span></label>
+      </div>
+      <p class="demo-hinweis">Der orange Punkt ist die <b>zuletzt gesendete Position</b> &ndash; mehr sehen die Hunter nicht. Der gestrichelte Kreis zeigt, wie weit du seitdem gekommen sein k&ouml;nntest. Genau dieser Vorsprung entscheidet das Spiel.</p>
+    </div>
+
     <div class="rollen">
       <div class="rolle rolle-t reveal">
+        <span class="rolle-echo" aria-hidden="true"></span>
         <svg viewBox="0 0 24 24"><circle cx="14.5" cy="4.2" r="2"/><path d="M13.6 8.2 10 10.6l1.8 3.2-2.6 6.4"/><path d="m13.6 8.2 3.1 1.6 1.4 3.4"/><path d="m11.8 13.8 3.5 1.3 1.5 5"/><path d="M9.4 10.9 5.6 12"/></svg>
         <h3>Targets</h3>
         <p>Ihr lauft weg. Jeder Ping verrät, wo ihr gerade wart. Bleibt in Bewegung, nutzt Ecken und Abkürzungen. Ein Joker zur richtigen Zeit kauft euch ein paar entscheidende Minuten.</p>
       </div>
       <div class="rolle rolle-h reveal">
+        <span class="rolle-echo" aria-hidden="true"></span>
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="3"/><path d="M12 1.6v3.2M12 19.2v3.2M1.6 12h3.2M19.2 12h3.2"/></svg>
         <h3>Hunter</h3>
-        <p>Ihr bekommt die Standorte im Takt. Der Ping zeigt, wo jemand vor einer Minute war, nicht wo er jetzt ist. Teilt euch auf, schneidet Wege ab, greift zu.</p>
+        <p>Ihr bekommt die Standorte im eingestellten Takt, in der Regel alle 10 Minuten. Der Ping zeigt, wo jemand zuletzt war, nicht wo er jetzt ist. Teilt euch auf, schneidet Wege ab, greift zu.</p>
       </div>
       <div class="rolle rolle-l reveal">
         <svg viewBox="0 0 24 24"><rect x="3" y="9.5" width="18" height="10.5" rx="1.6"/><path d="m8 9.5 9.5-4.4"/><circle cx="8" cy="14.8" r="2.1"/><path d="M13.5 13h4.5M13.5 16.6h4.5"/></svg>
@@ -937,39 +1078,44 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   <div class="wrap">
     <div class="funk reveal">Ablauf</div>
     <h2 class="titel reveal">So läuft <span>ein Spiel</span></h2>
-    <p class="vorspann reveal">Fünf Abschnitte, drei Stunden. Die Zeiten sind Richtwerte, den genauen Takt legen wir vorher gemeinsam fest.</p>
+    <p class="vorspann reveal">Fünf Phasen von der Einweisung bis zur Siegerehrung. Wie lang jede Phase dauert, bestimmt der Spielleiter. Standard ist ein Standort-Ping alle 10 Minuten, im Finale alle 5 &ndash; beides lässt sich vor dem Start anpassen.</p>
 
     <div class="ablauf">
       <div class="schritt reveal">
-        <div class="schritt-zeit">00:00</div>
+        <div class="schritt-marke" aria-hidden="true"></div>
+        <div class="schritt-zeit">Phase 1</div>
         <div>
           <h3>Treffen &amp; Einweisung</h3>
-          <p>T-Shirts anziehen, Rollen verteilen, Regeln durchgehen. Dauert etwa 20 Minuten.</p>
+          <p>T-Shirts anziehen, Rollen verteilen, Regeln durchgehen. Geht schnell, danach kann es losgehen.</p>
         </div>
       </div>
       <div class="schritt reveal">
-        <div class="schritt-zeit">00:20</div>
+        <div class="schritt-marke" aria-hidden="true"></div>
+        <div class="schritt-zeit">Phase 2</div>
         <div>
           <h3>Vorsprung</h3>
           <p>Die Targets ziehen los. Position halten oder in Bewegung bleiben? Diese erste Entscheidung entscheidet oft das ganze Spiel. Die Hunter warten und zählen die Minuten.</p>
         </div>
       </div>
       <div class="schritt reveal">
-        <div class="schritt-zeit">00:35</div>
+        <div class="schritt-marke" aria-hidden="true"></div>
+        <div class="schritt-zeit">Phase 3</div>
         <div>
           <h3>Die Jagd</h3>
-          <p>Der erste Standort erscheint, die Hunter starten. Danach kommt im festgelegten Takt der nächste Ping.</p>
+          <p>Der erste Standort erscheint, die Hunter starten. Danach kommt im eingestellten Takt der nächste Ping &ndash; standardmäßig alle 10 Minuten.</p>
         </div>
       </div>
       <div class="schritt reveal">
-        <div class="schritt-zeit">02:20</div>
+        <div class="schritt-marke" aria-hidden="true"></div>
+        <div class="schritt-zeit">Phase 4</div>
         <div>
           <h3>Finale</h3>
-          <p>Die Abstände zwischen den Pings werden kürzer, der Spielleiter zieht das Tempo an. Ecken, die vorher sicher waren, werden jetzt gefährlich.</p>
+          <p>Die Abstände zwischen den Pings werden kürzer, standardmäßig auf 5 Minuten. Ecken, die vorher sicher waren, werden jetzt gefährlich.</p>
         </div>
       </div>
       <div class="schritt reveal">
-        <div class="schritt-zeit">03:00</div>
+        <div class="schritt-marke" aria-hidden="true"></div>
+        <div class="schritt-zeit">Phase 5</div>
         <div>
           <h3>Siegerehrung</h3>
           <p>Wer war noch frei, wer wurde geschnappt? Am Ende kommen alle wieder zusammen.</p>
@@ -1197,6 +1343,10 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
         <div class="hinweis-box">
           <h4>Mit PayPal bezahlen</h4>
           <p>Nach Absprache des Termins kannst du hier per PayPal bezahlen. Bitte gib im Verwendungszweck deinen Namen und den Termin an.</p>
+          <a href="https://www.paypal.me/GomezSierra1999" target="_blank" rel="noopener" class="btn btn-paypal">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 20.5 8.4 6.1h5.3c2.7 0 4.2 1.4 3.8 3.8-.4 2.7-2.4 4.2-5.2 4.2H9.9l-.9 6.4H6.2Z"/><path d="M10.6 16.6h2.2c2.8 0 4.8-1.5 5.2-4.2"/></svg>
+            Zur PayPal-Zahlung
+          </a>
         </div>
       </div>
     </div>
@@ -2016,6 +2166,191 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
       io.observe(el);
     });
   })();
+</script>
+
+<script>
+/* ===================================================================
+   PING-DEMO — zeigt die Verzoegerung zwischen echter Position
+   und dem, was die Hunter sehen.
+   =================================================================== */
+(function(){
+  var cv = document.getElementById('radar');
+  if(!cv) return;
+  var ctx = cv.getContext('2d');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var rolle = 'hunter', taktSek = 6, W=0, H=0, dpr=1;
+  var target = {x:.5,y:.5};
+  var ping = {x:.5,y:.5,t:0};
+  var spur = [], letzterPing = performance.now(), bewegt = false, laeuft = false;
+
+  var strassenH=[.22,.47,.68,.86], strassenV=[.14,.33,.58,.79];
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio||1, 2);
+    var r = cv.getBoundingClientRect();
+    W=r.width; H=r.height;
+    cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize', resize);
+
+  function karte(){
+    ctx.fillStyle='#14191e'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='rgba(70,84,97,.30)'; ctx.lineWidth=1;
+    var st=46; ctx.beginPath();
+    for(var x=st;x<W;x+=st){ctx.moveTo(x+.5,0);ctx.lineTo(x+.5,H);}
+    for(var y=st;y<H;y+=st){ctx.moveTo(0,y+.5);ctx.lineTo(W,y+.5);}
+    ctx.stroke();
+    ctx.strokeStyle='rgba(90,105,120,.55)'; ctx.lineWidth=2; ctx.beginPath();
+    strassenH.forEach(function(p){ctx.moveTo(0,H*p);ctx.lineTo(W,H*p);});
+    strassenV.forEach(function(p){ctx.moveTo(W*p,0);ctx.lineTo(W*p,H);});
+    ctx.stroke();
+    ctx.strokeStyle='rgba(200,160,74,.42)'; ctx.lineWidth=2; ctx.beginPath();
+    ctx.moveTo(-20,H*.94); ctx.lineTo(W*1.05,H*.08); ctx.stroke();
+  }
+
+  function zeichneSpur(){
+    for(var i=0;i<spur.length;i++){
+      var a=(i+1)/spur.length*.5, p=spur[i];
+      ctx.fillStyle='rgba(255,90,31,'+(a*.5)+')';
+      ctx.beginPath(); ctx.arc(p.x*W,p.y*H,3,0,Math.PI*2); ctx.fill();
+      if(i>0){ var q=spur[i-1];
+        ctx.strokeStyle='rgba(255,90,31,'+(a*.28)+')'; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(q.x*W,q.y*H); ctx.lineTo(p.x*W,p.y*H); ctx.stroke(); }
+    }
+  }
+
+  function zeichnePing(jetzt){
+    var alter=(jetzt-ping.t)/1000, px=ping.x*W, py=ping.y*H;
+    var rad=Math.min(alter/taktSek,1)*Math.min(W,H)*.30;
+    if(rad>2){
+      ctx.strokeStyle='rgba(255,90,31,.22)'; ctx.setLineDash([4,5]); ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(px,py,rad,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='rgba(255,90,31,.05)';
+      ctx.beginPath(); ctx.arc(px,py,rad,0,Math.PI*2); ctx.fill();
+    }
+    if(!reduce && alter<1.1){
+      var w=alter/1.1;
+      ctx.strokeStyle='rgba(255,90,31,'+(.85*(1-w))+')'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.arc(px,py,6+w*54,0,Math.PI*2); ctx.stroke();
+    }
+    ctx.fillStyle='#ff5a1f';
+    ctx.beginPath(); ctx.arc(px,py,5.5,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='rgba(255,90,31,.5)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(px,py,10,0,Math.PI*2); ctx.stroke();
+  }
+
+  function zeichneTarget(){
+    var tx=target.x*W, ty=target.y*H;
+    ctx.strokeStyle='rgba(242,240,236,.85)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(tx,ty,7,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(tx-12,ty);ctx.lineTo(tx-3,ty); ctx.moveTo(tx+3,ty);ctx.lineTo(tx+12,ty);
+    ctx.moveTo(tx,ty-12);ctx.lineTo(tx,ty-3); ctx.moveTo(tx,ty+3);ctx.lineTo(tx,ty+12);
+    ctx.stroke();
+    ctx.strokeStyle='rgba(242,240,236,.22)'; ctx.setLineDash([3,4]); ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(ping.x*W,ping.y*H); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  var elAlter=document.getElementById('hudAlter'), elDist=document.getElementById('hudDist'),
+      elBalken=document.getElementById('taktBalken'), elRolle=document.getElementById('hudRolle'),
+      elTipp=document.getElementById('hudTipp');
+
+  function schleife(jetzt){
+    if(!laeuft) return;
+    if(jetzt-letzterPing >= taktSek*1000){
+      ping={x:target.x,y:target.y,t:jetzt};
+      spur.push({x:ping.x,y:ping.y}); if(spur.length>6) spur.shift();
+      letzterPing=jetzt;
+    }
+    karte(); zeichneSpur(); zeichnePing(jetzt);
+    if(rolle==='target') zeichneTarget();
+    var alter=(jetzt-ping.t)/1000;
+    elAlter.textContent = alter<1 ? 'gerade eben' : Math.round(alter)+' s her';
+    var dx=(target.x-ping.x)*W, dy=(target.y-ping.y)*H;
+    elDist.textContent = Math.round(Math.sqrt(dx*dx+dy*dy)/W*1200)+' m';
+    elBalken.style.width = Math.min(1,(jetzt-letzterPing)/(taktSek*1000))*100+'%';
+    requestAnimationFrame(schleife);
+  }
+
+  function setzePos(cx,cy){
+    var r=cv.getBoundingClientRect();
+    target.x=Math.max(0,Math.min(1,(cx-r.left)/r.width));
+    target.y=Math.max(0,Math.min(1,(cy-r.top)/r.height));
+    if(!bewegt){bewegt=true; elTipp.textContent='Du bist das Target';}
+  }
+  cv.addEventListener('pointermove',function(e){setzePos(e.clientX,e.clientY);});
+  cv.addEventListener('pointerdown',function(e){setzePos(e.clientX,e.clientY);});
+  cv.addEventListener('keydown',function(e){
+    var s=.04,k=e.key;
+    if(k==='ArrowLeft')target.x=Math.max(0,target.x-s);
+    else if(k==='ArrowRight')target.x=Math.min(1,target.x+s);
+    else if(k==='ArrowUp')target.y=Math.max(0,target.y-s);
+    else if(k==='ArrowDown')target.y=Math.min(1,target.y+s);
+    else return;
+    e.preventDefault();
+    if(!bewegt){bewegt=true; elTipp.textContent='Du bist das Target';}
+  });
+
+  var bH=document.getElementById('btnHunter'), bT=document.getElementById('btnTarget');
+  function setRolle(r){
+    rolle=r;
+    bH.setAttribute('aria-pressed', r==='hunter');
+    bT.setAttribute('aria-pressed', r==='target');
+    elRolle.textContent = r==='hunter' ? 'Hunter' : 'Target';
+  }
+  bH.addEventListener('click',function(){setRolle('hunter');});
+  bT.addEventListener('click',function(){setRolle('target');});
+
+  var reg=document.getElementById('taktRegler'), out=document.getElementById('taktWert'),
+      sp=document.getElementById('spielTakt');
+  reg.addEventListener('input',function(){
+    taktSek=+reg.value; out.textContent=taktSek+' s';
+    sp.textContent=Math.round(taktSek/6*10)+' Min.';
+  });
+
+  resize();
+  // Nur rechnen, solange die Demo sichtbar ist — spart Akku auf dem Handy
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting && !laeuft){ laeuft=true; letzterPing=performance.now(); requestAnimationFrame(schleife); }
+        else if(!e.isIntersecting){ laeuft=false; }
+      });
+    },{threshold:.12}).observe(cv);
+  } else { laeuft=true; requestAnimationFrame(schleife); }
+})();
+
+/* ===================================================================
+   PHASEN-BAHN — Fortschritt und aktive Phase beim Scrollen
+   =================================================================== */
+(function(){
+  var bahn=document.querySelector('.ablauf');
+  if(!bahn) return;
+  var schritte=[].slice.call(bahn.querySelectorAll('.schritt'));
+  if(!schritte.length) return;
+  var ticking=false;
+  function update(){
+    ticking=false;
+    var r=bahn.getBoundingClientRect(), vh=window.innerHeight;
+    var start=vh*.75;
+    var p=(start-r.top)/(r.height||1);
+    bahn.style.setProperty('--fortschritt', Math.max(0,Math.min(1,p))*100+'%');
+    var mitte=vh*.5, best=null, bestD=Infinity;
+    schritte.forEach(function(el){
+      var b=el.getBoundingClientRect(), d=Math.abs(b.top+b.height/2-mitte);
+      if(b.top<vh && b.bottom>0 && d<bestD){bestD=d; best=el;}
+    });
+    schritte.forEach(function(el){ el.classList.toggle('aktiv', el===best); });
+  }
+  window.addEventListener('scroll',function(){
+    if(!ticking){ ticking=true; requestAnimationFrame(update); }
+  },{passive:true});
+  window.addEventListener('resize',update);
+  update();
+})();
 </script>
 
 </body>
