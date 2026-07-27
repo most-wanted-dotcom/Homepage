@@ -753,6 +753,15 @@ nav{
 .cal-day.past{opacity:.28}
 .cal-card.admin-on .cal-day:not(.empty):not(.past){cursor:pointer}
 .cal-card.admin-on .cal-day:not(.empty):not(.past):hover{border-color:var(--papier)}
+/* Besucher: freie und halb belegte Tage sind anwählbar */
+.cal-card:not(.admin-on) .cal-day.frei,
+.cal-card:not(.admin-on) .cal-day.halb{cursor:pointer}
+.cal-card:not(.admin-on) .cal-day.frei:hover,
+.cal-card:not(.admin-on) .cal-day.halb:hover{border-color:var(--papier)}
+/* gewählter Tag */
+.cal-day.gewaehlt{border-color:var(--signal)!important;box-shadow:0 0 0 2px var(--signal) inset}
+.cal-day.gewaehlt .cal-fill{background:rgba(255,90,31,.28)!important}
+.cal-day.gewaehlt .cal-num{color:var(--papier);font-weight:700}
 .cal-legende{display:flex;flex-wrap:wrap;gap:18px;margin-top:18px;
   font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--nebel)}
 .cal-legende span{display:flex;align-items:center;gap:7px}
@@ -772,7 +781,14 @@ nav{
 .form-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:38px;align-items:start}
 @media(max-width:900px){.form-grid{grid-template-columns:1fr;gap:28px}}
 .form-karte{
-  background:var(--karte);border:1px solid var(--linie);border-radius:var(--r);padding:30px 28px;
+  position:relative;
+  background:linear-gradient(180deg,var(--asphalt-2),var(--karte) 40%);
+  border:1px solid var(--linie);border-radius:var(--r);padding:32px 28px;
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.9);overflow:hidden;
+}
+.form-karte::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--signal),var(--messing) 60%,transparent);
 }
 .zeile-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:560px){.zeile-2{grid-template-columns:1fr}}
@@ -784,11 +800,21 @@ nav{
 .feld input,.feld select,.feld textarea{
   width:100%;background:var(--asphalt);border:1px solid var(--linie);
   border-radius:var(--r);color:var(--papier);
-  font-family:'Barlow',sans-serif;font-size:.95rem;padding:12px 14px;
-  transition:border-color .2s;
+  font-family:'Barlow',sans-serif;font-size:.95rem;padding:13px 14px;
+  transition:border-color .22s,box-shadow .22s,background .22s;
+}
+.feld input:hover,.feld select:hover,.feld textarea:hover{
+  border-color:var(--linie-hell);
 }
 .feld input:focus,.feld select:focus,.feld textarea:focus{
   outline:none;border-color:var(--signal);
+  background:var(--asphalt-2);
+  box-shadow:0 0 0 3px rgba(255,90,31,.14);
+}
+/* ausgefülltes Feld dezent bestätigen */
+.feld input:not(:placeholder-shown):valid,
+.feld input[type="date"]:valid{
+  border-color:var(--linie-hell);
 }
 .feld textarea{resize:vertical;min-height:100px}
 .feld small{display:block;margin-top:6px;font-size:.78rem;color:var(--nebel)}
@@ -819,11 +845,16 @@ nav{
   font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;
   font-size:1.15rem;margin-bottom:16px;letter-spacing:.02em;
 }
-.form-info ul{list-style:none;margin-bottom:26px}
+.form-info ul{
+  list-style:none;margin-bottom:22px;
+  background:var(--karte);border:1px solid var(--linie);
+  border-radius:var(--r);padding:20px 22px;
+}
 .form-info li{
-  padding-left:24px;position:relative;margin-bottom:12px;
+  padding-left:26px;position:relative;margin-bottom:14px;
   font-size:.92rem;color:var(--nebel-2);
 }
+.form-info li:last-child{margin-bottom:0}
 .form-info li::before{
   content:'';position:absolute;left:0;top:.42em;width:11px;height:6px;
   border-left:1.5px solid var(--signal);border-bottom:1.5px solid var(--signal);
@@ -842,6 +873,11 @@ nav{
 #plzHinweis{font-size:.8rem;margin-top:7px}
 #plzHinweis.ok{color:var(--signal)}
 #plzHinweis.err{color:var(--alarm)}
+.btn-absenden{
+  width:100%;margin-top:10px;padding:18px 30px;font-size:.82rem;
+  box-shadow:0 14px 34px -12px rgba(255,90,31,.6);
+}
+.btn-absenden:hover{box-shadow:0 18px 40px -12px rgba(255,90,31,.75)}
 
 /* ==========================================================
    FAQ
@@ -1367,7 +1403,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   <div class="wrap">
     <div class="funk reveal">Verfügbarkeit</div>
     <h2 class="titel reveal">Freie <span>Termine</span></h2>
-    <p class="vorspann reveal">Pro Tag sind zwei Spiele möglich. Frag für deinen Wunschtermin einfach an, wir bestätigen dir die Verfügbarkeit.</p>
+    <p class="vorspann reveal">Pro Tag sind zwei Spiele möglich. Tippe auf einen freien Tag &ndash; er wird direkt als Wunschtermin ins Anfrageformular übernommen. Wir bestätigen dir die Verfügbarkeit.</p>
 
     <div class="cal-card reveal">
       <div class="cal-kopf">
@@ -1471,7 +1507,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
             <a href="einverstaendnis.pdf" target="_blank" rel="noopener">Einverständniserklärung für Eltern (PDF)</a>
           </div>
 
-          <button type="submit" class="btn btn-primar" style="width:100%;margin-top:6px">Unverbindliche Anfrage senden</button>
+          <button type="submit" class="btn btn-primar btn-absenden">Unverbindliche Anfrage senden</button>
           <p style="font-size:.8rem;color:var(--nebel);margin-top:14px">Mit dem Absenden öffnet sich dein E-Mail-Programm mit der fertigen Anfrage. Wir behandeln deine Daten vertraulich, Details stehen in der Datenschutzerklärung. Die Standort-Einwilligung für das Spiel gibt jede teilnehmende Person separat in der App vor Spielbeginn. Sie kann nicht durch die buchende Person für andere erteilt werden.</p>
         </form>
       </div>
@@ -1838,6 +1874,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   let pendingCounts = {};           // Arbeitsstand inkl. ungespeicherter Änderungen
   let dirty = false;                // gibt es ungespeicherte Änderungen?
   let adminMode = false;
+  let gewaehlterTag = null;         // vom Besucher gewählter Termin (YYYY-MM-DD)
 
   const DOW = ["Mo","Di","Mi","Do","Fr","Sa","So"];
   const MONTHS = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
@@ -1893,6 +1930,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
       if(count>=MAX_PER_DAY) cls += " full";
       else if(count===1) cls += " half";
       else cls += " free";
+      if(key===gewaehlterTag) cls += " gewaehlt";
       cells += `<div class="${cls}" data-day="${key}" onclick="dayClick('${key}',${isPast})"><span class="cal-fill"></span><span class="cal-num">${d}</span></div>`;
     }
     document.getElementById("calGrid").innerHTML = cells;
@@ -1904,16 +1942,39 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   // Klick zählt die Auslastung hoch: 0 → 1 → 2 → 0 (max. 2 Termine pro Tag).
   // Änderungen werden nur lokal gemerkt und erst mit "Speichern" übernommen.
   window.dayClick = (key, isPast)=>{
-    if(!adminMode || isPast) return;     // nur im Verwaltungs-Modus & keine Vergangenheit
-    const cur = pendingCounts[key] || 0;
-    const next = (cur + 1) % (MAX_PER_DAY + 1);   // 0,1,2,0,...
-    if(next===0) delete pendingCounts[key];
-    else pendingCounts[key] = next;
-    dirty = true;
-    setStatus("");
-    updateSaveBtn();
-    renderCal();
+    // --- Verwaltungs-Modus: Auslastung durchschalten ---
+    if(adminMode){
+      if(isPast) return;                   // keine Vergangenheit
+      const cur = pendingCounts[key] || 0;
+      const next = (cur + 1) % (MAX_PER_DAY + 1);   // 0,1,2,0,...
+      if(next===0) delete pendingCounts[key];
+      else pendingCounts[key] = next;
+      dirty = true;
+      setStatus("");
+      updateSaveBtn();
+      renderCal();
+      return;
+    }
+
+    // --- Normaler Besucher: Termin auswählen und ins Formular übernehmen ---
+    if(isPast) return;                                  // Vergangenheit nicht wählbar
+    if((pendingCounts[key]||0) >= MAX_PER_DAY) return;  // ausgebucht nicht wählbar
+    waehleTermin(key);
   };
+
+  // Übernimmt einen Tag (YYYY-MM-DD) ins Anfrageformular und scrollt dorthin.
+  function waehleTermin(key){
+    const feld = document.getElementById("fDatum");
+    if(feld){ feld.value = key; }
+
+    // gewählten Tag merken und Kalender neu zeichnen (Markierung setzen)
+    gewaehlterTag = key;
+    renderCal();
+
+    // sanft zum Formular scrollen
+    const ziel = document.getElementById("anfrage");
+    if(ziel) ziel.scrollIntoView({behavior:"smooth", block:"start"});
+  }
 
   function setStatus(msg, type){
     const el = document.getElementById("calSaveStatus");
