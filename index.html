@@ -6,7 +6,7 @@
 <title>Most Wanted Stadtjagd | GPS-Verfolgungsjagd | JGA, Teamevent &amp; Geburtstag | Mannheim &amp; Ludwigshafen</title>
 <meta name="description" content="Die reale GPS-Verfolgungsjagd durch eure Stadt. Für JGA, Geburtstag, Teamevent und Klassenausflug. Mannheim, Ludwigshafen und deutschlandweit. Ab 6 Personen. Jetzt unverbindlich anfragen.">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"Most Wanted – Stadtjagd","description":"Reale GPS-Verfolgungsjagd als Gruppenevent für JGA, Geburtstage, Firmenevents und Schulklassen.","url":"https://most-wanted-stadtjagd.de/","email":"kontakt@most-wanted-stadtjagd.de","areaServed":["Mannheim","Ludwigshafen","Heidelberg","Speyer","Worms","Frankenthal","Deutschland"],"address":{"@type":"PostalAddress","addressLocality":"Limburgerhof","postalCode":"67117","addressCountry":"DE"},"priceRange":"20-29 EUR pro Person"}
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Most Wanted – Stadtjagd","description":"Reale GPS-Verfolgungsjagd als Gruppenevent für JGA, Geburtstage, Firmenevents und Schulklassen.","url":"https://most-wanted-stadtjagd.de/","email":"kontakt@most-wanted-stadtjagd.de","telephone":"+4915737581940","areaServed":["Mannheim","Ludwigshafen","Heidelberg","Speyer","Worms","Frankenthal","Deutschland"],"address":{"@type":"PostalAddress","addressLocality":"Limburgerhof","postalCode":"67117","addressCountry":"DE"},"priceRange":"20-29 EUR pro Person"}
 </script>
 <link rel="canonical" href="https://most-wanted-stadtjagd.de/">
 <meta property="og:title" content="Most Wanted Stadtjagd: die reale GPS-Verfolgungsjagd">
@@ -222,6 +222,50 @@ a{color:inherit}
 }
 .mod-aktionen button.ja:hover{border-color:var(--signal);color:var(--signal)}
 .mod-aktionen button.nein:hover{border-color:var(--alarm);color:var(--alarm)}
+
+/* ---------- Sticky Aktionsleiste (Anrufen + Buchung) ---------- */
+#stickyCta{
+  position:fixed;left:0;right:0;bottom:0;z-index:75;
+  display:flex;gap:10px;padding:10px clamp(12px,4vw,20px);
+  background:rgba(11,14,17,.92);backdrop-filter:blur(10px);
+  border-top:1px solid var(--linie);
+  transform:translateY(110%);transition:transform .4s cubic-bezier(.16,.84,.44,1);
+  padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));
+}
+#stickyCta.sichtbar{transform:none}
+#stickyCta a{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 12px;border-radius:var(--r);font-family:'Oswald',sans-serif;
+  font-weight:600;font-size:.92rem;letter-spacing:.04em;text-transform:uppercase;
+  text-decoration:none;transition:.18s;
+}
+#stickyCta .sc-call{
+  flex:0 0 auto;background:var(--asphalt-2);color:var(--papier);
+  border:1px solid var(--linie-hell);padding:14px 18px;
+}
+#stickyCta .sc-call:hover{border-color:var(--signal);color:var(--signal)}
+#stickyCta .sc-book{background:var(--signal);color:#fff;box-shadow:0 8px 24px -8px rgba(255,90,31,.7)}
+#stickyCta .sc-book:hover{background:var(--signal-hi)}
+#stickyCta svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+body.banner-auf #stickyCta.sichtbar{transform:translateY(-58px)}
+@media(min-width:981px){ #stickyCta{display:none} }
+
+/* ---------- Ablauf in 3 Schritten (Startseite) ---------- */
+.drei-schritte{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+@media(max-width:760px){.drei-schritte{grid-template-columns:1fr}}
+.ds-karte{position:relative;background:var(--karte);border:1px solid var(--linie);border-radius:var(--r);padding:26px 22px 24px}
+.ds-num{font-family:'Oswald',sans-serif;font-size:2.4rem;font-weight:700;color:var(--signal);line-height:1;margin-bottom:12px}
+.ds-karte h3{margin:0 0 8px;font-size:1.15rem}
+.ds-karte p{margin:0;color:var(--nebel-2);font-size:.95rem;line-height:1.5}
+
+/* ---------- Fakten-Block (schnelle Antworten) ---------- */
+.fakten-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+@media(max-width:760px){.fakten-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:460px){.fakten-grid{grid-template-columns:1fr}}
+.fakt{background:var(--karte);border:1px solid var(--linie);border-radius:var(--r);padding:18px 18px}
+.fakt .fk-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--nebel);margin-bottom:6px}
+.fakt .fk-wert{font-family:'Oswald',sans-serif;font-size:1.1rem;color:var(--papier);line-height:1.25}
+.fakt .fk-wert small{display:block;font-family:'Barlow',sans-serif;font-weight:400;font-size:.82rem;color:var(--nebel-2);margin-top:3px;text-transform:none;letter-spacing:0}
 
 /* ---------- Angebots-Banner ---------- */
 #angebotBanner{
@@ -1140,15 +1184,13 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   <button class="ab-x" aria-label="Banner schließen" onclick="var b=document.getElementById('angebotBanner');b.classList.remove('sichtbar');b.classList.add('zu');window.MW_BANNER_ZU=true;">&times;</button>
 </div>
 
-
-<!-- ANGEBOTS-BANNER -->
-<div id="angebotBanner" role="region" aria-label="Aktuelles Angebot">
-  <div class="ab-in">
-    <b>Startangebot</b>
-    <span>Für die ersten 5 Gruppen entfällt die Spielleiter-Pauschale von 79 &euro;.</span>
-    <a href="#preise" onclick="mwGoto('konzept',event)">Zu den Preisen</a>
-  </div>
-  <button class="ab-x" aria-label="Banner schließen" onclick="var b=document.getElementById('angebotBanner');b.classList.remove('sichtbar');b.classList.add('zu');window.MW_BANNER_ZU=true;">&times;</button>
+<!-- STICKY AKTIONSLEISTE (mobil, dauerhaft sichtbar) -->
+<div id="stickyCta" aria-label="Schnellzugriff Anrufen und Buchen">
+  <a class="sc-call" href="tel:+4915737581940" aria-label="Anrufen">
+    <svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>
+    Anrufen
+  </a>
+  <a class="sc-book" href="#buchung" onclick="mwGoto('buchung',event)">Jetzt buchen</a>
 </div>
 
 <!-- NAVIGATION -->
@@ -1273,6 +1315,43 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   </div>
 </section>
 
+<section class="sek sek-linie" id="sogehts">
+  <div class="wrap">
+    <div class="funk reveal">So einfach geht's</div>
+    <h2 class="titel reveal">In <span>3 Schritten</span> zum Spiel</h2>
+    <div class="drei-schritte">
+      <div class="ds-karte reveal">
+        <div class="ds-num">1</div>
+        <h3>Anfragen</h3>
+        <p>Wunschtermin im Kalender wählen und die kurze Anfrage abschicken &ndash; unverbindlich und in zwei Minuten erledigt.</p>
+      </div>
+      <div class="ds-karte reveal">
+        <div class="ds-num">2</div>
+        <h3>Bestätigen</h3>
+        <p>Wir melden uns innerhalb von 24 Stunden, klären die Details und bestätigen euren Termin. Erst dann wird bezahlt.</p>
+      </div>
+      <div class="ds-karte reveal">
+        <div class="ds-num">3</div>
+        <h3>Spielen</h3>
+        <p>App öffnen, Rollen verteilen, loslaufen. Zwei Stunden Flucht und Jagd durch eure Stadt &ndash; wir liefern alles dazu.</p>
+      </div>
+    </div>
+
+    <div class="fakten-grid">
+      <div class="fakt reveal"><div class="fk-label">Dauer</div><div class="fk-wert">2 Stunden<small>plus kurze Einweisung</small></div></div>
+      <div class="fakt reveal"><div class="fk-label">Gruppe</div><div class="fk-wert">Ab 6 Personen<small>nach oben offen</small></div></div>
+      <div class="fakt reveal"><div class="fk-label">Mindestalter</div><div class="fk-wert">Ab 14 Jahren<small>Minderjährige mit Einverständnis</small></div></div>
+      <div class="fakt reveal"><div class="fk-label">Anspruch</div><div class="fk-wert">Locker bis flott<small>eigenes Tempo, viel zu Fuß</small></div></div>
+      <div class="fakt reveal"><div class="fk-label">Mitbringen</div><div class="fk-wert">Handy &amp; Schuhe<small>geladener Akku, wetterfest</small></div></div>
+      <div class="fakt reveal"><div class="fk-label">Bei Unwetter</div><div class="fk-wert">Gratis-Ersatztermin<small>Sicherheit geht vor</small></div></div>
+    </div>
+
+    <div style="margin-top:26px" class="reveal">
+      <a href="#buchung" class="btn btn-primar" onclick="mwGoto('buchung',event)">Termin anfragen &rarr;</a>
+    </div>
+  </div>
+</section>
+
 <section class="sek sek-linie sek-tief" id="anlaesse">
   <div class="wrap">
     <div class="funk reveal">Anlässe</div>
@@ -1324,6 +1403,8 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
           <li>Organisation und Einweisung übernehmen wir</li>
           <li>Orange T-Shirts mit Most-Wanted-Logo</li>
           <li>Zugang zur App für die Spielzeit</li>
+          <li>Powerbanks zum Ausleihen &ndash; bei Bedarf direkt vom Spielleiter</li>
+          <li>Wasser und kleine Snacks für alle, die die Minispiele erreichen</li>
         </ul>
         <a href="#anfrage" class="btn btn-primar" onclick="mwGoto('buchung',event)">Mit Spielleiter anfragen</a>
       </div>
@@ -1386,6 +1467,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
         <li>Bedrucktes T-Shirt in Orange mit dem Most-Wanted-Logo</li>
         <li>Zugang zur App für die Spielzeit</li>
         <li>Material für die Minispiele (bei Durchführung mit Spielleiter)</li>
+        <li>Mit Spielleiter zusätzlich: Powerbanks zum Ausleihen sowie Wasser &amp; Snacks an den Minispielen</li>
         <li>Komplette Anleitung und Einweisung</li>
       </ul>
     </div>
@@ -1768,7 +1850,8 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
             Most Wanted &ndash; Stadtjagd (Kleingewerbe)<br>
             Chenoverstr. 11<br>
             67117 Limburgerhof<br><br>
-            E-Mail: <a href="mailto:kontakt@most-wanted-stadtjagd.de">kontakt@most-wanted-stadtjagd.de</a><br><br>
+            E-Mail: <a href="mailto:kontakt@most-wanted-stadtjagd.de">kontakt@most-wanted-stadtjagd.de</a><br>
+            Telefon: <a href="tel:+4915737581940">0157 37581940</a><br><br>
             Umsatzsteuer: Kleinunternehmer gemäß § 19 UStG, es wird keine Umsatzsteuer ausgewiesen.
           </p>
         </div>
@@ -1903,13 +1986,22 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   window.MW_BANNER_ZU = false;
   var bannerGezeigt = false;
   window.addEventListener("scroll", function(){
+    // Sticky-Aktionsleiste ab kurzem Scrollen zeigen (mobil)
+    var sc = document.getElementById("stickyCta");
+    if(sc){ sc.classList.toggle("sichtbar", window.scrollY > 300); }
+
     if(bannerGezeigt || window.MW_BANNER_ZU) return;
     if(window.scrollY > 150){
       bannerGezeigt = true;
       var ab = document.getElementById("angebotBanner");
-      if(ab) ab.classList.add("sichtbar");
+      if(ab){ ab.classList.add("sichtbar"); document.body.classList.add("banner-auf"); }
     }
   }, {passive:true});
+
+  // Wenn das Banner geschlossen wird, Sticky-Leiste wieder nach unten setzen
+  document.addEventListener("click", function(ev){
+    if(ev.target.closest(".ab-x")){ document.body.classList.remove("banner-auf"); }
+  });
 
   // ===== STARTANGEBOT: Spielleiter-Pauschale geschenkt =====
   // Auf false stellen, sobald die ersten 5 Gruppen gebucht haben.
@@ -2493,7 +2585,8 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
       Chenoverstr. 11<br>
       67117 Limburgerhof<br>
       Deutschland<br>
-      E-Mail: <a href="mailto:kontakt@most-wanted-stadtjagd.de">kontakt@most-wanted-stadtjagd.de</a>
+      E-Mail: <a href="mailto:kontakt@most-wanted-stadtjagd.de">kontakt@most-wanted-stadtjagd.de</a><br>
+      Telefon: <a href="tel:+4915737581940">0157 37581940</a>
     </p>
 
     <h2>2. Überblick über die verarbeiteten Daten</h2>
