@@ -6,7 +6,7 @@
 <title>Most Wanted Stadtjagd | GPS-Verfolgungsjagd | JGA, Teamevent &amp; Geburtstag | Mannheim &amp; Ludwigshafen</title>
 <meta name="description" content="Die reale GPS-Verfolgungsjagd durch eure Stadt. Für JGA, Geburtstag, Teamevent und Klassenausflug. Mannheim, Ludwigshafen und deutschlandweit. Ab 6 Personen. Jetzt unverbindlich anfragen.">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"Most Wanted – Stadtjagd","description":"Reale GPS-Verfolgungsjagd als Gruppenevent für JGA, Geburtstage, Firmenevents und Schulklassen.","url":"https://most-wanted-stadtjagd.de/","email":"most-wanted-stadtjagd@gmx.de","areaServed":["Mannheim","Ludwigshafen","Heidelberg","Speyer","Worms","Frankenthal","Deutschland"],"address":{"@type":"PostalAddress","addressLocality":"Limburgerhof","postalCode":"67117","addressCountry":"DE"},"priceRange":"20-29 EUR pro Person"}
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Most Wanted – Stadtjagd","description":"Reale GPS-Verfolgungsjagd als Gruppenevent für JGA, Geburtstage, Firmenevents und Schulklassen.","url":"https://most-wanted-stadtjagd.de/","email":"kontakt@most-wanted-stadtjagd.de","areaServed":["Mannheim","Ludwigshafen","Heidelberg","Speyer","Worms","Frankenthal","Deutschland"],"address":{"@type":"PostalAddress","addressLocality":"Limburgerhof","postalCode":"67117","addressCountry":"DE"},"priceRange":"20-29 EUR pro Person"}
 </script>
 <link rel="canonical" href="https://most-wanted-stadtjagd.de/">
 <meta property="og:title" content="Most Wanted Stadtjagd: die reale GPS-Verfolgungsjagd">
@@ -110,10 +110,118 @@ a{color:inherit}
 .btn-geist:hover{border-color:var(--nebel);transform:translateY(-2px)}
 .btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2}
 .btn-paypal{
-  background:#0070ba;color:#fff;font-weight:700;width:100%;margin-top:14px;
+  background:var(--asphalt-2);color:var(--papier);font-weight:700;width:100%;margin-top:14px;
+  border:1px solid var(--signal);
 }
-.btn-paypal:hover{background:#005ea6;transform:translateY(-2px)}
+.btn-paypal:hover{background:var(--signal);color:#fff;transform:translateY(-2px)}
 .btn-paypal svg{width:16px;height:16px;stroke-width:1.6}
+/* PayPal-Box hebt hervor, dass die Zahlung erst später kommt */
+.paypal-box{position:relative}
+.paypal-badge{
+  display:inline-block;font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--signal);border:1px solid var(--signal);border-radius:100px;
+  padding:4px 10px;margin-bottom:10px;
+}
+/* Danke-Meldung nach erfolgreichem Absenden */
+.form-danke{
+  text-align:center;padding:44px 28px;
+  background:linear-gradient(180deg,var(--asphalt-2),var(--karte));
+  border:1px solid var(--signal);border-radius:var(--r);
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.9);
+}
+.form-danke h3{margin:8px 0 10px}
+.form-danke p{color:var(--nebel-2);max-width:44ch;margin:0 auto}
+.danke-icon{
+  width:64px;height:64px;margin:0 auto 6px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;color:#fff;background:var(--signal);
+  box-shadow:0 10px 30px -8px rgba(255,90,31,.7);
+}
+
+/* ---------- Social Proof / Stimmen ---------- */
+.stimmen-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px;
+}
+@media(max-width:820px){.stimmen-grid{grid-template-columns:1fr}}
+.stimme{
+  margin:0;background:var(--karte);border:1px solid var(--linie);
+  border-radius:var(--r);padding:24px 22px;
+}
+.stimme .sterne{color:var(--messing);letter-spacing:.12em;font-size:1.05rem;margin-bottom:12px}
+.stimme blockquote{margin:0 0 14px;font-size:.98rem;line-height:1.5;color:var(--papier)}
+.stimme figcaption{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--nebel);letter-spacing:.04em}
+
+/* ---------- Seiten-Views (Single-Page-Navigation) ---------- */
+.view{display:none}
+.view.aktiv{display:block;animation:viewrein .35s ease}
+@keyframes viewrein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* aktiver Menüpunkt */
+.nav-menu a.nav-aktiv{color:var(--signal)}
+.nav-menu a.nav-aktiv::after{width:100%!important}
+/* Seitenkopf je View */
+.view-kopf{padding:46px 0 8px}
+.view-kopf .wrap{max-width:var(--wrap,1120px)}
+
+/* ---------- Bewertungs-Formular ---------- */
+.review-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:start}
+@media(max-width:820px){.review-layout{grid-template-columns:1fr}}
+.review-form-karte{
+  position:relative;background:linear-gradient(180deg,var(--asphalt-2),var(--karte) 40%);
+  border:1px solid var(--linie);border-radius:var(--r);padding:28px 24px;
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.9);overflow:hidden;
+}
+.review-form-karte::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--signal),var(--messing) 60%,transparent);
+}
+/* Sterne-Eingabe */
+.sterne-eingabe{display:flex;gap:6px;direction:rtl;justify-content:flex-end}
+.sterne-eingabe input{position:absolute;opacity:0;width:0;height:0}
+.sterne-eingabe label{
+  font-size:1.9rem;line-height:1;color:var(--linie-hell);cursor:pointer;transition:color .15s;
+}
+.sterne-eingabe label:hover,
+.sterne-eingabe label:hover ~ label,
+.sterne-eingabe input:checked ~ label{color:var(--messing)}
+/* Danke-Feedback im Review-Formular */
+.review-danke{
+  display:none;text-align:center;padding:36px 22px;
+  background:linear-gradient(180deg,var(--asphalt-2),var(--karte));
+  border:1px solid var(--signal);border-radius:var(--r);
+}
+.review-danke .danke-icon{
+  width:56px;height:56px;margin:0 auto 10px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.7rem;color:#fff;background:var(--signal);
+}
+/* Liste der freigegebenen Reviews */
+#reviewListe{display:grid;gap:16px}
+#reviewLeer{color:var(--nebel);font-size:.94rem}
+
+/* ---------- Review-Moderation (nur Admin) ---------- */
+#reviewAdmin{margin-top:30px;padding-top:22px;border-top:1px solid var(--linie)}
+#reviewAdmin.locked{display:none}
+.mod-item{
+  background:var(--karte);border:1px solid var(--linie);border-radius:var(--r);
+  padding:16px 18px;margin-bottom:12px;
+}
+.mod-item .mod-kopf{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+.mod-item .mod-status{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:3px 8px;border-radius:100px;border:1px solid var(--linie-hell);color:var(--nebel);
+}
+.mod-item .mod-status.pending{color:var(--messing);border-color:var(--messing)}
+.mod-item .mod-status.approved{color:var(--signal);border-color:var(--signal)}
+.mod-item .mod-status.rejected{color:var(--alarm);border-color:var(--alarm)}
+.mod-aktionen{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.mod-aktionen button{
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.08em;
+  padding:7px 12px;border-radius:var(--r);border:1px solid var(--linie-hell);
+  background:var(--asphalt);color:var(--papier);cursor:pointer;transition:.15s;
+}
+.mod-aktionen button.ja:hover{border-color:var(--signal);color:var(--signal)}
+.mod-aktionen button.nein:hover{border-color:var(--alarm);color:var(--alarm)}
 
 /* ---------- Angebots-Banner ---------- */
 #angebotBanner{
@@ -143,7 +251,8 @@ nav{
   display:flex;align-items:center;gap:26px;
 }
 .nav-marke{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0}
-.nav-marke img{width:34px;height:34px;object-fit:contain}
+.nav-marke img{width:52px;height:52px;object-fit:contain}
+@media(max-width:940px){.nav-marke img{width:40px;height:40px}}
 .nav-name{display:block;line-height:1}
 .nav-mw{
   display:block;font-family:'Oswald',sans-serif;font-weight:700;
@@ -1026,7 +1135,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   <div class="ab-in">
     <b>Startangebot</b>
     <span>Für die ersten 5 Gruppen entfällt die Spielleiter-Pauschale von 79 &euro;.</span>
-    <a href="#preise">Zu den Preisen</a>
+    <a href="#preise" onclick="mwGoto('konzept',event)">Zu den Preisen</a>
   </div>
   <button class="ab-x" aria-label="Banner schließen" onclick="var b=document.getElementById('angebotBanner');b.classList.remove('sichtbar');b.classList.add('zu');window.MW_BANNER_ZU=true;">&times;</button>
 </div>
@@ -1037,7 +1146,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   <div class="ab-in">
     <b>Startangebot</b>
     <span>Für die ersten 5 Gruppen entfällt die Spielleiter-Pauschale von 79 &euro;.</span>
-    <a href="#preise">Zu den Preisen</a>
+    <a href="#preise" onclick="mwGoto('konzept',event)">Zu den Preisen</a>
   </div>
   <button class="ab-x" aria-label="Banner schließen" onclick="var b=document.getElementById('angebotBanner');b.classList.remove('sichtbar');b.classList.add('zu');window.MW_BANNER_ZU=true;">&times;</button>
 </div>
@@ -1045,7 +1154,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 <!-- NAVIGATION -->
 <nav>
   <div class="nav-in">
-    <a href="#top" class="nav-marke" onclick="mwMenuZu()">
+    <a href="#top" class="nav-marke" onclick="mwGoto('start',event)">
       <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="mw-logo" alt="Most Wanted Stadtjagd">
       <span class="nav-name">
         <b class="nav-mw">Most <i>Wanted</i></b>
@@ -1054,19 +1163,18 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     </a>
     <button class="nav-burger" aria-label="Menü" aria-expanded="false" onclick="mwMenu(this)"><span></span></button>
     <div class="nav-menu" id="navMenu">
-      <a href="#spiel" onclick="mwMenuZu()">Das Spiel</a>
-      <a href="#anlaesse" onclick="mwMenuZu()">Anlässe</a>
-      <a href="#ablauf" onclick="mwMenuZu()">Ablauf</a>
-      <a href="#app" onclick="mwMenuZu()">Die App</a>
-      <a href="#preise" onclick="mwMenuZu()">Preise</a>
-      <a href="#kalender" onclick="mwMenuZu()">Termine</a>
-      <a href="#faq" onclick="mwMenuZu()">Fragen</a>
-      <a href="#anfrage" class="nav-cta" onclick="mwMenuZu()">Termin anfragen</a>
+      <a href="#start" data-view="start" onclick="mwGoto('start',event)">Start</a>
+      <a href="#konzept" data-view="konzept" onclick="mwGoto('konzept',event)">Konzept &amp; Preise</a>
+      <a href="#ablauf" data-view="ablauf" onclick="mwGoto('ablauf',event)">Ablauf &amp; FAQ</a>
+      <a href="#bewertungen" data-view="bewertungen" onclick="mwGoto('bewertungen',event)">Bewertungen</a>
+      <a href="#buchung" data-view="buchung" class="nav-cta" onclick="mwGoto('buchung',event)">Buchung</a>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ===== VIEW: START ===== -->
+<div class="view aktiv" id="view-start">
+
 <header class="hero" id="top">
   <div class="hero-karte"></div>
   <div class="hero-diag"></div>
@@ -1084,11 +1192,6 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   </div>
 
   <div class="hero-in">
-    <div class="status" data-an="1">
-      <span class="punkt"></span>
-      Standort-Ping alle <b>10&nbsp;Min.</b>
-    </div>
-
     <h1>
       <span class="zeile"><span data-an="2">Zwei Stunden</span></span>
       <span class="zeile"><span data-an="3" class="stadt">Deine Stadt.</span></span>
@@ -1103,11 +1206,11 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     </p>
 
     <div class="hero-btns" data-an="6">
-      <a href="#anfrage" class="btn btn-primar">
+      <a href="#anfrage" class="btn btn-primar" onclick="mwGoto('buchung',event)">
         Termin anfragen
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
-      <a href="#ablauf" class="btn btn-geist">So läuft ein Spiel</a>
+      <a href="#ablauf" class="btn btn-geist" onclick="mwGoto('ablauf',event)">So läuft ein Spiel</a>
     </div>
 
     <dl class="eck" data-an="7">
@@ -1121,7 +1224,6 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   <div class="scroll" aria-hidden="true"><i></i>Weiter</div>
 </header>
 
-<!-- DAS SPIEL -->
 <section class="sek" id="spiel">
   <div class="wrap">
     <div class="funk reveal">Das Spiel</div>
@@ -1131,10 +1233,6 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     <div class="demo-block reveal">
       <div class="demo-kopf">
         <div class="demo-titel">Probier es aus &ndash; bewege dich auf der Karte</div>
-        <div class="rolle-anzeige" id="rollenAnzeige">
-          <span class="ra-punkt" id="raPunkt"></span>
-          <span id="raText">Hunter-Sicht</span>
-        </div>
       </div>
       <div class="buehne">
         <div id="demoMap" tabindex="0" role="application" aria-label="Interaktive Demo auf echter Stadtkarte: Bewege den Zeiger oder benutze die Pfeiltasten, um als Target zu laufen. Die Hunter sehen nur die zuletzt gesendete Position."></div>
@@ -1175,7 +1273,6 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   </div>
 </section>
 
-<!-- ANLÄSSE -->
 <section class="sek sek-linie sek-tief" id="anlaesse">
   <div class="wrap">
     <div class="funk reveal">Anlässe</div>
@@ -1206,8 +1303,100 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     </div>
   </div>
 </section>
+</div><!-- /view-start -->
 
-<!-- ABLAUF -->
+<!-- ===== VIEW: KONZEPT & PREISE ===== -->
+<div class="view" id="view-konzept">
+<section class="sek sek-linie" id="modi">
+  <div class="wrap">
+    <div class="funk reveal">Zwei Möglichkeiten</div>
+    <h2 class="titel reveal">Mit oder ohne <span>Spielleiter</span></h2>
+    <p class="vorspann reveal">Wir kommen zu euch und leiten das Spiel, oder ihr führt es selbst durch. In beiden Fällen bekommt ihr die orangen T-Shirts und den vollen Zugang zur App.</p>
+
+    <div class="modi">
+      <div class="modus aktiv reveal">
+        <div class="modus-tag">Region Mannheim / Ludwigshafen</div>
+        <h3>Mit Spielleiter</h3>
+        <p>Wir übernehmen die Spielleitung vor Ort. Damit spielt jeder aus eurer Gruppe mit und niemand muss aussetzen. Verfügbar im Umkreis von 50 km um Mannheim und Ludwigshafen.</p>
+        <ul>
+          <li>Alle aus eurer Gruppe spielen mit</li>
+          <li>Betreuung vor Ort, Pauschale 79 &euro; (für die ersten 5 Gruppen geschenkt)</li>
+          <li>Organisation und Einweisung übernehmen wir</li>
+          <li>Orange T-Shirts mit Most-Wanted-Logo</li>
+          <li>Zugang zur App für die Spielzeit</li>
+        </ul>
+        <a href="#anfrage" class="btn btn-primar" onclick="mwGoto('buchung',event)">Mit Spielleiter anfragen</a>
+      </div>
+      <div class="modus reveal">
+        <div class="modus-tag">Deutschlandweit</div>
+        <h3>Selbst durchführen</h3>
+        <p>Ihr bekommt einen persönlichen Zugangscode und eine Anleitung. Eine Person aus eurer Gruppe übernimmt die Spielleitung. Ort und Zeit bestimmt ihr.</p>
+        <ul>
+          <li>Zugangscode und Anleitung per Post oder Mail</li>
+          <li>Reine GPS-Verfolgungsjagd, ohne Minispiele</li>
+          <li>Orange T-Shirts mit Most-Wanted-Logo</li>
+          <li>Keine Spielleiter-Pauschale</li>
+        </ul>
+        <a href="#anfrage" class="btn btn-geist" onclick="mwGoto('buchung',event)">Selbst-Paket anfragen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sek sek-linie sek-tief" id="preise">
+  <div class="wrap">
+    <div class="funk reveal">Preise</div>
+    <h2 class="titel reveal">Was kostet <span>die Jagd?</span></h2>
+    <p class="vorspann reveal">Alle Preise gelten pro Person und enthalten das komplette Erlebnis.</p>
+
+    <div class="preise">
+      <div class="preis reveal">
+        <div class="preis-label">Standard</div>
+        <div class="preis-zahl">29<small> &euro;</small></div>
+        <div class="preis-je">pro Person, bis 9 Personen</div>
+        <div class="preis-txt">Für kleinere Gruppen.</div>
+      </div>
+      <div class="preis reveal">
+        <div class="preis-label">Ab 10 Personen</div>
+        <div class="preis-zahl">25<small> &euro;</small></div>
+        <div class="preis-je">pro Person, alle Teilnehmer</div>
+        <div class="preis-txt">Ab 10 Personen zahlen alle je 25 &euro;.</div>
+      </div>
+      <div class="preis reveal">
+        <div class="preis-label">Schülergruppen</div>
+        <div class="preis-zahl">20<small> &euro;</small></div>
+        <div class="preis-je">pro Person</div>
+        <div class="preis-txt">Nur für Schulklassen und Jugendgruppen. Name der Schule oder Einrichtung bitte bei der Anfrage angeben.</div>
+      </div>
+    </div>
+
+    <div class="sl-block reveal">
+      <div class="sl-fahne">Startangebot</div>
+      <div class="sl-preis">
+        <span class="sl-alt">79 &euro;</span>
+        <span class="sl-neu">0 &euro;</span>
+      </div>
+      <div class="sl-was">Spielleiter-Pauschale</div>
+      <p>Für die ersten 5 Gruppen entfällt die Pauschale komplett. Ihr zahlt dann nur den Preis pro Person. Danach kommt sie einmalig pro Spiel dazu, unabhängig davon, wie groß die Gruppe ist. Beim Selbst-Paket fällt sie generell nicht an.</p>
+    </div>
+
+    <div class="inkl reveal">
+      <h3>In jedem Preis enthalten</h3>
+      <ul>
+        <li>Bedrucktes T-Shirt in Orange mit dem Most-Wanted-Logo</li>
+        <li>Zugang zur App für die Spielzeit</li>
+        <li>Material für die Minispiele (bei Durchführung mit Spielleiter)</li>
+        <li>Komplette Anleitung und Einweisung</li>
+      </ul>
+    </div>
+
+    <p class="preis-fuss reveal">Beispiel: 8 Personen zahlen je 29 &euro;, zusammen 232 &euro;. Mit Spielleiter kämen regulär einmalig 79 &euro; dazu, im Startangebot entfällt dieser Betrag. Ab 10 Personen zahlen alle je 25 &euro;, unabhängig von der Gruppengröße. Der Schülerpreis von 20 &euro; pro Person gilt ausschließlich für Schulklassen und Jugendgruppen.</p>
+  </div>
+</section>
+</div><!-- /view-konzept -->
+
+<!-- ===== VIEW: ABLAUF & FAQ ===== -->
+<div class="view" id="view-ablauf">
 <section class="sek sek-linie" id="ablauf">
   <div class="wrap">
     <div class="funk reveal">Ablauf</div>
@@ -1259,7 +1448,6 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   </div>
 </section>
 
-<!-- APP-GALERIE -->
 <section class="sek sek-linie sek-tief" id="app">
   <div class="wrap">
     <div class="funk reveal">Die App</div>
@@ -1309,96 +1497,89 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   </div>
 </section>
 
-<!-- MODI -->
-<section class="sek sek-linie" id="modi">
+<section class="sek sek-linie" id="faq">
   <div class="wrap">
-    <div class="funk reveal">Zwei Möglichkeiten</div>
-    <h2 class="titel reveal">Mit oder ohne <span>Spielleiter</span></h2>
-    <p class="vorspann reveal">Wir kommen zu euch und leiten das Spiel, oder ihr führt es selbst durch. In beiden Fällen bekommt ihr die orangen T-Shirts und den vollen Zugang zur App.</p>
-
-    <div class="modi">
-      <div class="modus aktiv reveal">
-        <div class="modus-tag">Region Mannheim / Ludwigshafen</div>
-        <h3>Mit Spielleiter</h3>
-        <p>Wir übernehmen die Spielleitung vor Ort. Damit spielt jeder aus eurer Gruppe mit und niemand muss aussetzen. Verfügbar im Umkreis von 50 km um Mannheim und Ludwigshafen.</p>
-        <ul>
-          <li>Alle aus eurer Gruppe spielen mit</li>
-          <li>Betreuung vor Ort, Pauschale 79 &euro; (für die ersten 5 Gruppen geschenkt)</li>
-          <li>Organisation und Einweisung übernehmen wir</li>
-          <li>Orange T-Shirts mit Most-Wanted-Logo</li>
-          <li>Zugang zur App für die Spielzeit</li>
-        </ul>
-        <a href="#anfrage" class="btn btn-primar">Mit Spielleiter anfragen</a>
-      </div>
-      <div class="modus reveal">
-        <div class="modus-tag">Deutschlandweit</div>
-        <h3>Selbst durchführen</h3>
-        <p>Ihr bekommt einen persönlichen Zugangscode und eine Anleitung. Eine Person aus eurer Gruppe übernimmt die Spielleitung. Ort und Zeit bestimmt ihr.</p>
-        <ul>
-          <li>Zugangscode und Anleitung per Post oder Mail</li>
-          <li>Reine GPS-Verfolgungsjagd, ohne Minispiele</li>
-          <li>Orange T-Shirts mit Most-Wanted-Logo</li>
-          <li>Keine Spielleiter-Pauschale</li>
-        </ul>
-        <a href="#anfrage" class="btn btn-geist">Selbst-Paket anfragen</a>
-      </div>
+    <div class="funk reveal">Häufige Fragen</div>
+    <h2 class="titel reveal">Gut zu <span>wissen</span></h2>
+    <div class="faq reveal">
+      <details><summary>Wo wird gespielt?</summary><p><b>Mit Spielleiter:</b> im Umkreis von 50 km um Mannheim und Ludwigshafen, also zum Beispiel auch in Heidelberg, Speyer, Worms oder Frankenthal. Den genauen Spielbereich legen wir gemeinsam fest, der Spielleiter markiert ihn dann in der App.</p><p><b>Als Selbst-Paket:</b> überall in Deutschland. Ihr bekommt euren Zugangscode und die Anleitung zugeschickt und legt los.</p></details>
+      <details><summary>Ist die Anfrage verbindlich?</summary><p>Nein, die Anfrage ist unverbindlich und kostenlos. Wir melden uns mit einem Terminvorschlag. Gebucht ist erst, wenn du nach unserer Bestätigung bezahlst.</p></details>
+      <details><summary>Für welche Anlässe eignet sich das Spiel?</summary><p>Für alles, wo eine Gruppe zusammenkommt: JGA, Geburtstage, Firmen- und Teamevents, Klassenausflüge, Vereins- und Freundestreffen. Ab 6 Personen seid ihr dabei.</p></details>
+      <details><summary>Was kostet der Spielleiter?</summary><p>Die Pauschale beträgt regulär einmalig 79 &euro; pro Spiel, unabhängig von der Gruppengröße. Dafür spielen alle aus eurer Gruppe mit und niemand muss die Spielleitung übernehmen.</p><p>Im laufenden Startangebot ist sie für die ersten 5 Gruppen geschenkt. Beim Selbst-Paket entfällt sie generell.</p></details>
+      <details><summary>Was brauche ich zum Mitspielen?</summary><p>Ein Smartphone mit Internet und genug Akku, bequeme Kleidung und Schuhe zum Laufen. Die App läuft direkt im Browser, installieren muss niemand etwas.</p></details>
+      <details><summary>Ab welchem Alter?</summary><p>Ab 14 Jahren. Bei Minderjährigen brauchen wir das schriftliche Einverständnis der Eltern.</p></details>
+      <details><summary>Wie läuft die Bezahlung?</summary><p>Du schickst eine Anfrage über das Formular. Nach unserer Bestätigung bekommst du die Zahlungsdetails und überweist den Betrag. Erst danach ist der Termin fix.</p></details>
+      <details><summary>Was passiert bei schlechtem Wetter?</summary><p>Gespielt wird bei fast jedem Wetter, zieht euch einfach passend an. Bei Unwetter finden wir gemeinsam einen Ersatztermin.</p></details>
+      <details><summary>Darf man sich in Gebäuden verstecken?</summary><p>Nein. Das Spiel findet ausschließlich draußen statt. Das Verstecken in Gebäuden ist nicht erlaubt und gehört zu den wichtigsten Regeln. Wer sich in einem Gebäude versteckt, gilt als geschnappt.</p></details>
+      <details><summary>Darf man Bus, Bahn oder Auto benutzen?</summary><p>Nein. Gespielt wird zu Fuß. Autos und öffentliche Verkehrsmittel sind nur erlaubt, wenn der Spielleiter das ausdrücklich freigibt.</p></details>
+      <details><summary>Wer bekommt den Schülerpreis von 20 &euro;?</summary><p>Der Preis gilt ausschließlich für Schulklassen und Jugendgruppen. Bei der Anfrage muss der Name der Schule oder Einrichtung angegeben werden. Für private Gruppen und Firmenevents gelten 29 &euro; bis 9 Personen und 25 &euro; ab 10 Personen &ndash; unabhängig davon, wie groß die Gruppe ist.</p></details>
+      <details><summary>Was sind die Joker?</summary><p>Jede Rolle bekommt bei Spielstart eigene Joker, die einmal eingesetzt werden können. Targets haben „Funkstille" (60 Sekunden lang wird der eigene Standort nicht übermittelt) und „Einfrieren" (der nächste Hunter darf sich 60 Sekunden nicht bewegen). Hunter haben „Live-Standort" (60 Sekunden durchgehende Ortung statt Momentaufnahme), „Alle aufdecken" (einmalige Momentaufnahme aller Targets) und ebenfalls „Einfrieren".</p><p>Zusätzlich lassen sich Joker durch Bewegung verdienen &ndash; und zwar für beide Rollen, Targets wie Hunter. In der App füllt sich ein Ladebalken, je mehr Strecke ihr zurücklegt. Ist er voll, gibt es einen neuen Joker. Wer also ordentlich in Bewegung bleibt, wird belohnt &ndash; Faulenzen bringt keine neuen Joker.</p></details>
     </div>
   </div>
 </section>
+</div><!-- /view-ablauf -->
 
-<!-- PREISE -->
-<section class="sek sek-linie sek-tief" id="preise">
+<!-- ===== VIEW: BEWERTUNGEN ===== -->
+<div class="view" id="view-bewertungen">
+<section class="sek sek-linie" id="stimmen">
   <div class="wrap">
-    <div class="funk reveal">Preise</div>
-    <h2 class="titel reveal">Was kostet <span>die Jagd?</span></h2>
-    <p class="vorspann reveal">Alle Preise gelten pro Person und enthalten das komplette Erlebnis.</p>
+    <div class="funk reveal">Bewertungen</div>
+    <h2 class="reveal">Das sagen die Spieler</h2>
+    <p class="vorspann reveal">Echte Rückmeldungen aus unseren Runden. Du warst dabei? Teile unten deine Erfahrung &ndash; jede Bewertung wird vor der Veröffentlichung kurz geprüft.</p>
 
-    <div class="preise">
-      <div class="preis reveal">
-        <div class="preis-label">Standard</div>
-        <div class="preis-zahl">29<small> &euro;</small></div>
-        <div class="preis-je">pro Person, bis 9 Personen</div>
-        <div class="preis-txt">Für kleinere Gruppen.</div>
+    <div class="review-layout">
+      <!-- Öffentliche, freigegebene Bewertungen -->
+      <div>
+        <div id="reviewListe" aria-live="polite"></div>
+        <p id="reviewLeer">Noch keine freigegebenen Bewertungen &ndash; sei die/der Erste!</p>
       </div>
-      <div class="preis reveal">
-        <div class="preis-label">Ab 10 Personen</div>
-        <div class="preis-zahl">25<small> &euro;</small></div>
-        <div class="preis-je">pro Person, alle Teilnehmer</div>
-        <div class="preis-txt">Ab 10 Personen zahlen alle je 25 &euro;.</div>
-      </div>
-      <div class="preis reveal">
-        <div class="preis-label">Schülergruppen</div>
-        <div class="preis-zahl">20<small> &euro;</small></div>
-        <div class="preis-je">pro Person</div>
-        <div class="preis-txt">Nur für Schulklassen und Jugendgruppen. Name der Schule oder Einrichtung bitte bei der Anfrage angeben.</div>
+
+      <!-- Einreichungsformular -->
+      <div>
+        <div class="review-form-karte" id="reviewFormKarte">
+          <h3 style="margin-top:0">Bewertung abgeben</h3>
+          <form id="reviewForm" novalidate>
+            <div class="feld">
+              <label for="rvName">Name oder Pseudonym</label>
+              <input type="text" id="rvName" name="name" maxlength="60" placeholder="z. B. Lena K." required>
+            </div>
+            <div class="feld">
+              <label>Deine Wertung</label>
+              <div class="sterne-eingabe" role="radiogroup" aria-label="Sterne-Bewertung">
+                <input type="radio" id="rv5" name="stars" value="5"><label for="rv5" title="5 Sterne">★</label>
+                <input type="radio" id="rv4" name="stars" value="4"><label for="rv4" title="4 Sterne">★</label>
+                <input type="radio" id="rv3" name="stars" value="3"><label for="rv3" title="3 Sterne">★</label>
+                <input type="radio" id="rv2" name="stars" value="2"><label for="rv2" title="2 Sterne">★</label>
+                <input type="radio" id="rv1" name="stars" value="1"><label for="rv1" title="1 Stern">★</label>
+              </div>
+            </div>
+            <div class="feld">
+              <label for="rvText">Dein Erfahrungsbericht</label>
+              <textarea id="rvText" name="text" rows="4" maxlength="600" placeholder="Wie war euer Spiel?" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primar btn-absenden" id="rvSubmit">Bewertung absenden</button>
+          </form>
+          <div class="review-danke" id="reviewDanke">
+            <div class="danke-icon" aria-hidden="true">✓</div>
+            <h3 style="margin:6px 0 8px">Vielen Dank!</h3>
+            <p style="color:var(--nebel-2);margin:0">Deine Bewertung wird nach Prüfung freigeschaltet.</p>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="sl-block reveal">
-      <div class="sl-fahne">Startangebot</div>
-      <div class="sl-preis">
-        <span class="sl-alt">79 &euro;</span>
-        <span class="sl-neu">0 &euro;</span>
-      </div>
-      <div class="sl-was">Spielleiter-Pauschale</div>
-      <p>Für die ersten 5 Gruppen entfällt die Pauschale komplett. Ihr zahlt dann nur den Preis pro Person. Danach kommt sie einmalig pro Spiel dazu, unabhängig davon, wie groß die Gruppe ist. Beim Selbst-Paket fällt sie generell nicht an.</p>
+    <!-- Moderation: nur nach Verwaltungs-Login sichtbar -->
+    <div id="reviewAdmin" class="locked">
+      <h3>Moderation &ndash; ausstehende Bewertungen</h3>
+      <p style="font-size:.84rem;color:var(--nebel);margin-bottom:14px">Freigeben veröffentlicht die Bewertung sofort. Ablehnen blendet sie dauerhaft aus.</p>
+      <div id="modListe"></div>
     </div>
-
-    <div class="inkl reveal">
-      <h3>In jedem Preis enthalten</h3>
-      <ul>
-        <li>Bedrucktes T-Shirt in Orange mit dem Most-Wanted-Logo</li>
-        <li>Zugang zur App für die Spielzeit</li>
-        <li>Material für die Minispiele (bei Durchführung mit Spielleiter)</li>
-        <li>Komplette Anleitung und Einweisung</li>
-      </ul>
-    </div>
-
-    <p class="preis-fuss reveal">Beispiel: 8 Personen zahlen je 29 &euro;, zusammen 232 &euro;. Mit Spielleiter kämen regulär einmalig 79 &euro; dazu, im Startangebot entfällt dieser Betrag. Ab 10 Personen zahlen alle je 25 &euro;, unabhängig von der Gruppengröße. Der Schülerpreis von 20 &euro; pro Person gilt ausschließlich für Schulklassen und Jugendgruppen.</p>
   </div>
 </section>
+</div><!-- /view-bewertungen -->
 
-<!-- KALENDER -->
+<!-- ===== VIEW: BUCHUNG ===== -->
+<div class="view" id="view-buchung">
 <section class="sek sek-linie" id="kalender">
   <div class="wrap">
     <div class="funk reveal">Verfügbarkeit</div>
@@ -1429,7 +1610,6 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   </div>
 </section>
 
-<!-- ANFRAGE -->
 <section class="sek sek-linie sek-tief" id="anfrage">
   <div class="wrap">
     <div class="funk reveal">Buchung</div>
@@ -1508,8 +1688,14 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
           </div>
 
           <button type="submit" class="btn btn-primar btn-absenden">Unverbindliche Anfrage senden</button>
-          <p style="font-size:.8rem;color:var(--nebel);margin-top:14px">Mit dem Absenden öffnet sich dein E-Mail-Programm mit der fertigen Anfrage. Wir behandeln deine Daten vertraulich, Details stehen in der Datenschutzerklärung. Die Standort-Einwilligung für das Spiel gibt jede teilnehmende Person separat in der App vor Spielbeginn. Sie kann nicht durch die buchende Person für andere erteilt werden.</p>
+          <p style="font-size:.8rem;color:var(--nebel);margin-top:14px">Wir melden uns innerhalb von 24 Stunden bei dir. Wir behandeln deine Daten vertraulich, Details stehen in der Datenschutzerklärung. Die Standort-Einwilligung für das Spiel gibt jede teilnehmende Person separat in der App vor Spielbeginn. Sie kann nicht durch die buchende Person für andere erteilt werden.</p>
         </form>
+
+        <div id="formDanke" class="form-danke" style="display:none">
+          <div class="danke-icon" aria-hidden="true">✓</div>
+          <h3>Danke, deine Anfrage ist raus!</h3>
+          <p>Wir haben deine Anfrage erhalten und melden uns innerhalb von 24 Stunden bei dir. Schau am besten auch in deinen Spam-Ordner, falls du nichts findest.</p>
+        </div>
       </div>
 
       <div class="form-info reveal">
@@ -1524,9 +1710,10 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
           <h4>T-Shirt inklusive</h4>
           <p>In jedem Preis ist ein bedrucktes Most-Wanted-T-Shirt enthalten. Die Größen fragen wir nach der Terminbestätigung ab.</p>
         </div>
-        <div class="hinweis-box">
+        <div class="hinweis-box paypal-box">
+          <span class="paypal-badge">Schritt 2 · nach Terminbestätigung</span>
           <h4>Mit PayPal bezahlen</h4>
-          <p>Nach Absprache des Termins kannst du hier per PayPal bezahlen. Bitte gib im Verwendungszweck deinen Namen und den Termin an.</p>
+          <p>Erst wenn wir deinen Termin persönlich bestätigt haben, wird die Zahlung relevant. Danach kannst du hier bequem per PayPal bezahlen &ndash; bitte gib im Verwendungszweck deinen Namen und den Termin an.</p>
           <a href="https://www.paypal.me/GomezSierra1999" target="_blank" rel="noopener" class="btn btn-paypal">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 20.5 8.4 6.1h5.3c2.7 0 4.2 1.4 3.8 3.8-.4 2.7-2.4 4.2-5.2 4.2H9.9l-.9 6.4H6.2Z"/><path d="M10.6 16.6h2.2c2.8 0 4.8-1.5 5.2-4.2"/></svg>
             Zur PayPal-Zahlung
@@ -1536,30 +1723,8 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     </div>
   </div>
 </section>
+</div><!-- /view-buchung -->
 
-<!-- FAQ -->
-<section class="sek sek-linie" id="faq">
-  <div class="wrap">
-    <div class="funk reveal">Häufige Fragen</div>
-    <h2 class="titel reveal">Gut zu <span>wissen</span></h2>
-    <div class="faq reveal">
-      <details><summary>Wo wird gespielt?</summary><p><b>Mit Spielleiter:</b> im Umkreis von 50 km um Mannheim und Ludwigshafen, also zum Beispiel auch in Heidelberg, Speyer, Worms oder Frankenthal. Den genauen Spielbereich legen wir gemeinsam fest, der Spielleiter markiert ihn dann in der App.</p><p><b>Als Selbst-Paket:</b> überall in Deutschland. Ihr bekommt euren Zugangscode und die Anleitung zugeschickt und legt los.</p></details>
-      <details><summary>Ist die Anfrage verbindlich?</summary><p>Nein, die Anfrage ist unverbindlich und kostenlos. Wir melden uns mit einem Terminvorschlag. Gebucht ist erst, wenn du nach unserer Bestätigung bezahlst.</p></details>
-      <details><summary>Für welche Anlässe eignet sich das Spiel?</summary><p>Für alles, wo eine Gruppe zusammenkommt: JGA, Geburtstage, Firmen- und Teamevents, Klassenausflüge, Vereins- und Freundestreffen. Ab 6 Personen seid ihr dabei.</p></details>
-      <details><summary>Was kostet der Spielleiter?</summary><p>Die Pauschale beträgt regulär einmalig 79 &euro; pro Spiel, unabhängig von der Gruppengröße. Dafür spielen alle aus eurer Gruppe mit und niemand muss die Spielleitung übernehmen.</p><p>Im laufenden Startangebot ist sie für die ersten 5 Gruppen geschenkt. Beim Selbst-Paket entfällt sie generell.</p></details>
-      <details><summary>Was brauche ich zum Mitspielen?</summary><p>Ein Smartphone mit Internet und genug Akku, bequeme Kleidung und Schuhe zum Laufen. Die App läuft direkt im Browser, installieren muss niemand etwas.</p></details>
-      <details><summary>Ab welchem Alter?</summary><p>Ab 14 Jahren. Bei Minderjährigen brauchen wir das schriftliche Einverständnis der Eltern.</p></details>
-      <details><summary>Wie läuft die Bezahlung?</summary><p>Du schickst eine Anfrage über das Formular. Nach unserer Bestätigung bekommst du die Zahlungsdetails und überweist den Betrag. Erst danach ist der Termin fix.</p></details>
-      <details><summary>Was passiert bei schlechtem Wetter?</summary><p>Gespielt wird bei fast jedem Wetter, zieht euch einfach passend an. Bei Unwetter finden wir gemeinsam einen Ersatztermin.</p></details>
-      <details><summary>Darf man sich in Gebäuden verstecken?</summary><p>Nein. Das Spiel findet ausschließlich draußen statt. Das Verstecken in Gebäuden ist nicht erlaubt und gehört zu den wichtigsten Regeln. Wer sich in einem Gebäude versteckt, gilt als geschnappt.</p></details>
-      <details><summary>Darf man Bus, Bahn oder Auto benutzen?</summary><p>Nein. Gespielt wird zu Fuß. Autos und öffentliche Verkehrsmittel sind nur erlaubt, wenn der Spielleiter das ausdrücklich freigibt.</p></details>
-      <details><summary>Wer bekommt den Schülerpreis von 20 &euro;?</summary><p>Der Preis gilt ausschließlich für Schulklassen und Jugendgruppen. Bei der Anfrage muss der Name der Schule oder Einrichtung angegeben werden. Für private Gruppen und Firmenevents gelten 29 &euro; bis 9 Personen und 25 &euro; ab 10 Personen &ndash; unabhängig davon, wie groß die Gruppe ist.</p></details>
-      <details><summary>Was sind die Joker?</summary><p>Jede Rolle bekommt bei Spielstart eigene Joker, die einmal eingesetzt werden können. Targets haben „Funkstille" (60 Sekunden lang wird der eigene Standort nicht übermittelt) und „Einfrieren" (der nächste Hunter darf sich 60 Sekunden nicht bewegen). Hunter haben „Live-Standort" (60 Sekunden durchgehende Ortung statt Momentaufnahme), „Alle aufdecken" (einmalige Momentaufnahme aller Targets) und ebenfalls „Einfrieren".</p><p>Zusätzlich lassen sich Joker durch Bewegung verdienen &ndash; und zwar für beide Rollen, Targets wie Hunter. In der App füllt sich ein Ladebalken, je mehr Strecke ihr zurücklegt. Ist er voll, gibt es einen neuen Joker. Wer also ordentlich in Bewegung bleibt, wird belohnt &ndash; Faulenzen bringt keine neuen Joker.</p></details>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
 <footer>
   <div class="wrap">
     <div class="foot-grid">
@@ -1573,20 +1738,20 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
       <div class="foot-col">
         <h4>Seite</h4>
         <ul>
-          <li><a href="#spiel">Das Spiel</a></li>
-          <li><a href="#anlaesse">Anlässe</a></li>
-          <li><a href="#ablauf">Ablauf</a></li>
-          <li><a href="#app">Die App</a></li>
-          <li><a href="#modi">Mit oder ohne Spielleiter</a></li>
+          <li><a href="#spiel" onclick="mwGoto('start',event)">Das Spiel</a></li>
+          <li><a href="#anlaesse" onclick="mwGoto('start',event)">Anlässe</a></li>
+          <li><a href="#ablauf" onclick="mwGoto('ablauf',event)">Ablauf</a></li>
+          <li><a href="#app" onclick="mwGoto('ablauf',event)">Die App</a></li>
+          <li><a href="#modi" onclick="mwGoto('konzept',event)">Mit oder ohne Spielleiter</a></li>
         </ul>
       </div>
       <div class="foot-col">
         <h4>Buchen</h4>
         <ul>
-          <li><a href="#preise">Preise</a></li>
-          <li><a href="#kalender">Freie Termine</a></li>
-          <li><a href="#anfrage">Anfrage senden</a></li>
-          <li><a href="#faq">Häufige Fragen</a></li>
+          <li><a href="#preise" onclick="mwGoto('konzept',event)">Preise</a></li>
+          <li><a href="#kalender" onclick="mwGoto('buchung',event)">Freie Termine</a></li>
+          <li><a href="#anfrage" onclick="mwGoto('buchung',event)">Anfrage senden</a></li>
+          <li><a href="#faq" onclick="mwGoto('ablauf',event)">Häufige Fragen</a></li>
         </ul>
       </div>
       <div class="foot-col">
@@ -1603,7 +1768,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
             Most Wanted &ndash; Stadtjagd (Kleingewerbe)<br>
             Chenoverstr. 11<br>
             67117 Limburgerhof<br><br>
-            E-Mail: most-wanted-stadtjagd@gmx.de<br><br>
+            E-Mail: <a href="mailto:kontakt@most-wanted-stadtjagd.de">kontakt@most-wanted-stadtjagd.de</a><br><br>
             Umsatzsteuer: Kleinunternehmer gemäß § 19 UStG, es wird keine Umsatzsteuer ausgewiesen.
           </p>
         </div>
@@ -1638,6 +1803,45 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     var b = document.querySelector(".nav-burger");
     if(b) b.setAttribute("aria-expanded","false");
   }
+
+  // ===== Single-Page-Navigation: zwischen den Views umschalten =====
+  var MW_VIEWS = ["start","konzept","ablauf","bewertungen","buchung"];
+  function mwGoto(name, ev){
+    if(ev) ev.preventDefault();
+    if(MW_VIEWS.indexOf(name) === -1) name = "start";
+    MW_VIEWS.forEach(function(v){
+      var el = document.getElementById("view-"+v);
+      if(el) el.classList.toggle("aktiv", v === name);
+    });
+    // In der geöffneten View alle Reveal-Elemente sofort einblenden
+    var aktivView = document.getElementById("view-"+name);
+    if(aktivView){ aktivView.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("sichtbar"); }); }
+    // aktiven Menüpunkt markieren
+    document.querySelectorAll('.nav-menu a[data-view]').forEach(function(a){
+      a.classList.toggle("nav-aktiv", a.getAttribute("data-view") === name);
+    });
+    try{ if(history && history.replaceState){ history.replaceState(null,"","#"+name); } }catch(_){ /* z. B. in srcdoc-Vorschau nicht erlaubt */ }
+    window.scrollTo({top:0, behavior:"auto"});
+    mwMenuZu();
+    // Bewertungen beim Öffnen frisch laden
+    if(name === "bewertungen" && typeof window.mwLoadReviews === "function"){ window.mwLoadReviews(); }
+    // Demo-Karte neu vermessen, sobald ihre View sichtbar ist
+    if(name === "ablauf" && typeof window.mwFixDemoMap === "function"){ window.mwFixDemoMap(); }
+  }
+  window.mwGoto = mwGoto;
+
+  // Beim Laden: View aus URL-Hash übernehmen (Deep-Link / Reload)
+  document.addEventListener("DOMContentLoaded", function(){
+    var h = (location.hash || "").replace("#","");
+    // alte Anker (#preise etc.) sinnvoll auf Views mappen
+    var map = {spiel:"start",anlaesse:"start",top:"start",
+               modi:"konzept",preise:"konzept",
+               app:"ablauf",faq:"ablauf",
+               stimmen:"bewertungen",
+               kalender:"buchung",anfrage:"buchung"};
+    var ziel = MW_VIEWS.indexOf(h) !== -1 ? h : (map[h] || "start");
+    mwGoto(ziel);
+  });
 </script>
 
 <script>
@@ -1711,6 +1915,13 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   // Auf false stellen, sobald die ersten 5 Gruppen gebucht haben.
   var SL_ANGEBOT = true;
   var SL_PAUSCHALE = 79;
+
+  // ===== KONTAKT & FORMULAR-VERSAND =====
+  // Professionelle Kontakt-Adresse (überall auf der Seite verwendet).
+  var KONTAKT_MAIL = "kontakt@most-wanted-stadtjagd.de";
+  // Formspree-Endpoint: unter https://formspree.io kostenlos ein Formular
+  // anlegen und die dortige URL hier eintragen (Form-ID ersetzen).
+  var FORM_ENDPOINT = "https://formspree.io/f/DEINE_FORM_ID";
 
   function berechnePreis(){
     var n = parseInt(personenInput.value, 10);
@@ -1788,7 +1999,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   var modusSelEl = document.getElementById("modusSelect");
   if(modusSelEl){ modusSelEl.addEventListener("change", berechnePreis); }
 
-  // Anfrage-Formular → öffnet das E-Mail-Programm mit vorausgefüllter Mail
+  // Anfrage-Formular → sendet die Daten per Fetch an den Formular-Dienst
   document.getElementById('anfrageForm').addEventListener('submit', function(e){
     e.preventDefault();
     var f=e.target;
@@ -1821,10 +2032,9 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     }
 
     var modusText = (modus === "mit") ? "Mit Spielleiter (Region MA/LU)" : "Selbst durchführen (deutschlandweit)";
-    var ziel="most-wanted-stadtjagd@gmx.de";
     var betreff="Anfrage Most Wanted Stadtjagd: "+modusText;
 
-    // Preis für die E-Mail berechnen (gleiche Regel wie Anzeige)
+    // Preis berechnen (gleiche Regel wie Anzeige)
     var pers = parseInt(f.personen.value, 10);
     var preisText = "-";
     if(pers && pers > 0){
@@ -1843,20 +2053,64 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
       }
     }
 
-    var text=
-      "Art der Durchführung: "+modusText+"\n"+
-      "Name: "+f.name.value+"\n"+
-      "E-Mail: "+f.email.value+"\n"+
-      "PLZ Spielort: "+(f.plz.value||"-")+"\n"+
-      "Wunschtermin: "+(f.datum.value||"-")+"\n"+
-      "Personen: "+(f.personen.value||"-")+"\n"+
-      "Gruppenart: "+f.art.value+"\n"+
-      ((f.art.value.indexOf("Schülergruppe") !== -1) ? "Schule / Einrichtung: "+((f.schulname && f.schulname.value)||"-")+"\n" : "")+
-      "Berechneter Preis: "+preisText+"\n"+
-      "Nutzungsbedingungen akzeptiert: "+((f.nbagree && f.nbagree.checked) ? "ja" : "nein")+"\n\n"+
-      "Nachricht:\n"+(f.nachricht.value||"-");
-    window.location.href="mailto:"+ziel+"?subject="+encodeURIComponent(betreff)+"&body="+encodeURIComponent(text);
+    // Daten für den Versand zusammenstellen
+    var daten = new FormData();
+    daten.append("Betreff", betreff);
+    daten.append("Art der Durchführung", modusText);
+    daten.append("Name", f.name.value);
+    daten.append("E-Mail", f.email.value);
+    daten.append("PLZ Spielort", f.plz.value||"-");
+    daten.append("Wunschtermin", f.datum.value||"-");
+    daten.append("Personen", f.personen.value||"-");
+    daten.append("Gruppenart", f.art.value);
+    if(f.art.value.indexOf("Schülergruppe") !== -1){
+      daten.append("Schule / Einrichtung", (f.schulname && f.schulname.value)||"-");
+    }
+    daten.append("Berechneter Preis", preisText);
+    daten.append("Nutzungsbedingungen akzeptiert", (f.nbagree && f.nbagree.checked) ? "ja" : "nein");
+    daten.append("Nachricht", f.nachricht.value||"-");
+    // Für die Antwort-Funktion in Formspree
+    daten.append("_replyto", f.email.value);
+    daten.append("_subject", betreff);
+
+    var btn = f.querySelector('button[type="submit"]');
+    var btnText = btn ? btn.textContent : "";
+    if(btn){ btn.disabled = true; btn.textContent = "Wird gesendet …"; }
+
+    fetch(FORM_ENDPOINT, {
+      method: "POST",
+      body: daten,
+      headers: { "Accept": "application/json" }
+    })
+    .then(function(res){
+      if(res.ok){
+        zeigeDanke(f);
+      } else {
+        res.json().then(function(d){
+          var msg = (d && d.errors) ? d.errors.map(function(x){return x.message;}).join(", ") : "Unbekannter Fehler";
+          alert("Das hat leider nicht geklappt: " + msg + "\n\nBitte versuche es erneut oder schreib uns direkt an " + KONTAKT_MAIL + ".");
+          if(btn){ btn.disabled = false; btn.textContent = btnText; }
+        }).catch(function(){
+          alert("Das hat leider nicht geklappt. Bitte versuche es erneut oder schreib uns direkt an " + KONTAKT_MAIL + ".");
+          if(btn){ btn.disabled = false; btn.textContent = btnText; }
+        });
+      }
+    })
+    .catch(function(){
+      alert("Verbindung fehlgeschlagen. Bitte prüfe deine Internetverbindung oder schreib uns direkt an " + KONTAKT_MAIL + ".");
+      if(btn){ btn.disabled = false; btn.textContent = btnText; }
+    });
   });
+
+  // Zeigt nach erfolgreichem Absenden eine Danke-Meldung statt des Formulars
+  function zeigeDanke(f){
+    var box = document.getElementById("formDanke");
+    if(box){
+      f.style.display = "none";
+      box.style.display = "block";
+      box.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+  }
 
   // ========== BUCHUNGS-KALENDER ==========
   // Eigenes Supabase-Projekt nur für die Homepage. Tabelle "hp_bookings" mit Spalte "day" (date).
@@ -2038,6 +2292,10 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
       document.getElementById("calAdmin").classList.remove("locked");
       document.querySelector(".cal-card").classList.add("admin-on");
       updateSaveBtn();
+      // Review-Moderation ebenfalls freischalten
+      var ra = document.getElementById("reviewAdmin");
+      if(ra) ra.classList.remove("locked");
+      if(typeof window.mwLoadModeration === "function"){ window.mwLoadModeration(); }
     }else{
       alert("Kein Zugang.");
     }
@@ -2060,6 +2318,115 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     await loadBookings();
     renderCal();
   })();
+
+  // ========== BEWERTUNGSSYSTEM (Supabase, moderiert) ==========
+  // Tabelle "hp_reviews": id (uuid/bigint), created_at (timestamp),
+  //   name (text), stars (int 1-5), text (text), status (text: 'pending'|'approved'|'rejected')
+  // Neue Einträge bekommen status='pending'. Öffentlich sichtbar nur 'approved'.
+  function rvEsc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function rvSterne(n){ n=Math.max(0,Math.min(5,parseInt(n,10)||0)); return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n); }
+  function rvDatum(iso){ try{ return new Date(iso).toLocaleDateString("de-DE",{year:"numeric",month:"long"}); }catch(_){ return ""; } }
+
+  // Öffentliche Liste: nur freigegebene Bewertungen anzeigen
+  window.mwLoadReviews = async function(){
+    var liste = document.getElementById("reviewListe");
+    var leer  = document.getElementById("reviewLeer");
+    if(!liste) return;
+    if(!sb){ if(leer) leer.textContent = "Bewertungen sind gerade nicht verfügbar."; return; }
+    try{
+      var res = await sb.from("hp_reviews")
+        .select("name,stars,text,created_at")
+        .eq("status","approved")
+        .order("created_at",{ascending:false})
+        .limit(50);
+      var rows = res.data || [];
+      liste.innerHTML = rows.map(function(r){
+        return '<figure class="stimme">'+
+                 '<div class="sterne" aria-label="'+r.stars+' von 5 Sternen">'+rvSterne(r.stars)+'</div>'+
+                 '<blockquote>'+rvEsc(r.text)+'</blockquote>'+
+                 '<figcaption>&ndash; '+rvEsc(r.name)+' · '+rvDatum(r.created_at)+'</figcaption>'+
+               '</figure>';
+      }).join("");
+      if(leer) leer.style.display = rows.length ? "none" : "block";
+    }catch(e){ console.warn("Reviews laden fehlgeschlagen", e); if(leer) leer.textContent = "Bewertungen konnten nicht geladen werden."; }
+  };
+
+  // Einreichen einer neuen Bewertung → immer status 'pending'
+  (function(){
+    var form = document.getElementById("reviewForm");
+    if(!form) return;
+    form.addEventListener("submit", async function(e){
+      e.preventDefault();
+      var name = (form.name.value||"").trim();
+      var text = (form.text.value||"").trim();
+      var starEl = form.querySelector('input[name="stars"]:checked');
+      if(name.length < 2){ alert("Bitte gib einen Namen oder ein Pseudonym an."); form.name.focus(); return; }
+      if(!starEl){ alert("Bitte wähle eine Sterne-Bewertung."); return; }
+      if(text.length < 5){ alert("Bitte schreib ein paar Worte zu deiner Erfahrung."); form.text.focus(); return; }
+      if(!sb){ alert("Bewertungen sind gerade nicht verfügbar. Bitte später erneut versuchen."); return; }
+
+      var btn = document.getElementById("rvSubmit");
+      btn.disabled = true; var alt = btn.textContent; btn.textContent = "Wird gesendet …";
+      try{
+        var {error} = await sb.from("hp_reviews").insert([{
+          name: name.slice(0,60),
+          stars: parseInt(starEl.value,10),
+          text: text.slice(0,600),
+          status: "pending"
+        }]);
+        if(error) throw error;
+        // Danke-Feedback zeigen, Formular ausblenden
+        form.style.display = "none";
+        var danke = document.getElementById("reviewDanke");
+        if(danke) danke.style.display = "block";
+      }catch(err){
+        console.warn("Review senden fehlgeschlagen", err);
+        alert("Das hat leider nicht geklappt. Bitte versuche es später erneut.");
+        btn.disabled = false; btn.textContent = alt;
+      }
+    });
+  })();
+
+  // Moderation (nur nach Verwaltungs-Login): pending anzeigen, freigeben/ablehnen
+  window.mwLoadModeration = async function(){
+    var box = document.getElementById("modListe");
+    if(!box || !adminMode) return;
+    if(!sb){ box.innerHTML = "<p>Datenbank nicht verbunden.</p>"; return; }
+    try{
+      var res = await sb.from("hp_reviews")
+        .select("id,name,stars,text,status,created_at")
+        .eq("status","pending")
+        .order("created_at",{ascending:true});
+      var rows = res.data || [];
+      if(!rows.length){ box.innerHTML = '<p style="color:var(--nebel)">Keine ausstehenden Bewertungen.</p>'; return; }
+      box.innerHTML = rows.map(function(r){
+        return '<div class="mod-item" data-id="'+r.id+'">'+
+                 '<div class="mod-kopf"><strong>'+rvEsc(r.name)+'</strong>'+
+                 '<span class="mod-status pending">ausstehend</span></div>'+
+                 '<div class="sterne" style="color:var(--messing)">'+rvSterne(r.stars)+'</div>'+
+                 '<p style="margin:8px 0 0">'+rvEsc(r.text)+'</p>'+
+                 '<div class="mod-aktionen">'+
+                   '<button class="ja" onclick="mwModeriere(\''+r.id+'\',\'approved\')">Freigeben</button>'+
+                   '<button class="nein" onclick="mwModeriere(\''+r.id+'\',\'rejected\')">Ablehnen</button>'+
+                 '</div></div>';
+      }).join("");
+    }catch(e){ console.warn("Moderation laden fehlgeschlagen", e); box.innerHTML = "<p>Konnte nicht geladen werden.</p>"; }
+  };
+
+  // Status einer Bewertung ändern (approved / rejected)
+  window.mwModeriere = async function(id, status){
+    if(!adminMode || !sb) return;
+    try{
+      var {error} = await sb.from("hp_reviews").update({status:status}).eq("id", id);
+      if(error) throw error;
+      await window.mwLoadModeration();     // Moderationsliste aktualisieren
+      await window.mwLoadReviews();         // öffentliche Liste ggf. aktualisieren
+    }catch(e){ console.warn("Status ändern fehlgeschlagen", e); alert("Änderung fehlgeschlagen."); }
+  };
+
+  // Öffentliche Bewertungen einmal beim Laden holen
+  document.addEventListener("DOMContentLoaded", function(){ window.mwLoadReviews(); });
 
   // ========== DATENSCHUTZ-SEITE (eigener Reiter) ==========
   window.openDatenschutz = function(e){ window.openLegal("datenschutz", e); };
@@ -2092,7 +2459,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     });
     document.body.style.overflow = "";
     if(LEGAL_PAGES[(location.hash||"").replace("#","")]){
-      history.replaceState(null,"",location.pathname+location.search);
+      try{ history.replaceState(null,"",location.pathname+location.search); }catch(_){}
     }
   };
   function checkLegalHash(){
@@ -2126,7 +2493,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
       Chenoverstr. 11<br>
       67117 Limburgerhof<br>
       Deutschland<br>
-      E-Mail: most-wanted-stadtjagd@gmx.de
+      E-Mail: <a href="mailto:kontakt@most-wanted-stadtjagd.de">kontakt@most-wanted-stadtjagd.de</a>
     </p>
 
     <h2>2. Überblick über die verarbeiteten Daten</h2>
@@ -2144,7 +2511,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     </div>
 
     <h2>3. Anfrage- und Kontaktformular</h2>
-    <p>Bei Nutzung des Anfrageformulars öffnet sich dein E-Mail-Programm mit einer vorausgefüllten Nachricht. Die übermittelten Daten werden ausschließlich zur Bearbeitung deiner Anfrage sowie zur Planung und Durchführung des Spiels verwendet.</p>
+    <p>Bei Nutzung des Anfrageformulars werden die von dir eingegebenen Daten verschlüsselt über einen Formular-Dienstleister an uns übermittelt und per E-Mail zugestellt. Die übermittelten Daten werden ausschließlich zur Bearbeitung deiner Anfrage sowie zur Planung und Durchführung des Spiels verwendet.</p>
     <p><b>Rechtsgrundlagen:</b> Art. 6 Abs. 1 lit. b DSGVO (Durchführung vorvertraglicher Maßnahmen bzw. Vertragserfüllung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bearbeitung von Anfragen).</p>
     <p><b>Speicherdauer:</b> Nur solange erforderlich bzw. aufgrund gesetzlicher Aufbewahrungspflichten.</p>
     <p><b>Hinweis:</b> Die Kommunikation per E-Mail kann Sicherheitslücken aufweisen. Eine lückenlose Sicherheit der Daten bei der Übertragung per E-Mail kann nicht gewährleistet werden.</p>
@@ -2470,8 +2837,8 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   function zeigeRolle(r){
     if(r === rolleJetzt) return;
     rolleJetzt = r;
-    elAnzeige.className = 'rolle-anzeige ist-'+r;
-    elRaText.textContent = r==='hunter' ? 'Hunter-Sicht' : 'Target-Sicht';
+    if(elAnzeige) elAnzeige.className = 'rolle-anzeige ist-'+r;
+    if(elRaText) elRaText.textContent = r==='hunter' ? 'Hunter-Sicht' : 'Target-Sicht';
     elRolle.textContent  = r==='hunter' ? 'Hunter' : 'Target';
 
     // Ebenen nach den Regeln der App umschalten
@@ -2560,6 +2927,12 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     laeuft = true; requestAnimationFrame(schleife);
   }
   setTimeout(function(){ karte.invalidateSize(); }, 400);
+
+  // Wird von der View-Navigation aufgerufen, wenn die Ablauf-View geöffnet wird
+  // (Leaflet muss neu vermessen, weil der Container vorher ausgeblendet war).
+  window.mwFixDemoMap = function(){
+    try{ setTimeout(function(){ karte.invalidateSize(); }, 60); }catch(_){}
+  };
 })();
 
 /* ===================================================================
