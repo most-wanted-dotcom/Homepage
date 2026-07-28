@@ -223,6 +223,17 @@ a{color:inherit}
 .mod-aktionen button.ja:hover{border-color:var(--signal);color:var(--signal)}
 .mod-aktionen button.nein:hover{border-color:var(--alarm);color:var(--alarm)}
 
+/* ---------- Highlight-Hinweis (Spielfeld schrumpft) ---------- */
+.highlight-hinweis{
+  display:flex;gap:14px;align-items:flex-start;margin-top:22px;
+  background:linear-gradient(180deg,var(--asphalt-2),var(--karte));
+  border:1px solid var(--linie);border-left:3px solid var(--signal);
+  border-radius:var(--r);padding:18px 20px;
+}
+.highlight-hinweis .hh-icon{font-size:1.4rem;line-height:1;flex:0 0 auto}
+.highlight-hinweis p{margin:0;color:var(--nebel-2);font-size:.98rem;line-height:1.5}
+.highlight-hinweis b{color:var(--papier)}
+
 /* ---------- Sticky Aktionsleiste (Anrufen + Buchung) ---------- */
 #stickyCta{
   position:fixed;left:0;right:0;bottom:0;z-index:75;
@@ -1272,6 +1283,11 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
     <h2 class="titel reveal">Eine Gruppe flieht.<br><span>Die andere jagt.</span></h2>
     <p class="vorspann reveal">Die Targets bekommen einen Vorsprung und verschwinden in der Stadt. Danach sendet die App ihren Standort in festen Abständen an die Hunter. Ein Punkt auf der Karte ist noch kein Fang: Wer Menschenmassen, Parks, Hinterhöfe und die richtige Abkürzung kennt, hält lange durch. Gespielt wird ausschließlich draußen &ndash; Gebäude sind tabu, Autos und Bahn ebenso.</p>
 
+    <div class="highlight-hinweis reveal">
+      <span class="hh-icon" aria-hidden="true">🎯</span>
+      <p><b>Mitten im Geschehen:</b> Der Spielradius verkleinert sich im Laufe der Zeit kontinuierlich &ndash; das lässt die Abstände schrumpfen und sorgt für maximale Spannung bis zur letzten Sekunde.</p>
+    </div>
+
     <div class="demo-block reveal">
       <div class="demo-kopf">
         <div class="demo-titel">Probier es aus &ndash; bewege dich auf der Karte</div>
@@ -1362,22 +1378,22 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
       <div class="anlass reveal">
         <div class="anlass-nr">JGA</div>
         <h3>JGA &amp; Geburtstage</h3>
-        <p>Das Geburtstagskind oder der Bräutigam läuft als Target, der Rest jagt. Andersherum geht natürlich auch.</p>
+        <p>Der Ehrengast im Fadenkreuz! Beschützt euren VIP im Team vor den Jägern &ndash; oder schickt Geburtstagskind bzw. Braut und Bräutigam mit eigener Jäger-Crew auf die Jagd nach den Gästen. Unvergessliche Party-Action garantiert.</p>
       </div>
       <div class="anlass reveal">
         <div class="anlass-nr">Firma</div>
         <h3>Firmen- &amp; Teamevents</h3>
-        <p>Absprache, Aufteilung, Tempo. Nach zwei Stunden weiß jeder, wer im Team wie tickt.</p>
+        <p>Taktik, Kommunikation und echtes Teambuilding. Raus aus dem Büro, rein ins Abenteuer: aufteilen, Strategien schmieden und gemeinsam eine spektakuläre Jagd erleben. Nach zwei Stunden wisst ihr genau, wer wie tickt.</p>
       </div>
       <div class="anlass reveal">
         <div class="anlass-nr">Schule</div>
         <h3>Schulklassen</h3>
-        <p>Draußen, in Bewegung, mit klaren Regeln. Für Schülergruppen gilt ein eigener Preis von 20 &euro; pro Person.</p>
+        <p>Bewegung, Action und Erlebnispädagogik. Raus an die frische Luft, rein ins Abenteuer: klare Regeln, hohe Dynamik und fairer Teamgeist machen die Stadtjagd zum ultimativen Schulausflug. Für Schülergruppen gilt ein eigener Preis von 20 &euro; pro Person.</p>
       </div>
       <div class="anlass reveal">
         <div class="anlass-nr">Verein</div>
         <h3>Freunde &amp; Vereine</h3>
-        <p>Ab 6 Personen seid ihr dabei. Nach oben gibt es keine feste Grenze, wir passen den Spielbereich an die Gruppengröße an.</p>
+        <p>Das ultimative Gruppen-Battle. Ob Stammtisch, Sportverein oder Freundeskreis &ndash; ab 6 Personen geht's los. Den Spielbereich passen wir flexibel an eure Gruppengröße an. Wer behält am Ende kühlen Kopf und gewinnt?</p>
       </div>
     </div>
   </div>
@@ -1515,7 +1531,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
         <div class="schritt-zeit">Phase 4</div>
         <div>
           <h3>Finale</h3>
-          <p>Die Abstände zwischen den Pings werden kürzer, standardmäßig auf 5 Minuten. Ecken, die vorher sicher waren, werden jetzt gefährlich.</p>
+          <p>Die Abstände zwischen den Pings werden kürzer, standardmäßig auf 5 Minuten. Gleichzeitig zieht sich das Spielfeld Schritt für Schritt zusammen &ndash; wie in einem echten Action-Game. Gejagte müssen beweglich bleiben, Jäger können immer gezielter zugreifen. Ecken, die vorher sicher waren, werden jetzt gefährlich.</p>
         </div>
       </div>
       <div class="schritt reveal">
@@ -1547,10 +1563,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 
       <div class="schuss reveal">
         <div class="handy">
-          <div class="platzhalter">
-            <b>Die Jagd</b>
-            <span>Screenshot<br>app-2.jpg</span>
-          </div>
+          <img src="app-2.jpg" alt="App-Screen: Live-Karte mit Countdown und Spielstand während der Jagd" style="width:100%;display:block;border-radius:inherit">
         </div>
         <h3>Die Jagd</h3>
         <p>Countdown bis zum n&auml;chsten Standort, Live-Karte und der Stand: wer flieht noch, wer ist geschnappt.</p>
@@ -1558,10 +1571,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
 
       <div class="schuss reveal">
         <div class="handy">
-          <div class="platzhalter">
-            <b>Joker</b>
-            <span>Screenshot<br>app-3.jpg</span>
-          </div>
+          <img src="app-3.jpg" alt="App-Screen: Joker-Übersicht und Ladebalken für erspielte Joker" style="width:100%;display:block;border-radius:inherit">
         </div>
         <h3>Joker &amp; Karte</h3>
         <p>Funkstille, Einfrieren, Live-Standort: Ein Tipp auf den Joker &ndash; und das Spiel dreht sich. Ein Ladebalken füllt sich, je mehr ihr euch bewegt &ndash; wer Strecke macht, erspielt sich neue Joker.</p>
@@ -1583,6 +1593,7 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
       <details><summary>Ab welchem Alter?</summary><p>Ab 14 Jahren. Bei Minderjährigen brauchen wir das schriftliche Einverständnis der Eltern.</p></details>
       <details><summary>Wie läuft die Bezahlung?</summary><p>Du schickst eine Anfrage über das Formular. Nach unserer Bestätigung bekommst du die Zahlungsdetails und überweist den Betrag. Erst danach ist der Termin fix.</p></details>
       <details><summary>Was passiert bei schlechtem Wetter?</summary><p>Gespielt wird bei fast jedem Wetter, zieht euch einfach passend an. Bei Unwetter finden wir gemeinsam einen Ersatztermin.</p></details>
+      <details><summary>Verändert sich das Spielfeld während des Spiels?</summary><p>Ja. Wie in einem echten Action-Game zieht sich die Spielzone im Laufe der Zeit Schritt für Schritt zusammen. Die Abstände schrumpfen, Gejagte müssen beweglich bleiben und Jäger können immer gezielter zugreifen. Das sorgt für Spannung bis zur letzten Sekunde.</p></details>
       <details><summary>Darf man sich in Gebäuden verstecken?</summary><p>Nein. Das Spiel findet ausschließlich draußen statt. Das Verstecken in Gebäuden ist nicht erlaubt und gehört zu den wichtigsten Regeln. Wer sich in einem Gebäude versteckt, gilt als geschnappt.</p></details>
       <details><summary>Darf man Bus, Bahn oder Auto benutzen?</summary><p>Nein. Gespielt wird zu Fuß. Autos und öffentliche Verkehrsmittel sind nur erlaubt, wenn der Spielleiter das ausdrücklich freigibt.</p></details>
       <details><summary>Wer bekommt den Schülerpreis von 20 &euro;?</summary><p>Der Preis gilt ausschließlich für Schulklassen und Jugendgruppen. Bei der Anfrage muss der Name der Schule oder Einrichtung angegeben werden. Für private Gruppen und Firmenevents gelten 29 &euro; bis 9 Personen und 25 &euro; ab 10 Personen &ndash; unabhängig davon, wie groß die Gruppe ist.</p></details>
