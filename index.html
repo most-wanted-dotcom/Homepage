@@ -260,6 +260,8 @@ a{color:inherit}
 #stickyCta svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
 body.banner-auf #stickyCta.sichtbar{transform:translateY(-58px)}
 @media(min-width:981px){ #stickyCta{display:none} }
+/* Auf Mobil unten Platz lassen, damit die Sticky-Leiste den Footer/Copyright nicht verdeckt */
+@media(max-width:980px){ footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))} }
 
 /* ---------- Ablauf in 3 Schritten (Startseite) ---------- */
 .drei-schritte{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
