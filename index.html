@@ -1687,6 +1687,9 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
         <p style="font-size:.84rem;color:var(--nebel);margin-bottom:12px">Verwaltung aktiv. Tippe auf einen Tag, um die Auslastung zu erhöhen: 0 &rarr; 1 Termin &rarr; 2 Termine &rarr; wieder frei. Maximal 2 Termine pro Tag. Änderungen werden erst mit „Änderungen speichern" dauerhaft übernommen.</p>
         <button type="button" class="btn btn-primar" id="calSaveBtn" onclick="calSave()">Änderungen speichern</button>
         <div class="cal-save-status" id="calSaveStatus"></div>
+        <div id="viewCounter" style="margin-top:18px;padding-top:14px;border-top:1px solid var(--linie);font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--nebel)">
+          Seitenaufrufe gesamt: <b id="viewCounterZahl" style="color:var(--signal)">…</b>
+        </div>
       </div>
     </div>
   </div>
@@ -2213,6 +2216,43 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
   let sb=null;
   try{ sb = supabase.createClient(SB_URL, SB_KEY); }catch(e){ console.warn("Supabase nicht geladen", e); }
 
+  // ========== SEITENAUFRUFZÄHLER ==========
+  // Zählt bei jedem Laden der Seite einmal hoch (zentral in Supabase, Tabelle "hp_counter").
+  // Die Zahl ist nur im Verwaltungs-Modus sichtbar. Pro Browser-Sitzung wird nur einmal
+  // gezählt, damit ein Neuladen die Statistik nicht künstlich aufbläht.
+  var mwZaehlerStand = null;
+  (async function zaehleAufruf(){
+    if(!sb) return;
+    try{
+      // pro Sitzung nur einmal hochzählen
+      var schonGezaehlt = sessionStorage.getItem("mw_gezaehlt");
+      if(schonGezaehlt){
+        // nur den aktuellen Stand holen, ohne hochzuzählen
+        var r = await sb.from("hp_counter").select("views").eq("id",1).single();
+        if(r && r.data){ mwZaehlerStand = r.data.views; }
+        return;
+      }
+      var res = await sb.rpc("bump_views");
+      if(!res.error){
+        mwZaehlerStand = res.data;
+        sessionStorage.setItem("mw_gezaehlt","1");
+      }
+    }catch(e){ /* Zähler ist unkritisch – Fehler still ignorieren */ }
+  })();
+
+  // Zeigt den aktuellen Stand im Verwaltungs-Bereich an
+  window.mwZeigeZaehler = async function(){
+    var el = document.getElementById("viewCounterZahl");
+    if(!el) return;
+    try{
+      if(mwZaehlerStand == null && sb){
+        var r = await sb.from("hp_counter").select("views").eq("id",1).single();
+        if(r && r.data){ mwZaehlerStand = r.data.views; }
+      }
+      el.textContent = (mwZaehlerStand == null) ? "nicht verfügbar" : mwZaehlerStand.toLocaleString("de-DE");
+    }catch(e){ el.textContent = "nicht verfügbar"; }
+  };
+
   const MAX_PER_DAY = 2;            // maximal 2 Termine pro Tag
 
   let viewYear, viewMonth;          // aktuell angezeigter Monat
@@ -2388,6 +2428,8 @@ select:focus-visible,textarea:focus-visible,summary:focus-visible{
       var ra = document.getElementById("reviewAdmin");
       if(ra) ra.classList.remove("locked");
       if(typeof window.mwLoadModeration === "function"){ window.mwLoadModeration(); }
+      // Aktuellen Zählerstand anzeigen
+      if(typeof window.mwZeigeZaehler === "function"){ window.mwZeigeZaehler(); }
     }else{
       alert("Kein Zugang.");
     }
